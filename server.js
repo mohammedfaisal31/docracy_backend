@@ -858,7 +858,7 @@ app.get("/api/getAllUsers",(req,res)=>{
 
 app.get('/download', (req, res) => {
   const ejsFilePath = path.join(__dirname, 'invoice.ejs');
-
+  console.log(ejsFilePath)
   fs.readFile(ejsFilePath, 'utf-8', (err, data) => {
     if (err) {
       return res.status(500).send('Error reading EJS file');
