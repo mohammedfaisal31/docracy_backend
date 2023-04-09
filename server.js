@@ -876,24 +876,26 @@ app.get('/receipt/:transaction_id', async (req, res) => {
 	          const gst = (response.amount * 0.18).toFixed(3);
             const total = (parseFloat(gst) + (response.amount)).toFixed(2);
             console.log(formatINR(gst));
-            try {
-              const renderedHtml =  ejs.renderFile(path.join(__dirname, 'invoice.ejs'), { 
-                                                                                              transaction_id: transaction_id,
-                                                                                              name:response.user_name,
-                                                                                              description: response.package_type == "residential" ? "Residential Package: " : "Non Residential Package: " + response.payment_purpose,
-                                                                                              date:getFormattedDate(response.date_of_transaction),
-                                                                                              time:getFormattedDate(response.date_of_transaction),
-                                                                                              gst:formatINR(gst),
-                                                                                              total:formatINR(total),
-                                                                                              amount:formatINR(response.amount)
+           
+            ejs.renderFile(path.join(__dirname, 'invoice.ejs'), { 
+              transaction_id: transaction_id,
+              name:response.user_name,
+              description: response.package_type == "residential" ? "Residential Package: " : "Non Residential Package: " + response.payment_purpose,
+              date:getFormattedDate(response.date_of_transaction),
+              time:getFormattedDate(response.date_of_transaction),
+              gst:formatINR(gst),
+              total:formatINR(total),
+              amount:formatINR(response.amount)
 
-                                                                                            });
+            })
+           .then(renderedHtml => {
               res.setHeader('Content-Type', 'application/pdf');
-              res.setHeader('Content-Disposition', 'attachment; filename=converted.pdf');
+              res.setHeader('Content-Disposition', 'attachment; filename=receipt.pdf');
               wkhtmltopdf(renderedHtml, { pageSize: 'letter' }).pipe(res);
-            } catch (err) {
+            }).catch(err => {
               res.status(500).send('Error rendering EJS');
-            }
+            });
+    
          })
   
   
