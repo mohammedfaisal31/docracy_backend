@@ -457,7 +457,7 @@
                   <tr>
                     <td class="content-cell">
                       <div class="f-fallback">
-                        <h1>Hi {{name}},</h1>
+                        <h1>Hi <%= name %> ,</h1>
                         <p>Thanks for registering for 8th Annual Conference of The PCOS Society, India and
                           3rd Regional Conference of Aspire
                           in collaboration with ISAR
@@ -467,9 +467,9 @@
                         <table class="purchase" width="100%" cellpadding="0" cellspacing="0" role="presentation">
                           <tr>
                             <td>
-                              <h3>Transaction ID : </h3></td>
+                              <h3>Transaction ID : <%= transaction_id %> </h3></td>
                             <td>
-                              <h3 class="align-right">Date & Time: </h3></td>
+                              <h3 class="align-right">Date & Time: <%= date %> <%= time %> </h3></td>
                           </tr>
                           <tr>
                             <td colspan="2">
@@ -483,8 +483,8 @@
                                   </th>
                                 </tr>
                                 <tr>
-                                  <td width="80%" class="purchase_item"><span class="f-fallback"></span></td>
-                                  <td class="align-right" width="20%" class="purchase_item"><span class="f-fallback"></span></td>
+                                  <td width="80%" class="purchase_item"><span class="f-fallback"> <%= description %></span></td>
+                                  <td class="align-right" width="20%" class="purchase_item"> <%= amount %><span class="f-fallback"></span></td>
                                 </tr>
                                 <tr>
                                   <td width="80%" class="purchase_footer" valign="middle">
@@ -492,7 +492,7 @@
                                   </td>
                                   
                                   <td width="20%" class="purchase_footer" valign="middle">
-                                    <p class="f-fallback purchase_total">GST(18%) </p>
+                                    <p class="f-fallback purchase_total">GST(18%) <%= gst %> </p>
                                   </td>
                                 </tr>
                                 <tr>
@@ -501,7 +501,7 @@
                                   </td>
                                   
                                   <td width="20%" class="purchase_footer" valign="middle">
-                                    <p class="f-fallback purchase_total">Total </p>
+                                    <p class="f-fallback purchase_total">Total <%= total %></p>
                                   </td>
                                 </tr>
                               </table>

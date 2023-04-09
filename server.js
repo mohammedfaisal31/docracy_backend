@@ -856,16 +856,49 @@ app.get("/api/getAllUsers",(req,res)=>{
 })
 
 
-app.get('/download', async (req, res) => {
-  try {
-    const renderedHtml = await ejs.renderFile(path.join(__dirname, 'invoice.ejs'), { title: 'EJS to PDF Conversion' });
-    res.setHeader('Content-Type', 'application/pdf');
-    res.setHeader('Content-Disposition', 'attachment; filename=converted.pdf');
-    wkhtmltopdf(renderedHtml, { pageSize: 'letter' }).pipe(res);
-  } catch (err) {
-    res.status(500).send('Error rendering EJS');
-  }
+app.get('/receipt/:transaction:id', async (req, res) => {
+  
+  const  transaction_id = req.params.transaction_id;
+  readFileAsync('invoice.html', 'utf8')
+  .then( async (invoiceHtml)=>{
+    return new Promise((resolve,reject)=>{
+           let sql = `SELECT * FROM payments WHERE transaction_id='${transaction_id}'`;
+           console.log(sql)
+    
+           con.query(sql,(err,result)=>{
+             if(err) reject("BAD")
+             console.log(result)
+             resolve(result[0])
+    
+           })
+         }).then((response)=>{
+            console.log(response);	
+	          const gst = (response.amount * 0.18).toFixed(3);
+            const total = (parseFloat(gst) + (response.amount)).toFixed(2);
+            console.log(formatINR(gst));
+            try {
+              const renderedHtml =  ejs.renderFile(path.join(__dirname, 'invoice.ejs'), { 
+                                                                                              transaction_id: transaction_id,
+                                                                                              name:response.user_name,
+                                                                                              description: response.package_type == "residential" ? "Residential Package: " : "Non Residential Package: " + response.payment_purpose,
+                                                                                              date:getFormattedDate(response.date_of_transaction),
+                                                                                              time:getFormattedDate(response.date_of_transaction),
+                                                                                              gst:formatINR(gst),
+                                                                                              total:formatINR(total),
+                                                                                              amount:formatINR(response.amount)
+
+                                                                                            });
+              res.setHeader('Content-Type', 'application/pdf');
+              res.setHeader('Content-Disposition', 'attachment; filename=converted.pdf');
+              wkhtmltopdf(renderedHtml, { pageSize: 'letter' }).pipe(res);
+            } catch (err) {
+              res.status(500).send('Error rendering EJS');
+            }
+         })
+  
+  
 });
+})
 // Starting both http & https servers
 const httpServer = http.createServer(app);
 const httpsServer = https.createServer(credentials, app);
