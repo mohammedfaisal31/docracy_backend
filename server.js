@@ -868,7 +868,7 @@ app.get('/download', (req, res) => {
       if (err) {
         return res.status(500).send('Error rendering EJS');
       }
-
+      console.log("Render success")
       const pdfStream = new PDFDocument();
       const tempHtmlPath = path.join(__dirname, 'temp.html');
 
