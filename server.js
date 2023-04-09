@@ -15,7 +15,8 @@ const fs = require('fs');
 const { promisify } = require('util');
 const readFileAsync = promisify(fs.readFile);
 
-
+const PDFDocument = require('pdfkit');
+const wkhtmltopdf = require('wkhtmltopdf');
 const ejs = require('ejs');
 const path = require('path');
 // Certificate
@@ -853,6 +854,48 @@ app.get("/api/getAllUsers",(req,res)=>{
 
 
 })
+
+
+app.get('/download', (req, res) => {
+  const ejsFilePath = path.join(__dirname, 'invoice.ejs');
+
+  fs.readFile(ejsFilePath, 'utf-8', (err, data) => {
+    if (err) {
+      return res.status(500).send('Error reading EJS file');
+    }
+
+    ejs.render(data, { title: 'EJS to PDF Conversion' }, (err, html) => {
+      if (err) {
+        return res.status(500).send('Error rendering EJS');
+      }
+
+      const pdfStream = new PDFDocument();
+      const tempHtmlPath = path.join(__dirname, 'temp.html');
+
+      fs.writeFile(tempHtmlPath, html, (err) => {
+        if (err) {
+          return res.status(500).send('Error writing temporary HTML file');
+        }
+
+        wkhtmltopdf(fs.createReadStream(tempHtmlPath), { pageSize: 'letter' })
+          .pipe(pdfStream)
+          .on('finish', () => {
+            fs.unlink(tempHtmlPath, (err) => {
+              if (err) {
+                console.error('Error deleting temporary HTML file');
+              }
+            });
+          });
+
+        res.setHeader('Content-Type', 'application/pdf');
+        res.setHeader('Content-Disposition', 'attachment; filename=converted.pdf');
+        pdfStream.pipe(res);
+      });
+    });
+  });
+});
+
+
 
 // Starting both http & https servers
 const httpServer = http.createServer(app);
