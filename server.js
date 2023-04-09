@@ -883,13 +883,17 @@ app.get('/download', (req, res) => {
             fs.unlink(tempHtmlPath, (err) => {
               if (err) {
                 console.error('Error deleting temporary HTML file');
-              }
+              
+	      }
+		console.log("Success")
             });
           });
 
         res.setHeader('Content-Type', 'application/pdf');
         res.setHeader('Content-Disposition', 'attachment; filename=converted.pdf');
-        pdfStream.pipe(res);
+        console.log(res);
+	pdfStream.pipe(res);
+	
       });
     });
   });
