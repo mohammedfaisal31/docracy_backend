@@ -1,0 +1,66 @@
+{
+  "name": "jsreport-chrome-pdf",
+  "version": "1.10.0",
+  "description": "jsreport recipe which is rendering pdf from html using headless chrome",
+  "scripts": {
+    "start": "jsreport-studio-start --httpPort 5488",
+    "run": "npm run build && jsreport-studio-start --httpPort 5488 --run-only",
+    "test": "mocha test --timeout 15000 && standard",
+    "build": "jsreport-studio-build",
+    "prepublish": "in-publish && jsreport-studio-build || not-in-publish"
+  },
+  "homepage": "https://github.com/jsreport/jsreport-chrome-pdf",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:jsreport/jsreport-chrome-pdf.git"
+  },
+  "keywords": [
+    "jsreport",
+    "pdf"
+  ],
+  "standard": {
+    "ignore": [
+      "main.js",
+      "main.js.map"
+    ],
+    "parser": "babel-eslint",
+    "env": {
+      "node": true,
+      "mocha": true,
+      "browser": true
+    }
+  },
+  "engines": {
+    "node": ">=8.9"
+  },
+  "license": "MIT",
+  "dependencies": {},
+  "peerDependencies": {
+    "puppeteer": ">=1.x.x"
+  },
+  "author": "Jan Blaha",
+  "devDependencies": {
+    "babel-eslint": "10.0.1",
+    "eslint": "5.16.0",
+    "eslint-config-standard-jsx": "6.0.2",
+    "eslint-plugin-babel": "5.3.1",
+    "handlebars": "4.7.6",
+    "in-publish": "2.0.1",
+    "jsreport-core": "2.10.0",
+    "jsreport-debug": "2.1.3",
+    "jsreport-handlebars": "2.1.0",
+    "jsreport-studio-dev": "1.6.0",
+    "jsreport-templates": "2.4.0",
+    "mocha": "6.1.4",
+    "parse-pdf": "1.0.0",
+    "puppeteer": "2.0.0",
+    "should": "13.2.3",
+    "standard": "12.0.1"
+  },
+  "files": [
+    "lib",
+    "studio",
+    "index.js",
+    "jsreport.config.js"
+  ]
+}

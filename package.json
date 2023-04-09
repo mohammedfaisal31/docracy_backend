@@ -1,0 +1,30 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.20.2",
+    "cors": "^2.8.5",
+    "ejs": "^3.1.9",
+    "express": "^4.18.2",
+    "fs": "^0.0.1-security",
+    "instamojo-nodejs": "^0.0.5",
+    "jsreport-chrome-pdf": "^1.10.0",
+    "libphonenumber-js": "^1.10.24",
+    "moment-timezone": "^0.5.41",
+    "mysql2": "^3.2.0",
+    "nodemailer": "^6.9.1",
+    "pdfkit": "^0.13.0",
+    "pdfmake": "^0.2.7",
+    "puppeteer": "^19.8.5",
+    "util": "^0.12.5",
+    "uuid": "^9.0.0"
+  }
+}
