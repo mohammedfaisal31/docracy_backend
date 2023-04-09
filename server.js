@@ -856,7 +856,7 @@ app.get("/api/getAllUsers",(req,res)=>{
 })
 
 
-app.get('/receipt/:transaction:id', async (req, res) => {
+app.get('/receipt/:transaction_id', async (req, res) => {
   
   const  transaction_id = req.params.transaction_id;
   readFileAsync('invoice.html', 'utf8')
