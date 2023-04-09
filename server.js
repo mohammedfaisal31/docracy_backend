@@ -863,7 +863,7 @@ app.get('/download', (req, res) => {
     if (err) {
       return res.status(500).send('Error reading EJS file');
     }
-
+    console.log("Read success")
     ejs.render(data, { title: 'EJS to PDF Conversion' }, (err, html) => {
       if (err) {
         return res.status(500).send('Error rendering EJS');
@@ -876,7 +876,7 @@ app.get('/download', (req, res) => {
         if (err) {
           return res.status(500).send('Error writing temporary HTML file');
         }
-
+        console.log("Write success")
         wkhtmltopdf(fs.createReadStream(tempHtmlPath), { pageSize: 'letter' })
           .pipe(pdfStream)
           .on('finish', () => {
