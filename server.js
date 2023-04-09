@@ -883,7 +883,7 @@ app.get('/download', (req, res) => {
         const pdfStream = wkhtmltopdf(readStream, { pageSize: 'letter' });
 
         pdfStream.pipe(res);
-
+        res.send("Done")
         pdfStream.on('end', () => {
           fs.unlink(tempHtmlPath, (err) => {
             if (err) {
