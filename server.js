@@ -882,7 +882,7 @@ app.get('/receipt/:transaction_id', async (req, res) => {
               name:response.user_name,
               description: response.package_type == "residential" ? "Residential Package: " : "Non Residential Package: " + response.payment_purpose,
               date:getFormattedDate(response.date_of_transaction),
-              time:getFormattedDate(response.date_of_transaction),
+              time:response.time_of_transaction,
               gst:formatINR(gst),
               total:formatINR(total),
               amount:formatINR(response.amount)
