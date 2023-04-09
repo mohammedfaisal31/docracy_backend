@@ -863,7 +863,7 @@ app.get('/download', (req, res) => {
     if (err) {
       return res.status(500).send('Error reading EJS file');
     }
-
+    console.log(data);
     ejs.render(data, { title: 'EJS to PDF Conversion' }, (err, html) => {
       if (err) {
         return res.status(500).send('Error rendering EJS');
