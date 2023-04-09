@@ -869,33 +869,13 @@ app.get('/download', (req, res) => {
         return res.status(500).send('Error rendering EJS');
       }
 
-      const tempHtmlPath = path.join(__dirname, 'temp.html');
+      res.setHeader('Content-Type', 'application/pdf');
+      res.setHeader('Content-Disposition', 'attachment; filename=converted.pdf');
 
-      fs.writeFile(tempHtmlPath, html, (err) => {
-        if (err) {
-          return res.status(500).send('Error writing temporary HTML file');
-        }
-
-        res.setHeader('Content-Type', 'application/pdf');
-        res.setHeader('Content-Disposition', 'attachment; filename=converted.pdf');
-
-        const readStream = fs.createReadStream(tempHtmlPath);
-        const pdfStream = wkhtmltopdf(readStream, { pageSize: 'letter' });
-
-        pdfStream.pipe(res);
-        res.send("Done")
-        pdfStream.on('end', () => {
-          fs.unlink(tempHtmlPath, (err) => {
-            if (err) {
-              console.error('Error deleting temporary HTML file');
-            }
-          });
-        });
-      });
+      wkhtmltopdf(html, { pageSize: 'letter' }).pipe(res);
     });
   });
 });
-
 
 // Starting both http & https servers
 const httpServer = http.createServer(app);
