@@ -858,47 +858,43 @@ app.get("/api/getAllUsers",(req,res)=>{
 
 app.get('/download', (req, res) => {
   const ejsFilePath = path.join(__dirname, 'invoice.ejs');
-  console.log(ejsFilePath)
+
   fs.readFile(ejsFilePath, 'utf-8', (err, data) => {
     if (err) {
       return res.status(500).send('Error reading EJS file');
     }
-    console.log("Read success")
+
     ejs.render(data, { title: 'EJS to PDF Conversion' }, (err, html) => {
       if (err) {
         return res.status(500).send('Error rendering EJS');
       }
-      console.log("Render success")
-      const pdfStream = new PDFDocument();
+
       const tempHtmlPath = path.join(__dirname, 'temp.html');
 
       fs.writeFile(tempHtmlPath, html, (err) => {
         if (err) {
           return res.status(500).send('Error writing temporary HTML file');
         }
-        console.log("Write success")
-        wkhtmltopdf(fs.createReadStream(tempHtmlPath), { pageSize: 'letter' })
-          .pipe(pdfStream)
-          .on('finish', () => {
-            fs.unlink(tempHtmlPath, (err) => {
-              if (err) {
-                console.error('Error deleting temporary HTML file');
-              
-	      }
-		      console.log("Success")
-            });
-          });
 
         res.setHeader('Content-Type', 'application/pdf');
         res.setHeader('Content-Disposition', 'attachment; filename=converted.pdf');
-        console.log(res);
-	      pdfStream.pipe(res);
-	
+
+        const readStream = fs.createReadStream(tempHtmlPath);
+        const pdfStream = wkhtmltopdf(readStream, { pageSize: 'letter' });
+
+        pdfStream.pipe(res);
+
+        pdfStream.on('end', () => {
+          fs.unlink(tempHtmlPath, (err) => {
+            if (err) {
+              console.error('Error deleting temporary HTML file');
+            }
+          });
+        });
       });
     });
   });
 });
-
 
 
 // Starting both http & https servers
