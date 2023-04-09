@@ -885,14 +885,14 @@ app.get('/download', (req, res) => {
                 console.error('Error deleting temporary HTML file');
               
 	      }
-		console.log("Success")
+		      console.log("Success")
             });
           });
 
         res.setHeader('Content-Type', 'application/pdf');
         res.setHeader('Content-Disposition', 'attachment; filename=converted.pdf');
         console.log(res);
-	pdfStream.pipe(res);
+	      pdfStream.pipe(res);
 	
       });
     });
