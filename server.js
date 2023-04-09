@@ -856,28 +856,16 @@ app.get("/api/getAllUsers",(req,res)=>{
 })
 
 
-app.get('/download', (req, res) => {
-  const ejsFilePath = path.join(__dirname, 'invoice.ejs');
-
-  fs.readFile(ejsFilePath, 'utf-8', (err, data) => {
-    if (err) {
-      return res.status(500).send('Error reading EJS file');
-    }
-    console.log(data);
-    ejs.render(data, { title: 'EJS to PDF Conversion' }, (err, html) => {
-      console.log(html)
-      if (err) {
-        return res.status(500).send('Error rendering EJS');
-      }
-
-      res.setHeader('Content-Type', 'application/pdf');
-      res.setHeader('Content-Disposition', 'attachment; filename=converted.pdf');
-
-      wkhtmltopdf(html, { pageSize: 'letter' }).pipe(res);
-    });
-  });
+app.get('/download', async (req, res) => {
+  try {
+    const renderedHtml = await ejs.renderFile(path.join(__dirname, 'invoice.ejs'), { title: 'EJS to PDF Conversion' });
+    res.setHeader('Content-Type', 'application/pdf');
+    res.setHeader('Content-Disposition', 'attachment; filename=converted.pdf');
+    wkhtmltopdf(renderedHtml, { pageSize: 'letter' }).pipe(res);
+  } catch (err) {
+    res.status(500).send('Error rendering EJS');
+  }
 });
-
 // Starting both http & https servers
 const httpServer = http.createServer(app);
 const httpsServer = https.createServer(credentials, app);
