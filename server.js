@@ -891,7 +891,7 @@ app.get('/receipt/:transaction_id', async (req, res) => {
            .then(renderedHtml => {
               res.setHeader('Content-Type', 'application/pdf');
               res.setHeader('Content-Disposition', 'attachment; filename=receipt.pdf');
-              wkhtmltopdf(renderedHtml, { pageSize: 'letter' }).pipe(res);
+              wkhtmltopdf(renderedHtml, { pageSize: 'A4' }).pipe(res);
             }).catch(err => {
               res.status(500).send('Error rendering EJS');
             });
