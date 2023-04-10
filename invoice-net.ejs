@@ -32,15 +32,14 @@
 			<div class="bill_total_wrap">
 				<div class="bill_sec">
 					<p>Bill To</p> 
-	          		<p class="bold name">Alex Deo</p>
+	          		<p class="bold name"><%= name %></p>
 			        <span>
-			           123 walls street, Townhall<br/>
-			           +111 222345667
+			           <%= address %>
 			        </span>
 				</div>
 				<div class="total_wrap">
-					<p>Total Due</p>
-	          		<p class="bold price">USD: $1200</p>
+					<p>Amount Paid</p>
+	          		<p class="bold price"><%= amount %></p>
 				</div>
 			</div>
 		</div>
@@ -49,7 +48,7 @@
 				<div class="table_header">
 					<div class="row">
 						<div class="col col_no">NO.</div>
-						<div class="col col_des">ITEM DESCRIPTION</div>
+						<div class="col col_des">PACKAGE DESCRIPTION</div>
 						<div class="col col_price">PRICE</div>
 						<div class="col col_qty">QTY</div>
 						<div class="col col_total">TOTAL</div>
@@ -61,91 +60,20 @@
 							<p>01</p>
 						</div>
 						<div class="col col_des">
-							<p class="bold">Web Design</p>
-							<p>Lorem ipsum dolor sit.</p>
+							<p class="bold"><%= description %></p>
+							
 						</div>
 						<div class="col col_price">
-							<p>$350</p>
-						</div>
-						<div class="col col_qty">
-							<p>2</p>
-						</div>
-						<div class="col col_total">
-							<p>$700.00</p>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col col_no">
-							<p>02</p>
-						</div>
-						<div class="col col_des">
-							<p class="bold">Web Development</p>
-							<p>Lorem ipsum dolor sit.</p>
-						</div>
-						<div class="col col_price">
-							<p>$350</p>
-						</div>
-						<div class="col col_qty">
-							<p>2</p>
-						</div>
-						<div class="col col_total">
-							<p>$700.00</p>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col col_no">
-							<p>03</p>
-						</div>
-						<div class="col col_des">
-							<p class="bold">GitHub</p>
-							<p>Lorem ipsum dolor sit.</p>
-						</div>
-						<div class="col col_price">
-							<p>$120</p>
+							<p><%= amount %></p>
 						</div>
 						<div class="col col_qty">
 							<p>1</p>
 						</div>
 						<div class="col col_total">
-							<p>$700.00</p>
+							<p><%= amount %></p>
 						</div>
 					</div>
-					<div class="row">
-						<div class="col col_no">
-							<p>04</p>
-						</div>
-						<div class="col col_des">
-							<p class="bold">Backend Design</p>
-							<p>Lorem ipsum dolor sit.</p>
-						</div>
-						<div class="col col_price">
-							<p>$350</p>
-						</div>
-						<div class="col col_qty">
-							<p>2</p>
-						</div>
-						<div class="col col_total">
-							<p>$700.00</p>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col col_no">
-							<p>05</p>
-						</div>
-						<div class="col col_des">
-							<p class="bold">Backend Development</p>
-							<p>Lorem ipsum dolor sit.</p>
-						</div>
-						<div class="col col_price">
-							<p>$150</p>
-						</div>
-						<div class="col col_qty">
-							<p>1</p>
-						</div>
-						<div class="col col_total">
-							<p>$700.00</p>
-						</div>
-					</div>
+					
 				</div>
 			</div>
 			<div class="paymethod_grandtotal_wrap">
