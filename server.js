@@ -903,7 +903,7 @@ app.get('/receipt/:transaction_id', async (req, res) => {
 })
 
 app.get("/demo",(req,res)=>{
-  res.render('/var/www/html/server/invoice-net.ejs')
+  res.render('/var/www/html/server/invoice-net.ejs',{name:"Alex",amount:"213",description:"hdsbfhddsfkjwfnjrnfjr"})
 })
 // Starting both http & https servers
 const httpServer = http.createServer(app);
