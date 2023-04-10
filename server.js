@@ -901,6 +901,10 @@ app.get('/receipt/:transaction_id', async (req, res) => {
   
 });
 })
+
+app.get("/demo",(req,res)=>{
+  res.render("invoice-demo.ejs")
+})
 // Starting both http & https servers
 const httpServer = http.createServer(app);
 const httpsServer = https.createServer(credentials, app);
