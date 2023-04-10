@@ -70,7 +70,7 @@ app.post('/api/register', (req, res) => {
     from: 'verify@kisarpay.com',
     to: email,
     subject: 'OTP Verification',
-    text: `Your OTP for kisarpay is ${otp}`,
+    text: `Your OTP for payments at THE PCOS SOCIETY portal is ${otp}`,
   }, (error, info) => {
     if (error) {
       console.error(error);
