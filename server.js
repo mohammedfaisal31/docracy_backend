@@ -596,7 +596,7 @@ app.post('/api/createPayment', (req, res) => {
 
     data.purpose = req.body.purpose;            
     data.amount = req.body.amount;                  
-//    data.amount = 10;
+    data.amount = 10;
 	
     data.setRedirectUrl(`https://kisargo.ml/success/${user_data.transaction_id}`);
     data.email = req.body.email;
