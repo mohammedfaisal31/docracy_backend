@@ -104,7 +104,7 @@ app.post('/api/resend-otp', (req, res) => {
     from: 'verify@kisarpay.com',
     to: email,
     subject: 'OTP Verification',
-    text: `Your OTP for kisarpay is ${otp}`,
+    text: `Your OTP for THE PCOS SOCIETY is ${otp}`,
   }, (error, info) => {
     if (error) {
       console.error(error);
