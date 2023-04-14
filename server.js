@@ -903,6 +903,7 @@ app.get('/receipt/:transaction_id', async (req, res) => {
 	          const gst = (response.amount * 0.18).toFixed(3);
             const total = (parseFloat(gst) + (response.amount)).toFixed(2);
             console.log(formatINR(gst));
+            const unique_id_string = zeroPad(response.unique_id,4)
            
             ejs.renderFile(path.join(__dirname, 'invoice.ejs'), { 
               transaction_id: transaction_id,
@@ -912,7 +913,8 @@ app.get('/receipt/:transaction_id', async (req, res) => {
               time:response.time_of_transaction,
               gst:formatINR(gst),
               total:formatINR(total),
-              amount:formatINR(response.amount)
+              amount:formatINR(response.amount),
+              unique_id: unique_id_string
 
             })
            .then(renderedHtml => {
