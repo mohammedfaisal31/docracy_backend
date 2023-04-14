@@ -821,6 +821,7 @@ app.get('/send-invoice/:transaction_id', async (req, res, next) => {
 	    const gst = (response.amount * 0.18).toFixed(3);
             const total = (parseFloat(gst) + (response.amount)).toFixed(2);
             console.log(formatINR(gst));
+            const unique_id_string = zeroPad(response.unique_id,4)
             const invoice = invoiceHtml
 	    .replace('{{transaction_id}}', transaction_id)
             .replace('{{amount}}', formatINR(response.amount))
@@ -832,6 +833,8 @@ app.get('/send-invoice/:transaction_id', async (req, res, next) => {
             .replace('{{GST}}', formatINR(gst))
             .replace("{{total}}", formatINR(total))
             .replace("{{action_url}}", `https://kisargo.ml/receipt/${transaction_id}`)
+            .replace("{{unique_id}}", unique_id_string)
+            
             ;
 
 
@@ -1016,4 +1019,8 @@ function generatePdfBuffer(templatePath, transaction_id) {
       reject(error);
     }
   });
+}
+
+function zeroPad(num, length) {
+  return num.toString().padStart(length, '0');
 }
