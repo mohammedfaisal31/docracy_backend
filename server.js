@@ -819,12 +819,12 @@ app.get('/send-invoice/:transaction_id', async (req, res, next) => {
          }).then((response)=>{
 	    console.log(response);	
 	    const gst = (response.amount * 0.18).toFixed(3);
-            const total = (parseFloat(gst) + (response.amount)).toFixed(2);
+            const total = ((response.amount).toFixed(2));
             console.log(formatINR(gst));
             const unique_id_string = zeroPad(response.unique_id,4)
             const invoice = invoiceHtml
 	    .replace('{{transaction_id}}', transaction_id)
-            .replace('{{amount}}', formatINR(response.amount))
+            .replace('{{amount}}', formatINR(total-gst))
             .replace('{{name}}', response.user_name)
             .replace('{{date}}', getFormattedDate(response.date_of_transaction))
             .replace('{{time}}', response.time_of_transaction)
@@ -901,7 +901,7 @@ app.get('/receipt/:transaction_id', async (req, res) => {
          }).then((response)=>{
             console.log(response);	
 	          const gst = (response.amount * 0.18).toFixed(3);
-            const total = (parseFloat(gst) + (response.amount)).toFixed(2);
+            const total = ((response.amount).toFixed(2));
             console.log(formatINR(gst));
             const unique_id_string = zeroPad(response.unique_id,4)
            
@@ -913,7 +913,7 @@ app.get('/receipt/:transaction_id', async (req, res) => {
               time:response.time_of_transaction,
               gst:formatINR(gst),
               total:formatINR(total),
-              amount:formatINR(response.amount),
+              amount:formatINR(total-gst),
               unique_id: unique_id_string
 
             })
