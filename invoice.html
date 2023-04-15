@@ -139,6 +139,9 @@
       border-bottom: 10px solid #FF6136;
       border-left: 18px solid #FF6136;
     }
+    .small-text{
+      font-size: 0.8rem;
+    }
     
     @media only screen and (max-width: 500px) {
       .button {
@@ -495,16 +498,16 @@
                                   </th>
                                 </tr>
                                 <tr>
-                                  <td width="50%" class="purchase_item"><span class="f-fallback">{{description}}</span></td>
-                                  <td class="align-right" width="50%" class="purchase_item"><span class="f-fallback">{{amount}}</span></td>
+                                  <td width="50%" class="purchase_item"><span class="small-text">Sub Total</span></td>
+                                  <td class="align-right" width="50%" class="purchase_item"><span class="small-text">{{amount}}</span></td>
                                 </tr>
                                 <tr>
-                                  <td width="50%" class="purchase_item"><span class="f-fallback">GST(18%)</span></td>
-                                  <td class="align-right" width="50%" class="purchase_item"><span class="f-fallback">{{GST}}</span></td>
+                                  <td width="50%" class="purchase_item"><span class="small-text">GST(18%)</span></td>
+                                  <td class="align-right" width="50%" class="purchase_item"><span class="small-text">{{GST}}</span></td>
                                 </tr>
                                 <tr>
-                                  <td width="50%" class="purchase_item"><span class="f-fallback">Total</span></td>
-                                  <td class="align-right" width="50%" class="purchase_item"><span class="f-fallback">{{total}}</span></td>
+                                  <td width="50%" class="purchase_item"><span class="small-text">Total</span></td>
+                                  <td class="align-right" width="50%" class="purchase_item"><span class="small-text">{{total}}</span></td>
                                 </tr>
                               </table>
                             </td>
