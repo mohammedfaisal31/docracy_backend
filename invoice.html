@@ -467,15 +467,21 @@
                         <table class="purchase" width="100%" cellpadding="0" cellspacing="0" role="presentation">
                           <tr>
                             <td>
-                              <h3>Transaction ID : {{transaction_id}}</h3></td>
+                              <h5>Transaction ID : </h5></td>
                             <td>
-                              <h3 class="align-right">Date & Time: {{date}} {{time}}</h3></td>
+                              <h5 class="align-right">{{transaction_id}}  </h5></td>
                           </tr>
                           <tr>
                             <td>
-                              <h3>Registration Number : {{unique_id}}</h3></td>
+                              <h5>Date & Time:  {{unique_id}}</h3></td>
                             <td>
-                              <h3 class="align-right"></h3></td>
+                              <h5 class="align-right">{{date}} {{time}}</h5></td>
+                          </tr>
+                          <tr>
+                            <td>
+                              <h5>Registration Number : </h3></td>
+                            <td>
+                              <h5 class="align-right">{{unique_id}}</h5></td>
                           </tr>
                           <tr>
                             <td colspan="2">
@@ -489,26 +495,16 @@
                                   </th>
                                 </tr>
                                 <tr>
-                                  <td width="80%" class="purchase_item"><span class="f-fallback">{{description}}</span></td>
-                                  <td class="align-right" width="20%" class="purchase_item"><span class="f-fallback">{{amount}}</span></td>
+                                  <td width="50%" class="purchase_item"><span class="f-fallback">{{description}}</span></td>
+                                  <td class="align-right" width="50%" class="purchase_item"><span class="f-fallback">{{amount}}</span></td>
                                 </tr>
                                 <tr>
-                                  <td width="80%" class="purchase_footer" valign="middle">
-                                    <p class="f-fallback purchase_total purchase_total--label">GST(18%)</p>
-                                  </td>
-                                  
-                                  <td width="20%" class="purchase_footer" valign="middle">
-                                    <p class="f-fallback purchase_total">{{GST}}</p>
-                                  </td>
+                                  <td width="50%" class="purchase_item"><span class="f-fallback">GST(18%)</span></td>
+                                  <td class="align-right" width="50%" class="purchase_item"><span class="f-fallback">{{GST}}</span></td>
                                 </tr>
                                 <tr>
-                                  <td width="80%" class="purchase_footer" valign="middle">
-                                    <p class="f-fallback purchase_total purchase_total--label">Total</p>
-                                  </td>
-                                  
-                                  <td width="20%" class="purchase_footer" valign="middle">
-                                    <p class="f-fallback purchase_total">{{total}}</p>
-                                  </td>
+                                  <td width="50%" class="purchase_item"><span class="f-fallback">Total</span></td>
+                                  <td class="align-right" width="50%" class="purchase_item"><span class="f-fallback">{{total}}</span></td>
                                 </tr>
                               </table>
                             </td>
