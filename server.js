@@ -823,16 +823,23 @@ app.get('/send-invoice/:transaction_id', async (req, res, next) => {
             console.log(formatINR(gst));
             const unique_id_string = zeroPad(response.unique_id,4)
             const invoice = invoiceHtml
-	    .replace('{{transaction_id}}', transaction_id)
-            .replace('{{amount}}', formatINR(total-gst))
-            .replace('{{name}}', response.user_name)
+	          .replace('{{name}}', response.user_name)
             .replace('{{date}}', getFormattedDate(response.date_of_transaction))
             .replace('{{time}}', response.time_of_transaction)
-		 
-            .replace('{{description}}', response.package_type == "residential" ? "Residential Package: " : "Non Residential Package: " + response.payment_purpose)
-            .replace('{{GST}}', formatINR(gst))
-            .replace("{{total}}", formatINR(total))
-            .replace("{{action_url}}", `https://kisargo.ml/receipt/${transaction_id}`)
+		        .replace('{{package_type}}', response.package_type == "residential" ? "Residential Package " : "Non Residential Package ")
+            .replace('{{accomodation_type}}', response.accomodation_type == "single_romm" ? "Single Room " : "Twin sharing per person  ")
+            .replace('{{member_type}}', response.member_type == "member" ? "Member " : "Non Member")
+            .replace('{{conference_type}}', response.payment_purpose)
+            .replace('{{check_in_date}}', response.check_in_date)
+            .replace('{{check_out_date}}', response.check_out_date)
+            
+            
+            
+            
+            
+            // .replace('{{GST}}', formatINR(gst))
+            // .replace("{{total}}", formatINR(total))
+            // .replace("{{action_url}}", `https://kisargo.ml/receipt/${transaction_id}`)
             .replace("{{unique_id}}", unique_id_string)
             
             ;

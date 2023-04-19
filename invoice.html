@@ -464,16 +464,10 @@
                         <p>Thanks for registering for 8th Annual Conference of The PCOS Society, India and
                           3rd Regional Conference of Aspire
                           in collaboration with ISAR
-                          on 9th, 10th & 11th June, 2023 . Venue : Hotel J W Marriott, Vithal Malya Road, Bengaluru 560001, Karnataka, India . This email is the receipt for your purchase. No payment is due.</p>
+                          on 9th, 10th & 11th June, 2023 . Venue : Hotel J W Marriott, Vithal Malya Road, Bengaluru 560001, Karnataka, India</p>
                         <!-- Discount -->
-                        
+                        <p>Below is the details of your package</p>
                         <table class="purchase" width="100%" cellpadding="0" cellspacing="0" role="presentation">
-                          <tr>
-                            <td>
-                              <h5>Transaction ID : </h5></td>
-                            <td>
-                              <h5 class="align-right">{{transaction_id}}  </h5></td>
-                          </tr>
                           <tr>
                             <td>
                               <h5>Date & Time:  </h3></td>
@@ -491,29 +485,48 @@
                               <table class="purchase_content" width="100%" cellpadding="0" cellspacing="0">
                                 <tr>
                                   <th class="purchase_heading" align="left">
-                                    <p class="f-fallback">Description</p>
+                                    <p class="f-fallback">Title</p>
                                   </th>
                                   <th class="purchase_heading" align="right">
-                                    <p class="f-fallback">Amount</p>
+                                    <p class="f-fallback">Description</p>
                                   </th>
                                 </tr>
                                 <tr>
-                                  <td width="40%" class="purchase_item"><span class="small-text">Sub Total</span></td>
-                                  <td class="align-right" width="60%" class="purchase_item"><span class="small-text">{{amount}}</span></td>
+                                  <td width="40%" class="purchase_item"><span class="small-text">Pacakge Type</span></td>
+                                  <td class="align-right" width="60%" class="purchase_item"><span class="small-text">{{package_type}}</span></td>
                                 </tr>
                                 <tr>
-                                  <td width="40%" class="purchase_item"><span class="small-text">GST(18%)</span></td>
-                                  <td class="align-right" width="60%" class="purchase_item"><span class="small-text">{{GST}}</span></td>
+                                  <td width="40%" class="purchase_item"><span class="small-text">Accommodation</span></td>
+                                  <td class="align-right" width="60%" class="purchase_item"><span class="small-text">{{accomodation_type}}</span></td>
                                 </tr>
                                 <tr>
-                                  <td width="40%" class="purchase_item"><span class="small-text">Total</span></td>
-                                  <td class="align-right" width="60%" class="purchase_item"><span class="small-text">{{total}}</span></td>
+                                  <td width="40%" class="purchase_item"><span class="small-text">Membership Type</span></td>
+                                  <td class="align-right" width="60%" class="purchase_item"><span class="small-text">{{member_type}}</span></td>
+                                </tr>
+                                <tr>
+                                  <td width="40%" class="purchase_item"><span class="small-text">Conference</span></td>
+                                  <td class="align-right" width="60%" class="purchase_item"><span class="small-text">{{conference_type}}</span></td>
+                                </tr>
+                                <tr>
+                                  <td width="40%" class="purchase_item"><span class="small-text">Check In date</span></td>
+                                  <td class="align-right" width="60%" class="purchase_item"><span class="small-text">{{check_in_date}}</span></td>
+                                </tr>
+                                <tr>
+                                  <td width="40%" class="purchase_item"><span class="small-text">Check out date</span></td>
+                                  <td class="align-right" width="60%" class="purchase_item"><span class="small-text">{{check_out_date}}</span></td>
+                                </tr>
+                                <tr>
+                                  <td width="40%" class="purchase_item"><span class="small-text">Payment method</span></td>
+                                  <td class="align-right" width="60%" class="purchase_item"><span class="small-text">{{payment_method}}</span></td>
                                 </tr>
                               </table>
                             </td>
                           </tr>
                         </table>
-                        <p>If you have any questions about this receipt, reach out to us at <a href="{{support_url}}">pcosart2023@gmail.com</a> for help.</p>
+                        <p>This email serves as a confirmation of your purchase</p>
+                        <p> We kindly ask that you wait for the invoice which will be sent to you shortly</p>
+
+                        <p>If you have any questions about this email, reach out to us at <a href="{{support_url}}">pcosart2023@gmail.com</a> for help.</p>
                         <p>Cheers,
                           <br>The PCOS SOCIETY </p>
                         <!-- Action -->
@@ -522,13 +535,13 @@
                             <td align="center">
                               <!-- Border based button
                                 https://litmus.com/blog/a-guide-to-bulletproof-buttons-in-email-design -->
-                              <table width="100%" border="0" cellspacing="0" cellpadding="0" role="presentation">
+                              <!-- <table width="100%" border="0" cellspacing="0" cellpadding="0" role="presentation">
                                 <tr>
                                   <td align="center">
                                     <a href="{{action_url}}" class="f-fallback button button--blue" target="_blank" style="color:#fff">Download as PDF</a>
                                   </td>
                                 </tr>
-                              </table>
+                              </table> -->
                             </td>
                           </tr>
                         </table>
