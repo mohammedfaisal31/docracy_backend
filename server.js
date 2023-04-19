@@ -832,6 +832,7 @@ app.get('/send-invoice/:transaction_id', async (req, res, next) => {
             .replace('{{conference_type}}', response.payment_purpose)
             .replace('{{check_in_date}}', response.check_in_date)
             .replace('{{check_out_date}}', response.check_out_date)
+            .replace('{{payment_method}}', response.payment_method)
             
             
             
