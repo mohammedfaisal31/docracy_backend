@@ -661,13 +661,17 @@ app.post('/api/entry', (req, res) => {
                  VALUES("${user_data.check_in_date}","${user_data.check_out_date}","${user_data.paymentStatus}","${user_data.user_salutation}","${user_data.user_sex}","${user_data.user_designation}","${user_data.user_institution}","${user_data.user_age}","${user_data.user_pincode}","${user_data.user_state}","${user_data.user_city}","${user_data.user_medical_council_number}","${user_data.membership_number}","${user_data.user_address}","${user_data.user_diet}","${user_data.transaction_id}","${user_data.user_name}","${user_data.user_email}","${user_data.user_phone}","${user_data.payment_purpose}",${user_data.amount},"${user_data.package_type}","${user_data.conference_type}","${user_data.member_type}","${user_data.accomodation_type}",'${JSON.stringify(user_data.workshop_titles)}',"${user_data.payment_method}",'${getFormattedDate(date)}','${getFormattedTime(date)}') `
       con.query(sql, function (err, result) {
         if(err) reject(err);
-        resolve("OK");
+        resolve(result);
         });
   })
   .then((message)=>{
-      res.send(message);
+     console.log(message);  
+     res.send(message);
     })
-   .catch((err)=>{res.send(err)})
+   .catch((err)=>{
+                    console.log(err);
+                    res.send(err)
+                  })
   
   
   
