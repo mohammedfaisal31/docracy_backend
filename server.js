@@ -831,7 +831,7 @@ app.get('/send-invoice/:transaction_id', async (req, res, next) => {
             .replace('{{date}}', getFormattedDate(response.date_of_transaction))
             .replace('{{time}}', response.time_of_transaction)
 		        .replace('{{package_type}}', response.package_type == "residential" ? "Residential Package " : "Non Residential Package ")
-            .replace('{{accomodation_type}}', response.accomodation_type == "single_romm" ? "Single Room " : "Twin sharing per person  ")
+            .replace('{{accomodation_type}}', response.accomodation_type == "single_room" ? "Single Room " : "Twin sharing per person  ")
             .replace('{{member_type}}', response.member_type == "member" ? "Member " : "Non Member")
             .replace('{{conference_type}}', response.payment_purpose)
             .replace('{{check_in_date}}', response.check_in_date)
