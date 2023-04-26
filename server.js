@@ -852,7 +852,7 @@ app.get('/send-invoice/:transaction_id', async (req, res, next) => {
             const mailOptions = {
               from: 'pay@pcos.org',
               to: response.user_email,
-              subject: 'Order Confirmed',
+              subject: 'Registration Confirmed',
               html: invoice
             };
             transporter.sendMail (mailOptions, (error, info) => {
