@@ -808,7 +808,7 @@ app.post('/detect-country', (req, res) => {
 app.get('/send-invoice/:transaction_id', async (req, res, next) => {
   try {
   const  transaction_id = req.params.transaction_id;
-  readFileAsync('invoice.html', 'utf8')
+  readFileAsync('confirm.html', 'utf8')
   .then( async (invoiceHtml)=>{
     return new Promise((resolve,reject)=>{
            let sql = `SELECT * FROM payments WHERE transaction_id='${transaction_id}'`;
@@ -821,8 +821,8 @@ app.get('/send-invoice/:transaction_id', async (req, res, next) => {
     
            })
          }).then((response)=>{
-	    console.log(response);	
-	    const gst = (response.amount * 0.18).toFixed(3);
+	          console.log(response);	
+	          const gst = (response.amount * 0.18).toFixed(3);
             const total = ((response.amount).toFixed(2));
             console.log(formatINR(gst));
             const unique_id_string = zeroPad(response.unique_id,4)
@@ -833,7 +833,6 @@ app.get('/send-invoice/:transaction_id', async (req, res, next) => {
 		        .replace('{{package_type}}', response.package_type == "residential" ? "Residential Package " : "Non Residential Package ")
             .replace('{{accomodation_type}}', response.accomodation_type == "single_room" ? "Single Room " : "Twin sharing per person  ")
             .replace('{{member_type}}', response.member_type == "member" ? "Member " : "Non Member")
-            .replace('{{conference_type}}', response.payment_purpose)
             .replace('{{check_in_date}}', response.check_in_date)
             .replace('{{check_out_date}}', response.check_out_date)
             .replace('{{payment_method}}', response.payment_method)
@@ -856,7 +855,7 @@ app.get('/send-invoice/:transaction_id', async (req, res, next) => {
               subject: 'Order Confirmed',
               html: invoice
             };
-            transporter.sendMail(mailOptions, (error, info) => {
+            transporter.sendMail (mailOptions, (error, info) => {
               if (error) {
                 console.log(error);
                 res.status(500).send('Email could not be sent');
