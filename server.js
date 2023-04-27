@@ -56,8 +56,8 @@ app.set('views', path.join(__dirname, 'views'));
 const transporter = nodemailer.createTransport({
   service: 'Gmail',
   auth: {
-    user: 'pcosart2023@gmail.com',
-    pass: 'pcosaspirekisar2023',
+    user: 'mohammedfaisal3366@gmail.com',
+    pass: 'rgjentxlbxyzgpmt',
   },
   pool: true,
 });
@@ -67,7 +67,7 @@ app.post('/api/register', (req, res) => {
   const otp = Math.floor(100000 + Math.random() * 900000);
 	console.log(req.body);
   transporter.sendMail({
-    from: 'verify@kisarpay.com',
+    from: 'mohammedfaisal3366@gmail.com',
     to: email,
     subject: 'OTP Verification',
     text: `Your OTP for payments at THE PCOS SOCIETY portal is ${otp}`,
@@ -101,7 +101,7 @@ app.post('/api/resend-otp', (req, res) => {
   const otp = Math.floor(100000 + Math.random() * 900000);
 	console.log(req.body);
   transporter.sendMail({
-    from: 'verify@kisarpay.com',
+    from: 'mohammedfaisal3366@gmail.com',
     to: email,
     subject: 'OTP Verification',
     text: `Your OTP for THE PCOS SOCIETY is ${otp}`,
@@ -852,7 +852,7 @@ app.get('/send-invoice/:transaction_id', async (req, res, next) => {
 
 
             const mailOptions = {
-              from: 'pay@pcos.org',
+              from: 'mohammedfaisal3366@gmail.com',
               to: response.user_email,
               subject: 'Registration Confirmed',
               html: invoice
