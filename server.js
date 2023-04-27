@@ -582,6 +582,7 @@ app.post('/api/createPayment', (req, res) => {
   return new Promise((resolve,reject)=>{
       let sql = `INSERT INTO payments(check_in_date,check_out_date,user_salutation,user_sex,user_designation,user_institution,user_age,user_pincode,user_state,user_city,user_medical_council_number,user_membership_number,user_address,user_diet,transaction_id,user_name,user_email,user_phone,payment_purpose,amount,package_type,conference_type,member_type,accomodation_type,workshop_titles) 
                  VALUES("${user_data.check_in_date}","${user_data.check_out_date}","${user_data.salutation}","${user_data.sex}","${user_data.designation}","${user_data.institution}",${user_data.age},${user_data.pincode},"${user_data.state}","${user_data.city}","${user_data.medical_council_number}","${user_data.membership_number}","${user_data.address}","${user_data.diet}","${user_data.transaction_id}","${user_data.name}","${user_data.email}","${user_data.phone}","${user_data.purpose}",${user_data.amount},"${user_data.values.package_type}","${user_data.values.conference_type}","${user_data.values.member_type}","${user_data.values.accomodation_type}",'${JSON.stringify(user_data.workshop_titles)}') `
+      console.log(sql);
       con.query(sql, function (err, result) {
         if(err) reject(err);
         resolve("OK");
