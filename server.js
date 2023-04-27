@@ -576,6 +576,7 @@ const non_residential_rate_card =  {
 app.post('/api/createPayment', (req, res) => {
   const user_data = req.body;
   console.log(user_data);
+  console.log(user_data.values.membership_number);
   console.log(JSON.stringify(user_data.workshop_titles))
   if(user_data.values.package_type == "non_residential") user_data["values"]["accomodation_type"] = "none";
   user_data.transaction_id = generateUUID();
