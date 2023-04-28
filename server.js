@@ -581,10 +581,13 @@ const non_residential_rate_card =  {
   if(pack.package_type === "residential"){
     if(pack.accompanying_person_enabled === "needed"){
       if(pack.conference_type === "conference_type_1" || pack.conference_type === "conference_type_2"){
-          res.send(residential_rate_card[pack.package_type][pack.member_type][pack.conference_type][date_range][pack.accomodation_type],...{accompanying_person_type_1})
+        const Response = {...residential_rate_card[pack.package_type][pack.member_type][pack.conference_type][date_range][pack.accomodation_type],...accompanying_person_type_1}  
+        res.send(Response)
+
         }
         else if(pack.conference_type === "conference_type_3"){
-          res.send(residential_rate_card[pack.package_type][pack.member_type][pack.conference_type][date_range][pack.accomodation_type],...{accompanying_person_type_2})
+          const Response = {...residential_rate_card[pack.package_type][pack.member_type][pack.conference_type][date_range][pack.accomodation_type],...accompanying_person_type_2}
+          res.send(Response)
         }
         else res.send("BAD")
       
