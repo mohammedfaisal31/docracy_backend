@@ -564,10 +564,40 @@ const non_residential_rate_card =  {
 	else if (date > date_point_3) date_range = "date_range_4"
 	else date_range = ""
 	console.log(pack);
-  if(pack.package_type === "residential")
-	  res.send(residential_rate_card[pack.package_type][pack.member_type][pack.conference_type][date_range][pack.accomodation_type])
-  else 
+  const accompanying_person_type_1 =  {
+    accompanying_title : "11000 + 18% GST",
+    accompanying_amount_without_gst: 11000,
+    accompanying_gst_amount : 1980,
+    accompanying_total_amount : 12980
+  }
+  const accompanying_person_type_2 =  {
+    accompanying_title : "9500 + 18% GST",
+    accompanying_amount_without_gst: 9500,
+    accompanying_gst_amount : 1710,
+    accompanying_total_amount : 11210
+  }
+  
+  
+  if(pack.package_type === "residential"){
+    if(pack.accompanying_person_enabled === "needed"){
+      if(pack.conference_type === "conference_type_1" || pack.conference_type === "conference_type_2"){
+          res.send(residential_rate_card[pack.package_type][pack.member_type][pack.conference_type][date_range][pack.accomodation_type],...accompanying_person_type_1)
+        }
+        else if(pack.conference_type === "conference_type_3"){
+          res.send(residential_rate_card[pack.package_type][pack.member_type][pack.conference_type][date_range][pack.accomodation_type],...accompanying_person_type_2)
+        }
+        else res.send("BAD")
+      
+    }
+    else if (pack.accompanying_person_enabled === "not_needed"){
+      res.send(residential_rate_card[pack.package_type][pack.member_type][pack.conference_type][date_range][pack.accomodation_type])
+    }
+    else res.send("BAD")
+  }
+	else{
     res.send(non_residential_rate_card[pack.package_type][pack.member_type][pack.conference_type][date_range])
+  } 
+    
     
   
 });
