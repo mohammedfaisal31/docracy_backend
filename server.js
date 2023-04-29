@@ -795,7 +795,7 @@ app.post("/api/updateTransactionData",(req,res)=>{
     const sql = `
   UPDATE payments
   SET 
-    accompanying_total_amount = '${req.body.grandTotalAmount}',
+    accompanying_total_amount = '${req.body.accompanying_total_amount}',
     grand_amount = '${grandTotalAmount}',
     accomodation_type = '${req.body.accomodation_type}',
     amount = '${req.body.amount}',
