@@ -613,7 +613,8 @@ app.post('/api/createPayment', (req, res) => {
   console.log(JSON.stringify(user_data.workshop_titles))
   if(user_data.values.package_type == "non_residential") user_data["values"]["accomodation_type"] = "none";
   user_data.transaction_id = generateUUID();
-  if(!user_data.accompanying_total_amount) user_data.accompanying_total_amount = 0;
+  console.log(user_data.accompanying_total_amount);
+  if(!user_data.accompanying_total_amount ) user_data.accompanying_total_amount = 0;
   const grandTotalAmount = user_data.accompanying_total_amount + user_data.amount;
   return new Promise((resolve,reject)=>{
       let sql = `INSERT INTO payments(accompanying_total_amount,grand_amount,check_in_date,check_out_date,user_salutation,user_sex,user_designation,user_institution,user_age,user_pincode,user_state,user_city,user_medical_council_number,user_membership_number,user_address,user_diet,transaction_id,user_name,user_email,user_phone,payment_purpose,amount,package_type,conference_type,member_type,accomodation_type,workshop_titles) 
