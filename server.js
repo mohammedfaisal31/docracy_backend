@@ -668,10 +668,12 @@ app.post('/api/createOfflinePayment', (req, res) => {
   console.log(JSON.stringify(user_data.workshop_titles))
   if(user_data.values.package_type == "non_residential") user_data["values"]["accomodation_type"] = "none";
   user_data.transaction_id = generateUUID();
+  if(!user_data.accompanying_total_amount ) user_data.accompanying_total_amount = 0;
+  const grandTotalAmount = user_data.accompanying_total_amount + user_data.amount;
   const date = new Date();
   return new Promise((resolve,reject)=>{
-      let sql = `INSERT INTO payments(check_in_date,check_out_date,user_salutation,user_sex,user_designation,user_institution,user_age,user_pincode,user_state,user_city,user_medical_council_number,user_membership_number,user_address,user_diet,transaction_id,user_name,user_email,user_phone,payment_purpose,amount,package_type,conference_type,member_type,accomodation_type,workshop_titles,payment_method,date_of_transaction,time_of_transaction) 
-                 VALUES("${user_data.check_in_date}","${user_data.check_out_date}","${user_data.salutation}","${user_data.sex}","${user_data.designation}","${user_data.institution}",${user_data.age},${user_data.pincode},"${user_data.state}","${user_data.city}","${user_data.medical_council_number}","${user_data.values.membership_number}","${user_data.address}","${user_data.diet}","${user_data.transaction_id}","${user_data.name}","${user_data.email}","${user_data.phone}","${user_data.purpose}",${user_data.amount},"${user_data.values.package_type}","${user_data.values.conference_type}","${user_data.values.member_type}","${user_data.values.accomodation_type}",'${JSON.stringify(user_data.workshop_titles)}','RTGS/NEFT/Cheque/DD','${getFormattedDate(date)}','${getFormattedTime(date)}') `
+      let sql = `INSERT INTO payments(accompanying_total_amount,grand_amount,check_in_date,check_out_date,user_salutation,user_sex,user_designation,user_institution,user_age,user_pincode,user_state,user_city,user_medical_council_number,user_membership_number,user_address,user_diet,transaction_id,user_name,user_email,user_phone,payment_purpose,amount,package_type,conference_type,member_type,accomodation_type,workshop_titles,payment_method,date_of_transaction,time_of_transaction) 
+                 VALUES(${user_data.accompanying_total_amount},${grandTotalAmount},"${user_data.check_in_date}","${user_data.check_out_date}","${user_data.salutation}","${user_data.sex}","${user_data.designation}","${user_data.institution}",${user_data.age},${user_data.pincode},"${user_data.state}","${user_data.city}","${user_data.medical_council_number}","${user_data.values.membership_number}","${user_data.address}","${user_data.diet}","${user_data.transaction_id}","${user_data.name}","${user_data.email}","${user_data.phone}","${user_data.purpose}",${user_data.amount},"${user_data.values.package_type}","${user_data.values.conference_type}","${user_data.values.member_type}","${user_data.values.accomodation_type}",'${JSON.stringify(user_data.workshop_titles)}','RTGS/NEFT/Cheque/DD','${getFormattedDate(date)}','${getFormattedTime(date)}') `
       con.query(sql, function (err, result) {
         if(err) reject(err);
         resolve("OK");
@@ -693,10 +695,12 @@ app.post('/api/entry', (req, res) => {
   console.log(JSON.stringify(user_data.workshop_titles))
   //if(user_data.values.package_type == "non_residential") user_data["values"]["accomodation_type"] = "none";
   user_data.transaction_id = generateUUID();
+  if(!user_data.accompanying_total_amount ) user_data.accompanying_total_amount = 0;
+  const grandTotalAmount = user_data.accompanying_total_amount + user_data.amount;
   const date = new Date();
   return new Promise((resolve,reject)=>{
-      let sql = `INSERT INTO payments(check_in_date,check_out_date,paymentStatus,user_salutation,user_sex,user_designation,user_institution,user_age,user_pincode,user_state,user_city,user_medical_council_number,user_membership_number,user_address,user_diet,transaction_id,user_name,user_email,user_phone,payment_purpose,amount,package_type,conference_type,member_type,accomodation_type,workshop_titles,payment_method,date_of_transaction,time_of_transaction) 
-                 VALUES("${user_data.check_in_date}","${user_data.check_out_date}","${user_data.paymentStatus}","${user_data.user_salutation}","${user_data.user_sex}","${user_data.user_designation}","${user_data.user_institution}","${user_data.user_age}","${user_data.user_pincode}","${user_data.user_state}","${user_data.user_city}","${user_data.user_medical_council_number}","${user_data.membership_number}","${user_data.user_address}","${user_data.user_diet}","${user_data.transaction_id}","${user_data.user_name}","${user_data.user_email}","${user_data.user_phone}","${user_data.payment_purpose}",${user_data.amount},"${user_data.package_type}","${user_data.conference_type}","${user_data.member_type}","${user_data.accomodation_type}",'${JSON.stringify(user_data.workshop_titles)}',"${user_data.payment_method}",'${getFormattedDate(date)}','${getFormattedTime(date)}') `
+      let sql = `INSERT INTO payments(accompanying_total_amount,grand_amount,check_in_date,check_out_date,paymentStatus,user_salutation,user_sex,user_designation,user_institution,user_age,user_pincode,user_state,user_city,user_medical_council_number,user_membership_number,user_address,user_diet,transaction_id,user_name,user_email,user_phone,payment_purpose,amount,package_type,conference_type,member_type,accomodation_type,workshop_titles,payment_method,date_of_transaction,time_of_transaction) 
+                 VALUES(${user_data.accompanying_total_amount},${grandTotalAmount},"${user_data.check_in_date}","${user_data.check_out_date}","${user_data.paymentStatus}","${user_data.user_salutation}","${user_data.user_sex}","${user_data.user_designation}","${user_data.user_institution}","${user_data.user_age}","${user_data.user_pincode}","${user_data.user_state}","${user_data.user_city}","${user_data.user_medical_council_number}","${user_data.membership_number}","${user_data.user_address}","${user_data.user_diet}","${user_data.transaction_id}","${user_data.user_name}","${user_data.user_email}","${user_data.user_phone}","${user_data.payment_purpose}",${user_data.amount},"${user_data.package_type}","${user_data.conference_type}","${user_data.member_type}","${user_data.accomodation_type}",'${JSON.stringify(user_data.workshop_titles)}',"${user_data.payment_method}",'${getFormattedDate(date)}','${getFormattedTime(date)}') `
       con.query(sql, function (err, result) {
         if(err) reject(err);
         resolve(result);
@@ -783,10 +787,16 @@ app.get('/api/checkPaymentStatus/:transaction_id', (req, res) => {
 });
 
 app.post("/api/updateTransactionData",(req,res)=>{
+  if(!req.body.accompanying_total_amount ) req.body.accompanying_total_amount = 0;
+  const grandTotalAmount = req.body.accompanying_total_amount + req.body.amount;
+  
+  
   return new Promise((resolve,reject)=>{
     const sql = `
   UPDATE payments
   SET 
+    accompanying_total_amount = '${req.body.grandTotalAmount}',
+    grand_amount = '${grandTotalAmount}',
     accomodation_type = '${req.body.accomodation_type}',
     amount = '${req.body.amount}',
     conference_type = '${req.body.conference_type}',
