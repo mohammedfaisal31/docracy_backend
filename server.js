@@ -789,7 +789,7 @@ app.get('/api/checkPaymentStatus/:transaction_id', (req, res) => {
 app.post("/api/updateTransactionData",(req,res)=>{
   if(!req.body.accompanying_total_amount ) req.body.accompanying_total_amount = 0;
   const grandTotalAmount = req.body.accompanying_total_amount + req.body.amount;
-  
+  if(req.body.accompanying_person_enabled === "not_needed") grandTotalAmount = 0;
   
   return new Promise((resolve,reject)=>{
     const sql = `
