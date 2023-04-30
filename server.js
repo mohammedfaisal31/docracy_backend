@@ -859,10 +859,12 @@ app.get('/send-invoice/:transaction_id', async (req, res, next) => {
   const sql = `SELECT * FROM payments WHERE transaction_id="${transaction_id}"`;
   return new Promise((resolve,reject)=>{
     con.query((err,result)=>{
-      if(err) console.log(err)
-      else console.log(result)
+      if(err) reject(err)
+      resolve(result)
     })
   })
+  .then((result)=>console.log(result))
+  .catch((err)=>console.log(err))
   // const html = ejs.renderFile(path.join(__dirname),"confirm.ejs",
   //               {
   //                 unique_id: 
