@@ -865,10 +865,10 @@ app.get('/send-invoice/:transaction_id', async (req, res, next) => {
   })
   .then((result)=>{
     const details = result[0];
-    console.log(details.user_salutation);
+    console.log(details.user_name.split(' ')[0]);
     ejs.renderFile((path.join(__dirname),"confirm.ejs"),
                     {
-                      nameWSal : details.user_salutation,
+                      nameWSal : `${details.user_salutation}.${details.user_name.split(' ')[0]}`,
                       unique_id: details.unique_id
 
                     })
