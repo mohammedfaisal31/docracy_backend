@@ -867,6 +867,7 @@ app.get('/send-invoice/:transaction_id', async (req, res, next) => {
     const details = result[0];
     ejs.renderFile((path.join(__dirname),"confirm.ejs"),
                     {
+                      nameWSal : details.user_salutation.subString(0,2),
                       unique_id: details.unique_id
 
                     })
