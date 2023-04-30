@@ -858,7 +858,7 @@ app.get('/send-invoice/:transaction_id', async (req, res, next) => {
   const  transaction_id = req.params.transaction_id;
   const sql = `SELECT * FROM payments WHERE transaction_id="${transaction_id}"`;
   return new Promise((resolve,reject)=>{
-    con.query((err,result)=>{
+    con.query(sql,(err,result)=>{
       if(err) reject(err)
       resolve(result)
     })
