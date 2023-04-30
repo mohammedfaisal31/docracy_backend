@@ -865,7 +865,7 @@ app.get('/send-invoice/:transaction_id', async (req, res, next) => {
   })
   .then((result)=>{
     const details = result[0];
-    const html = ejs.renderFile(path.join(__dirname),"confirm.ejs",
+    const html = ejs.renderFile((path.join(__dirname),"confirm.ejs"),
                     {
                       unique_id: details.unique_id
 
