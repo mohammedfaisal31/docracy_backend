@@ -996,23 +996,30 @@ app.get("/send-pdf",async (req,res)=>{
   const htmlToPdf = require('html-to-pdf');
   const pdfOptions = { format: 'A4' };
  // const htmlTemplate = ejs.renderFile((path.join(__dirname,"invoice-demo.ejs")))
-  const pdfBuffer = await htmlToPdf.convertHTMLToPDF("<h1>Email</h1>", pdfOptions);
-  const email = {
-    from: 'pcosart2023@gmail.com',
-    to: 'mohammedfaisal3366@gmail.com',
-    subject: 'PDF Attachment Example',
-    attachments: [{
-      filename: 'pdf_attachment.pdf',
-      content: pdfBuffer
-    }]
-  };
-  transporter.sendMail(email, (error, info) => {
-    if (error) {
-      console.log(error);
-    } else {
-      console.log('Email sent successfully: ' + info.response);
-    }
-  });
+ htmlToPdf.convert("<h1>Hello</h1>", pdfOptions, (error, pdfBuffer) => {
+  if (error) {
+    console.log(error);
+  } else {
+    const email = {
+      from: 'pcosart2023@gmail.com',
+      to: 'mohammedfaisal3366@gmail.com',
+      subject: 'PDF Attachment Example',
+      attachments: [{
+        filename: 'pdf_attachment.pdf',
+        content: pdfBuffer
+      }]
+    };
+
+    transporter.sendMail(email, (error, info) => {
+      if (error) {
+        console.log(error);
+      } else {
+        console.log('Email sent successfully: ' + info.response);
+      }
+    });
+  }
+});
+
 });
 
 // Starting both http & https servers
