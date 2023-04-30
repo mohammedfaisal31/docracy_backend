@@ -30,7 +30,7 @@ const credentials = {
 	ca: ca
 };
 
-const sendFormMailRouter = require('./sendmail');
+const sendFormMailRouter = require('./sendformmail');
 
 const con = mysql.createConnection({
   host: "localhost",
