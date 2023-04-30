@@ -870,7 +870,13 @@ app.get('/send-invoice/:transaction_id', async (req, res, next) => {
                     {
                       nameWSal : `${details.user_salutation}.${details.user_name.split(' ')[0]}`,
                       unique_id: details.unique_id,
-                      package_type:details.package_type
+                      package_type:details.package_type,
+                      accomodation_type: details.accomodation_type,
+                      member_type:details.member_type,
+                      check_in_date: details.check_in_date,
+                      check_out_date:details.check_out_date,
+                      payment_method:details.payment_method,
+                      date:details.date_of_transaction
 
                     })
                     .then((html)=>{

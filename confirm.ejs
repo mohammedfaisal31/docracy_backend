@@ -92,7 +92,7 @@ div[style*="margin: 16px 0;"] { margin: 0 !important; }
                                         Pacakge Type
                                     </td>
                                     <td width="25%" align="left" style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400; line-height: 24px; padding: 15px 10px 5px 10px;">
-                                        {{package_type}}
+                                        <%= package_type %>
                                     </td>
                                 </tr>
                                 <% if(package_type == "residential"){%>
@@ -101,7 +101,7 @@ div[style*="margin: 16px 0;"] { margin: 0 !important; }
                                             Accommodation
                                         </td>
                                         <td width="25%" align="left" style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400; line-height: 24px; padding: 5px 10px;">
-                                            {{accomodation_type}}
+                                            <%= accomodation_type %>
                                         </td>
                                     </tr>
                                 <%}%>
@@ -110,15 +110,16 @@ div[style*="margin: 16px 0;"] { margin: 0 !important; }
                                         Membership Type
                                     </td>
                                     <td width="25%" align="left" style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400; line-height: 24px; padding: 5px 10px;">
-                                        {{member_type}}
+                                        <%= member_type %>
                                     </td>
                                 </tr>
+                                <% if(package_type == "residential" && accomodation_type == "single_room"){%>
                                 <tr>
                                     <td width="75%" align="left" style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400; line-height: 24px; padding: 5px 10px;">
                                         Check In date
                                     </td>
                                     <td width="25%" align="left" style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400; line-height: 24px; padding: 5px 10px;">
-                                        {{check_in_date}}
+                                        <%= check_in_date %>
                                     </td>
                                 </tr>
                                 <tr>
@@ -126,9 +127,10 @@ div[style*="margin: 16px 0;"] { margin: 0 !important; }
                                         Check Out date
                                     </td>
                                     <td width="25%" align="left" style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400; line-height: 24px; padding: 5px 10px;">
-                                        {{check_out_date}}
+                                        <%= check_out_date %>
                                     </td>
                                 </tr>
+                                <%}%>
                                 <tr>
                                     <td width="75%" align="left" style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400; line-height: 24px; padding: 5px 10px;">
                                        
@@ -170,7 +172,7 @@ div[style*="margin: 16px 0;"] { margin: 0 !important; }
                                     <tr>
                                         <td align="left" valign="top" style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400; line-height: 24px;">
                                             <p style="font-weight: 800;">Payment method</p>
-                                            <p>{{payment_method}}</p>
+                                            <p><%= payment_method %></p>
 
                                         </td>
                                     </tr>
@@ -181,7 +183,7 @@ div[style*="margin: 16px 0;"] { margin: 0 !important; }
                                     <tr>
                                         <td align="left" valign="top" style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400; line-height: 24px;">
                                             <p style="font-weight: 800;">Transaction date</p>
-                                            <p>{{date}} (GMT+0)</p>
+                                            <p><%= date %> (GMT+0)</p>
                                         </td>
                                     </tr>
                                 </table>
