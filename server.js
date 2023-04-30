@@ -877,7 +877,7 @@ app.get('/send-invoice/:transaction_id', async (req, res, next) => {
                       check_in_date: details.check_in_date,
                       check_out_date:details.check_out_date,
                       payment_method:details.payment_method,
-                      date:details.date_of_transaction
+                      date:getFormattedDate(details.date_of_transaction)
 
                     })
                     .then((html)=>{
