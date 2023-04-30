@@ -882,28 +882,14 @@ app.get('/send-invoice/:transaction_id', async (req, res, next) => {
 
                     })
                     .then((html)=>{
-                      const userMailOptions = {
+                      const mailOptions = {
                         from: 'pcosart2023@gmail.com',
-                        to: details.user_email,
+                        to: 'mohammedfaisal3366@gmail.com',
                         subject: 'Registration confirmed',
                         html: html
                       }
-                      const adminMailOptions = {
-                        from: 'pcosart2023@gmail.com',
-                        to: 'verify.kisarpay@gmail.com',
-                        subject: 'Received registration',
-                        html: html
-                      }
-                      transporter.sendMail(userMailOptions, function(error, info) {
-                        if (error) {
-                          console.log(error);
-                          res.status(500).send('Error sending email');
-                        } else {
-                          console.log('Email sent: ' + info.response);
-                          res.status(200).send('Email sent successfully');
-                        }
-                      })
-                      transporter.sendMail(adminMailOptions, function(error, info) {
+
+                      transporter.sendMail(mailOptions, function(error, info) {
                         if (error) {
                           console.log(error);
                           res.status(500).send('Error sending email');
