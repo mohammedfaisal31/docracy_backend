@@ -995,8 +995,8 @@ app.get("/demo",(req,res)=>{
 app.get("/send-pdf",async (req,res)=>{
   const htmlToPdf = require('html-to-pdf');
   const pdfOptions = { format: 'A4' };
-  const htmlTemplate = ejs.renderFile((path.join(__dirname,"invoice-demo.ejs")))
-  const pdfBuffer = await htmlToPdf.convertHTMLToPDF(htmlTemplate, pdfOptions);
+ // const htmlTemplate = ejs.renderFile((path.join(__dirname,"invoice-demo.ejs")))
+  const pdfBuffer = await htmlToPdf.convertHTMLToPDF("<h1>Email</h1>", pdfOptions);
   const email = {
     from: 'pcosart2023@gmail.com',
     to: 'mohammedfaisal3366@gmail.com',
