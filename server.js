@@ -856,7 +856,7 @@ app.post('/detect-country', (req, res) => {
 app.get('/send-invoice/:transaction_id', async (req, res, next) => {
   try {
   const  transaction_id = req.params.transaction_id;
-  const sql = `SELECT * FROM payments WHERE transaction_id:"${transaction_id}"`;
+  const sql = `SELECT * FROM payments WHERE transaction_id="${transaction_id}"`;
   con.query(sql)
   .then((result)=>console.log(result))
   .catch((err)=>console.log(err))
