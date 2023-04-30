@@ -869,7 +869,7 @@ app.get('/send-invoice/:transaction_id', async (req, res, next) => {
     ejs.renderFile((path.join(__dirname),"confirm.ejs"),
                     {
                       nameWSal : `${details.user_salutation}.${details.user_name.split(' ')[0]}`,
-                      unique_id: details.unique_id,
+                      unique_id: zeroPad(details.unique_id),
                       package_type:details.package_type,
                       accomodation_type: details.accomodation_type,
                       member_type:details.member_type,
