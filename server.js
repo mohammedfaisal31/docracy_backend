@@ -865,27 +865,34 @@ app.get('/send-invoice/:transaction_id', async (req, res, next) => {
   })
   .then((result)=>{
     const details = result[0];
-    const html = ejs.renderFile((path.join(__dirname),"confirm.ejs"),
+    ejs.renderFile((path.join(__dirname),"confirm.ejs"),
                     {
                       unique_id: details.unique_id
 
                     })
-    const mailOptions = {
-                          from: 'pcosart2023@gmail.com',
-                          to: 'mohammedfaisal3366@gmail.com',
-                          subject: 'Registration confirmed',
-                          html: html
-                        };
+                    .then((html)=>{
+                      const mailOptions = {
+                        from: 'pcosart2023@gmail.com',
+                        to: 'mohammedfaisal3366@gmail.com',
+                        subject: 'Registration confirmed',
+                        html: html
+                      }
+
+                      transporter.sendMail(mailOptions, function(error, info) {
+                        if (error) {
+                          console.log(error);
+                          res.status(500).send('Error sending email');
+                        } else {
+                          console.log('Email sent: ' + info.response);
+                          res.status(200).send('Email sent successfully');
+                        }
+                      })
+
+                    })
+                    .catch((err)=>console.log(err))
+                      
   
-                        transporter.sendMail(mailOptions, function(error, info) {
-                          if (error) {
-                            console.log(error);
-                            res.status(500).send('Error sending email');
-                          } else {
-                            console.log('Email sent: ' + info.response);
-                            res.status(200).send('Email sent successfully');
-                          }
-                        })
+                        
                       }
   
   )
