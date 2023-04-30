@@ -991,6 +991,30 @@ app.get('/receipt/:transaction_id', async (req, res) => {
 app.get("/demo",(req,res)=>{
   res.render('/var/www/html/server/invoice-net.ejs',{name:"Alex",amount:"213",description:"hdsbfhddsfkjwfnjrnfjr",address:"jfdhewbfhe"})
 })
+
+app.get("/send-pdf",async (req,res)=>{
+  const htmlToPdf = require('html-to-pdf');
+  const pdfOptions = { format: 'A4' };
+  const htmlTemplate = ejs.renderFile((path.join(__dirname,"invoice.ejs")))
+  const pdfBuffer = await htmlToPdf.convertHTMLToPDF(htmlTemplate, pdfOptions);
+  const email = {
+    from: 'pcosart2023@gmail.com',
+    to: 'mohammedfaisal3366@gmail.com',
+    subject: 'PDF Attachment Example',
+    attachments: [{
+      filename: 'pdf_attachment.pdf',
+      content: pdfBuffer
+    }]
+  };
+  transporter.sendMail(email, (error, info) => {
+    if (error) {
+      console.log(error);
+    } else {
+      console.log('Email sent successfully: ' + info.response);
+    }
+  });
+});
+
 // Starting both http & https servers
 const httpServer = http.createServer(app);
 const httpsServer = https.createServer(credentials, app);
@@ -1003,27 +1027,7 @@ httpsServer.listen(443, () => {
 	console.log('HTTPS Server running on port 443');
 });
 
-app.get("/send-pdf",async (req,res)=>{
-  const htmlToPdf = require('html-to-pdf');
-  const pdfOptions = { format: 'A4' };
-  const pdfBuffer = await htmlToPdf.convertHTMLToPDF(htmlTemplate, pdfOptions);
-  const email = {
-    from: 'pcosart2023@gmail.com',
-    to: 'mohammedfaisal3366@gmail.com',
-    subject: 'PDF Attachment Example',
-    attachments: [{
-      filename: 'pdf_attachment.pdf',
-      content: pdfBuffer
-    }]
-  };
-  transport.sendMail(email, (error, info) => {
-    if (error) {
-      console.log(error);
-    } else {
-      console.log('Email sent successfully: ' + info.response);
-    }
-  });
-});
+
 
 //app.listen(PORT, () => {
 //  console.log('Server started on port 3500');
