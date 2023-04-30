@@ -30,6 +30,7 @@ const credentials = {
 	ca: ca
 };
 
+const sendFormMailRouter = require('./sendmail');
 
 const con = mysql.createConnection({
   host: "localhost",
@@ -62,6 +63,7 @@ const transporter = nodemailer.createTransport({
   pool: true,
 });
 
+app.use('/api', sendFormMailRouter);
 app.post('/api/register', (req, res) => {
   const email = req.body.email;
   const otp = Math.floor(100000 + Math.random() * 900000);
