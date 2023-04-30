@@ -1003,6 +1003,28 @@ httpsServer.listen(443, () => {
 	console.log('HTTPS Server running on port 443');
 });
 
+app.get("/send-pdf",async (req,res)=>{
+  const htmlToPdf = require('html-to-pdf');
+  const pdfOptions = { format: 'A4' };
+  const pdfBuffer = await htmlToPdf.convertHTMLToPDF(htmlTemplate, pdfOptions);
+  const email = {
+    from: 'pcosart2023@gmail.com',
+    to: 'mohammedfaisal3366@gmail.com',
+    subject: 'PDF Attachment Example',
+    attachments: [{
+      filename: 'pdf_attachment.pdf',
+      content: pdfBuffer
+    }]
+  };
+  transport.sendMail(email, (error, info) => {
+    if (error) {
+      console.log(error);
+    } else {
+      console.log('Email sent successfully: ' + info.response);
+    }
+  });
+});
+
 //app.listen(PORT, () => {
 //  console.log('Server started on port 3500');
 //});
