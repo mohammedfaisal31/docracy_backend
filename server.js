@@ -873,6 +873,7 @@ app.get('/send-invoice/:transaction_id', async (req, res, next) => {
                       package_type:details.package_type,
                       accomodation_type: details.accomodation_type,
                       member_type:details.member_type,
+                      conference_type:details.conference_type,
                       check_in_date: details.check_in_date,
                       check_out_date:details.check_out_date,
                       payment_method:details.payment_method,

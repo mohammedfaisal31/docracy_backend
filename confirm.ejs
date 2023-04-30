@@ -91,18 +91,34 @@ div[style*="margin: 16px 0;"] { margin: 0 !important; }
                                     <td width="75%" align="left" style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400; line-height: 24px; padding: 15px 10px 5px 10px;">
                                         Pacakge Type
                                     </td>
+                                    <% if(package_type == "residential"){%>
                                     <td width="25%" align="left" style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400; line-height: 24px; padding: 15px 10px 5px 10px;">
-                                        <%= package_type %>
+                                        Residential Package
                                     </td>
+                                    <%}else{%>
+                                        <td width="25%" align="left" style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400; line-height: 24px; padding: 15px 10px 5px 10px;">
+                                            Non Residential Package
+                                        </td>
+                                    <%}%>
                                 </tr>
                                 <% if(package_type == "residential"){%>
                                     <tr>
                                         <td width="75%" align="left" style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400; line-height: 24px; padding: 5px 10px;">
                                             Accommodation
                                         </td>
-                                        <td width="25%" align="left" style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400; line-height: 24px; padding: 5px 10px;">
-                                            <%= accomodation_type %>
-                                        </td>
+                                        <% if(accomodation_type == "single_room"){%>
+                                            <td width="25%" align="left" style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400; line-height: 24px; padding: 15px 10px 5px 10px;">
+                                                Single room
+                                            </td>
+                                            <%}else if(accomodation_type == "twin_room"){%>
+                                                <td width="25%" align="left" style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400; line-height: 24px; padding: 15px 10px 5px 10px;">
+                                                    Twin sharing per person
+                                                </td>
+                                            <%}else{%>
+                                                <td width="25%" align="left" style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400; line-height: 24px; padding: 15px 10px 5px 10px;">
+                                                    None
+                                                </td>
+                                            <%}%>
                                     </tr>
                                 <%}%>
                                 <tr>
@@ -113,7 +129,7 @@ div[style*="margin: 16px 0;"] { margin: 0 !important; }
                                         <%= member_type %>
                                     </td>
                                 </tr>
-                                <% if(package_type == "residential" && accomodation_type == "single_room"){%>
+                                <% if(package_type == "residential"){%>
                                 <tr>
                                     <td width="75%" align="left" style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400; line-height: 24px; padding: 5px 10px;">
                                         Check In date
@@ -131,6 +147,47 @@ div[style*="margin: 16px 0;"] { margin: 0 !important; }
                                     </td>
                                 </tr>
                                 <%}%>
+                                <tr>
+                                    <td width="75%" align="left" style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400; line-height: 24px; padding: 5px 10px;">
+                                        Conference
+                                    </td>
+                                    <% if(package_type == "residential"){%>
+                                        <% if(conference_type == "conference_type_1"){%>
+                                            <td width="25%" align="left" style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400; line-height: 24px; padding: 5px 10px;">
+                                                2 nights and 3 days - Conference + 2 Workshops
+                                            </td>
+                                        <%}%>
+                                        <% if(conference_type == "conference_type_2"){%>
+                                            <td width="25%" align="left" style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400; line-height: 24px; padding: 5px 10px;">
+                                                2 nights and 3 days - Conference only
+                                            </td>
+                                        <%}%>
+                                        <% if(conference_type == "conference_type_3"){%>
+                                            <td width="25%" align="left" style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400; line-height: 24px; padding: 5px 10px;">
+                                                1 nights and 2 days - Conference only
+                                            </td>
+                                        <%}%>
+                                        
+                                    <%}%>
+                                    <% if(package_type == "non_residential"){%>
+                                        <% if(conference_type == "conference_type_1"){%>
+                                            <td width="25%" align="left" style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400; line-height: 24px; padding: 5px 10px;">
+                                                Conference only
+                                            </td>
+                                        <%}%>
+                                        <% if(conference_type == "conference_type_2"){%>
+                                            <td width="25%" align="left" style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400; line-height: 24px; padding: 5px 10px;">
+                                                Conference + 2 Workshops
+                                            </td>
+                                        <%}%>
+                                        <% if(conference_type == "conference_type_3"){%>
+                                            <td width="25%" align="left" style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400; line-height: 24px; padding: 5px 10px;">
+                                                Post Graduate Students Conference + 2 Workshops
+                                            </td>
+                                        <%}%>
+                                        
+                                    <%}%>
+                                </tr>
                                 <tr>
                                     <td width="75%" align="left" style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400; line-height: 24px; padding: 5px 10px;">
                                        
