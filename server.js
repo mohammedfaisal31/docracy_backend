@@ -871,7 +871,15 @@ app.get('/send-invoice/:transaction_id', async (req, res, next) => {
       ejs.renderFile((path.join(__dirname),"register-form.ejs"),
         {
           date:getFormattedDate(details.date_of_transaction),
-          name:details.user_name
+          name:details.user_name,
+          phone:details.user_phone,
+          email:details.user_email,
+          age:details.user_age,
+          designation:details.user_designation,
+          institution:details.user_institution,
+          sex:details.user_sex,
+          address: [details.user_address,details.user_city,details.user_state,details.user_pincode].join(", ")
+          
         }
       )
       .then((formHtml)=>{
