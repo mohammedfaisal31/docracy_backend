@@ -875,10 +875,18 @@ app.get('/send-invoice/:transaction_id', async (req, res, next) => {
           phone:details.user_phone,
           email:details.user_email,
           age:details.user_age,
-          designation:details.user_designation,
           institution:details.user_institution,
           sex:details.user_sex,
-          address: [details.user_address,details.user_city,details.user_state,details.user_pincode].join(", ")
+          address: [details.user_address,details.user_city,details.user_state,details.user_pincode].join(", "),
+          package_type:details.package_type,
+          accomodation_type:details.accomodation_type,
+          accompanying_total_amount:details.accompanying_total_amount,
+          check_in_date:details.check_in_date,
+          check_out_date:details.check_out_date,
+          member_type:details.member_type,
+          membership_number:details.membership_number,
+          conference_type:details.conference_type,
+          workshop_titles:JSON.parse(details.workshop_titles),
           
         }
       )

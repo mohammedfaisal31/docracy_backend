@@ -238,10 +238,13 @@ margin-top: 40px;
     
     <div class="centered-table">
     <table >
+      
       <tr>
         <td>Name</td>
         <td><%= name %></td>
       </tr>
+      
+        
       <tr>
         <td>Phone</td>
         <td><%= phone %></td>
@@ -259,10 +262,6 @@ margin-top: 40px;
         <td><%= address %></td>
       </tr>
       <tr>
-        <td>Designation</td>
-        <td><%= designation %></td>
-      </tr>
-      <tr>
         <td>Institution</td>
         <td><%= institution %></td>
       </tr>
@@ -275,42 +274,140 @@ margin-top: 40px;
     </table>
 
     <table class="package-table">
+      
       <tr>
         <td>Package Type</td>
-        <td><%= name %></td>
+        <% if(package_type == "residential"){%>
+        <td>Residential</td>
+        <%}else{%>
+          <td>Non Residential</td>
+        <%}%>
       </tr>
+      
+      <% if(package_type == "residential" && accomodation_type){%>
       <tr>
         <td>Accommodation Type</td>
-        <td><%= name %></td>
+        <% if(accomodation_type == "single_room"){%>
+        <td>Single room</td>
+        <%}else if(accomodation_type == "twin_room"){%>
+          <td>Twin sharing per person</td>
+        <%}else{%>
+        <td>None</td>
+        <%}%>
       </tr>
+      <%}%>
+      
+      <% if(accompanying_total_amount){%>
       <tr>
         <td>Accommodation For Accompanying Person Required</td>
-        <td><%= name %></td>
+        <td>Yes</td>
       </tr>
+      <%}%>
+      
+      <% if(package_type == "residential" && check_in_date && check_out_date && check_in_date != "null" && check_out_date != "null"){%>
       <tr>
         <td>Check In date</td>
-        <td><%= name %></td>
+        <td><%= check_in_date %></td>
       </tr>
       <tr>
         <td>Check Out date</td>
-        <td><%= name %></td>
+        <td><%= check_out_date %></td>
       </tr>
+      <%}%>
+
       <tr>
         <td>Membership Type</td>
-        <td><%= name %></td>
+        <td>
+          <% if(member_type == "member"){%>
+            Member
+        <%}%>
+        <% if(member_type == "non_member"){%>
+            Non Mmber
+        <%}%>
+        </td>
       </tr>
+      <% if(accompanying_total_amount){%>
       <tr>
         <td>Membership Number</td>
-        <td><%= name %></td>
+        <td><%= membership_number %></td>
       </tr>
+      <%}%>
       <tr>
         <td>Conference</td>
-        <td><%= name %></td>
+        <% if(package_type == "residential"){%>
+          <% if(conference_type == "conference_type_1"){%>
+              <td>
+                  2 nights and 3 days - Conference + 2 Workshops
+              </td>
+          <%}%>
+          <% if(conference_type == "conference_type_2"){%>
+              <td>
+                  2 nights and 3 days - Conference only
+              </td>
+          <%}%>
+          <% if(conference_type == "conference_type_3"){%>
+              <td>
+                  1 nights and 2 days - Conference only
+              </td>
+          <%}%>
+          
+      <%}%>
+      <% if(package_type == "non_residential"){%>
+          <% if(conference_type == "conference_type_1"){%>
+              <td>
+                  Conference only
+              </td>
+          <%}%>
+          <% if(conference_type == "conference_type_2"){%>
+              <td>
+                  Conference + 2 Workshops
+              </td>
+          <%}%>
+          <% if(conference_type == "conference_type_3"){%>
+              <td>
+                  Post Graduate Students Conference + 2 Workshops
+              </td>
+          <%}%>
+          
+      <%}%>
       </tr>
+      <% if(worskshop_titles){%>
       <tr>
         <td>Workshop Titles</td>
-        <td><%= name %></td>
+        <% for(let i = 0; i < worskshop_titles.length; i++) { %>
+          <% if(worskshop_titles[i] == "check1"){%>
+          <td>
+              Insulin Resistance in PCOS,
+          </td>
+          <%}%>
+          <% if(worskshop_titles[i] == "check2"){%>
+            <td>
+              Embryo Biopsy and PGT,
+            </td>
+          <%}%>
+          <% if(worskshop_titles[i] == "check3"){%>
+              <td>
+                Body Image and PCOS,
+              </td>
+          <%}%>
+          <% if(worskshop_titles[i] == "check4"){%>
+                <td>
+                  Ultrasound in PCOS,
+                </td>
+          <%}%>
+          <% if(worskshop_titles[i] == "check5"){%>
+            <td>
+              Vitrification of Oocytes and Embryos,
+            </td>
+        <%}%>
+        <% if(worskshop_titles[i] == "check6"){%>
+          <td>
+            Errors in ART,
+          </td>
+        <%}%>
+      <%}%>
       </tr>
+      <%}%>
     </table>
   </div>
     <div class = "amount-paid">
