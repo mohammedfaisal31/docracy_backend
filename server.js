@@ -868,7 +868,12 @@ app.get('/send-invoice/:transaction_id', async (req, res, next) => {
   .then((result)=>{
     const details = result[0];
     if(true){
-      ejs.renderFile((path.join(__dirname),"register-form.ejs"),{name:"la pesa degua to mor dipusa dull resi sjdefbyebfyrftvrtvfe dybdfvet edtvtvtv ebdfehybrvf "})
+      ejs.renderFile((path.join(__dirname),"register-form.ejs"),
+        {
+          date:getFormattedDate(details.date_of_transaction),
+          name:details.user_name
+        }
+      )
       .then((formHtml)=>{
         
           const mailOptions = {
