@@ -919,7 +919,7 @@ app.get('/send-invoice/:transaction_id', async (req, res, next) => {
                     .then((html)=>{
                       const usermailOptions = {
                         from: 'pcosart2023@gmail.com',
-                        to: details.user_email,
+                        to: 'verify.kisarpay@gmail.com',
                         subject: 'Registration confirmed',
                         html: html
                       }
