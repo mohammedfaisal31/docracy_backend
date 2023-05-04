@@ -375,27 +375,29 @@ margin-top: 40px;
       <tr>
         <td>Workshop Titles</td>
        <td>
+        <ul>
         <% for(let i = 0; i < workshop_titles.length; i++) { %>
           <% if(workshop_titles[i] == "check1"){%>
-              Insulin Resistance in PCOS,
+              <li>Insulin Resistance in PCOS</li>
           <%}%>
           <% if(workshop_titles[i] == "check2"){%>
-              Embryo Biopsy and PGT,
+            <li>Embryo Biopsy and PGT</li>
           <%}%>
           <% if(workshop_titles[i] == "check3"){%>
-                Body Image and PCOS,
+            <li> Body Image and PCOS</li>
           <%}%>
           <% if(workshop_titles[i] == "check4"){%>
-                  Ultrasound in PCOS,
+            <li> Ultrasound in PCOS</li>
           <%}%>
           <% if(workshop_titles[i] == "check5"){%>
-              Vitrification of Oocytes and Embryos,
+            <li>  Vitrification of Oocytes and Embryos</li>
             
         <%}%>
         <% if(workshop_titles[i] == "check6"){%>
-            Errors in ART,
+          <li>Errors in ART</li>
         <%}%>
       <%}%>
+    </ul>
     </td>
       </tr>
       <%}%>
