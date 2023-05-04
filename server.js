@@ -868,7 +868,7 @@ app.get('/send-invoice/:transaction_id', async (req, res, next) => {
   .then((result)=>{
     const details = result[0];
     if(true){
-      ejs.renderFile((path.join(__dirname),"register-form.ejs"),{a:1})
+      ejs.renderFile((path.join(__dirname),"register-form.ejs"),{name:"test"})
       .then((formHtml)=>{
         pdf.create(formHtml).toBuffer((err, buffer) => {
           if (err) {
