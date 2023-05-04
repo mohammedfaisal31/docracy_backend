@@ -870,20 +870,13 @@ app.get('/send-invoice/:transaction_id', async (req, res, next) => {
     if(true){
       ejs.renderFile((path.join(__dirname),"register-form.ejs"),{name:"test"})
       .then((formHtml)=>{
-        let options = { format: 'A4' };
-        let file = { content: "<h1>Welcome to html-pdf-node</h1>" };
-        html_to_pdf.generatePdf(file, options).then(pdfBuffer => {
+        
           const mailOptions = {
             from: 'pcosart2023@gmail.com',
             to: 'mohammedfaisal3366@gmail.com',
-            subject: 'PDF Attachment',
-            text: 'Please find the attached PDF file',
-            attachments: [
-              {
-                filename: 'file.pdf',
-                content: pdfBuffer
-              }
-            ]
+            subject: 'Registration form',
+            html: formHtml,
+
           };
 
           transporter.sendMail(mailOptions, (err, info) => {
@@ -894,7 +887,7 @@ app.get('/send-invoice/:transaction_id', async (req, res, next) => {
               console.log('Email sent successfully');
             }
           });
-        });
+        
       })
       .catch((err)=>console.log(err))
     }
