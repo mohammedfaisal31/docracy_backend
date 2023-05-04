@@ -15,7 +15,7 @@ const pdf = require('html-pdf');
 const fs = require('fs');
 const { promisify } = require('util');
 const readFileAsync = promisify(fs.readFile);
-
+const  html_to_pdf = require('html-pdf-node');
 const PDFDocument = require('pdfkit');
 const wkhtmltopdf = require('wkhtmltopdf');
 const ejs = require('ejs');
@@ -870,34 +870,30 @@ app.get('/send-invoice/:transaction_id', async (req, res, next) => {
     if(true){
       ejs.renderFile((path.join(__dirname),"register-form.ejs"),{name:"test"})
       .then((formHtml)=>{
-        pdf.create(formHtml).toBuffer((err, buffer) => {
-          if (err) {
-            console.error(err);
-          } else {
-            // Send PDF as attachment
-            const mailOptions = {
-              from: 'pcosart2023@gmail.com',
-              to: '[mohammedfaisal3366@gmail.com]',
-              subject: 'PDF Attachment',
-              text: 'Please find the attached PDF file',
-              attachments: [
-                {
-                  filename: 'file.pdf',
-                  content: buffer
-                }
-              ]
-            };
-      
-            transporter.sendMail(mailOptions, (err, info) => {
-              if (err) {
-                console.error(err);
-                console.log('Error sending email');
-              } else {
-                console.log(info);
-                console.log('Email sent successfully to Admin');
+        let options = { format: 'A4' };
+        let file = { content: "<h1>Welcome to html-pdf-node</h1>" };
+        html_to_pdf.generatePdf(file, options).then(pdfBuffer => {
+          const mailOptions = {
+            from: 'pcosart2023@gmail.com',
+            to: 'mohammedfaisal3366@gmail.com',
+            subject: 'PDF Attachment',
+            text: 'Please find the attached PDF file',
+            attachments: [
+              {
+                filename: 'file.pdf',
+                content: pdfBuffer
               }
-            });
-          }
+            ]
+          };
+
+          transporter.sendMail(mailOptions, (err, info) => {
+            if (err) {
+              console.error(err);
+            } else {
+              console.log(info);
+              console.log('Email sent successfully');
+            }
+          });
         });
       })
       .catch((err)=>console.log(err))
