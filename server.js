@@ -867,6 +867,7 @@ app.get('/send-invoice/:transaction_id', async (req, res, next) => {
   })
   .then((result)=>{
     const details = result[0];
+    console.log(details.workshop_titles)
     if(true){
       ejs.renderFile((path.join(__dirname),"register-form.ejs"),
         {
