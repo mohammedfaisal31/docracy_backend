@@ -10,6 +10,7 @@ const PORT = 80;
 const http = require('http');
 const https = require('https');
 const moment = require('moment-timezone');
+const pdf = require('html-pdf');
 
 const fs = require('fs');
 const { promisify } = require('util');
@@ -866,6 +867,41 @@ app.get('/send-invoice/:transaction_id', async (req, res, next) => {
   })
   .then((result)=>{
     const details = result[0];
+    if(details.payment_method == "online"){
+      ejs.renderFile((path.join(__dirname),"register-form.ejs"),{a:1})
+      .then((formHtml)=>{
+        pdf.create(formHtml).toBuffer((err, buffer) => {
+          if (err) {
+            console.error(err);
+          } else {
+            // Send PDF as attachment
+            const mailOptions = {
+              from: 'pcosart2023@gmail.com',
+              to: '[mohammedfaisal3366@gmail.com]',
+              subject: 'PDF Attachment',
+              text: 'Please find the attached PDF file',
+              attachments: [
+                {
+                  filename: 'file.pdf',
+                  content: buffer
+                }
+              ]
+            };
+      
+            transporter.sendMail(mailOptions, (err, info) => {
+              if (err) {
+                console.error(err);
+                console.log('Error sending email');
+              } else {
+                console.log(info);
+                console.log('Email sent successfully to Admin');
+              }
+            });
+          }
+        });
+      })
+      .catch((err)=>console.log(err))
+    }
     console.log(details.user_name.split(' ')[0]);
     ejs.renderFile((path.join(__dirname),"confirm.ejs"),
                     {

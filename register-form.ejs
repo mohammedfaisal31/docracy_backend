@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Invoice Template</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+      }
+      table,
+      tr,
+      td {
+        vertical-align: top;
+        border-collapse: collapse;
+      }
+      p {
+        margin: 0;
+      }
+      .invoice-header {
+        background-color: rgb(216, 74, 94);
+        color: #fff;
+        padding: 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      .invoice-header h1 {
+        margin: 0;
+        font-size: 32px;
+        text-transform: uppercase;
+        letter-spacing: 3px;
+      }
+      .invoice-header p {
+        margin: 0;
+        font-size: 14px;
+        line-height: 1.5;
+      }
+      .invoice-header .logo {
+        height: 80px;
+      }
+      .invoice-header .logo img {
+        max-height: 100%;
+      }
+      .invoice-header .contact {
+        flex: 1;
+        text-align: right;
+        margin-left: 20px;
+      }
+      .invoice-header .contact h2 {
+        margin: 0;
+        font-size: 22px;
+        line-height: 1.5;
+      }
+      .invoice-header .contact p {
+        margin: 0;
+        font-size: 14px;
+        line-height: 1.5;
+      }
+      .invoice-details {
+        background-color: #f1f1f1;
+        padding: 20px;
+        display: flex;
+        justify-content: space-between;
+      }
+      .invoice-details .details-left {
+        flex: 1;
+      }
+      .invoice-details .details-right {
+        flex: 1;
+        text-align: right;
+      }
+      .invoice-details h2 {
+        margin: 0;
+        font-size: 22px;
+        line-height: 1.5;
+        color: #1c528e;
+      }
+      .invoice-details p {
+        margin: 0;
+        font-size: 14px;
+        line-height: 1.5;
+      }
+      .invoice-details .invoice-number {
+        margin-bottom: 10px;
+      }
+      .invoice-details .due-date {
+        margin-bottom: 10px;
+      }
+      .invoice-details .payment-method {
+        margin-bottom: 10px;
+      }
+      .centered-table {
+        margin: 0 auto;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: row;
+      }
+      .centered-table td {
+        padding: 10px;
+        border: 1px solid #ddd;
+      }
+      .centered-table td:first-child {
+        font-weight: bold;
+        width: 150px;
+      }
+      .centered-table td:last-child {
+        text-align: center;
+        width: 100px;
+      }
+      .invoice-items {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0;
+       
+      }
+      .invoice-items th {
+        background-color: #f1f1f1;
+        border: 1px solid #ddd;
+        text-align: left;
+        padding: 8px;
+        font-size: 14px;
+        color: #333;
+        font-weight: normal;
+      }
+      .invoice-items td {
+        border: 1px solid #ddd;
+        text-align: left;
+        padding: 8px;
+        font-size: 14px;
+        color: #333;
+      }
+.invoice-items .description-col {
+width: 50%;
+}
+.invoice-items .total-col {
+text-align: right;
+}
+.invoice-total {
+margin-top: 20px;
+display: flex;
+justify-content: flex-end;
+align-items: center;
+}
+.invoice-total .label {
+font-size: 16px;
+font-weight: bold;
+margin-right: 10px;
+color: #333;
+}
+.invoice-total .value {
+font-size: 16px;
+font-weight: bold;
+color: #1c528e;
+}
+.invoice-footer {
+background-color: rgb(216, 74, 94);
+color: #fff;
+padding: 20px;
+text-align: center;
+}
+.invoice-footer p {
+margin: 0;
+font-size: 14px;
+line-height: 1.5;
+}
+/* Media Queries */
+@media only screen and (max-width: 767px) {
+.invoice-header {
+flex-wrap: wrap;
+
+}
+.invoice-header .logo {
+height: auto;
+margin-bottom: 20px;
+}
+.invoice-header .contact {
+margin-left: 0;
+text-align: center;
+}
+.invoice-details {
+flex-wrap: wrap;
+}
+.invoice-details .details-left {
+margin-bottom: 20px;
+}
+.invoice-details .details-right {
+text-align: left;
+}
+.invoice-items .description-col {
+width: 100%;
+}
+.invoice-total {
+justify-content: flex-start;
+margin-top: 40px;
+}
+
+
+}
+.centered-header{
+  text-align: center;
+}
+.amount-paid{
+  padding : 5% 5% 5% 5%;
+}
+</style>
+
+  </head>
+  <body>
+    <div class="invoice-header">
+      <div class="centered-header">
+        <h4>THE PCOS SOCIETY</h4>
+        <h4>Online registration details</h4>
+        
+      </div>
+      
+    </div>
+    <div class="invoice-details">
+      <div class="details-left">
+        <h2>Form</h2>
+        <p class="invoice-number">Online registration</p>
+        <p class="due-date">Registration date: February 1, 2023</p>
+      </div>
+      <div class="details-right">
+        <p class="payment-method"></p>
+      </div>
+    </div>
+    
+    <div class="centered-table">
+    <table >
+      <tr>
+        <td>Name</td>
+        <td><%= name %></td>
+      </tr>
+      <tr>
+        <td>Phone</td>
+        <td><%= name %></td>
+      </tr>
+      <tr>
+        <td>Email</td>
+        <td><%= name %></td>
+      </tr>
+      <tr>
+        <td>Age</td>
+        <td><%= name %></td>
+      </tr>
+      <tr>
+        <td>Complete Address</td>
+        <td><%= name %></td>
+      </tr>
+      <tr>
+        <td>Designation</td>
+        <td><%= name %></td>
+      </tr>
+      <tr>
+        <td>Institution</td>
+        <td><%= name %></td>
+      </tr>
+      <tr>
+        <td>Sex</td>
+        <td><%= name %></td>
+      </tr>
+      
+      
+    </table>
+
+    <table style="margin-left: 5%;">
+      <tr>
+        <td>Package Type</td>
+        <td><%= name %></td>
+      </tr>
+      <tr>
+        <td>Accommodation Type</td>
+        <td><%= name %></td>
+      </tr>
+      <tr>
+        <td>Accommodation For Accompanying Person Required</td>
+        <td><%= name %></td>
+      </tr>
+      <tr>
+        <td>Check In date</td>
+        <td><%= name %></td>
+      </tr>
+      <tr>
+        <td>Check Out date</td>
+        <td><%= name %></td>
+      </tr>
+      <tr>
+        <td>Membership Type</td>
+        <td><%= name %></td>
+      </tr>
+      <tr>
+        <td>Membership Number</td>
+        <td><%= name %></td>
+      </tr>
+      <tr>
+        <td>Conference</td>
+        <td><%= name %></td>
+      </tr>
+      <tr>
+        <td>Workshop Titles</td>
+        <td><%= name %></td>
+      </tr>
+    </table>
+  </div>
+    <div class = "amount-paid">
+    <p style="margin-bottom: 2%;">Amount paid</p>
+      <table class="invoice-items">
+      <thead>
+        <tr>
+          <th class="description-col">Description</th>
+          <th>Price</th>
+          <th>GST</th>
+          <th class="total-col">Total</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="description-col">Example Item</td>
+          <td>$100.00</td>
+          <td>$100.00</td>
+          <td class="total-col">$100.00</td>
+        </tr>
+        <tr>
+          <td class="description-col">Example Item 2</td>
+          <td>$50.00</td>
+          <td>$50.00</td>
+          <td class="total-col">$100.00</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="invoice-total">
+      <div class="label">Total:</div>
+      <div class="value">$200.00</div>
+    </div>
+  </div>
+    <div class="invoice-footer">
+      <p>End of the form</p>
+    </div>
+  </body>
+</html>
