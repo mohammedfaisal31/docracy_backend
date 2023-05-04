@@ -373,7 +373,7 @@ margin-top: 40px;
       </tr>
       <% if(workshop_titles){%>
       <tr>
-        <td><%= workshop_titles %></td>
+        <td>Workshop Titles</td>
        <td>
         <ul>
         <% for(let i = 0; i < workshop_titles.length; i++) { %>
@@ -416,10 +416,10 @@ margin-top: 40px;
       </thead>
       <tbody>
         <tr>
-          <td class="description-col">Example Item</td>
-          <td>$100.00</td>
-          <td>$100.00</td>
-          <td class="total-col">$100.00</td>
+          <td class="description-col">Package</td>
+          <td><%= amount_paid_without_gst %></td>
+          <td><%= gst_amount %></td>
+          <td class="total-col"><%= total_amount_paid %></td>
         </tr>
         <tr>
           <td class="description-col">Example Item 2</td>
