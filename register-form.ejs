@@ -421,12 +421,14 @@ margin-top: 40px;
           <td><%= gst_amount %></td>
           <td class="total-col"><%= total_amount_paid %></td>
         </tr>
+        <% if(accompanying_total_amount){%>
         <tr>
-          <td class="description-col">Example Item 2</td>
-          <td>$50.00</td>
-          <td>$50.00</td>
-          <td class="total-col">$100.00</td>
+          <td class="description-col">Additional Accommodation for Accompanying person</td>
+          <td><%= accompanying_amount_without_gst %></td>
+          <td><%= accompanying_gst_amount %></td>
+          <td class="total-col"><%= accompanying_total_amount %></td>
         </tr>
+        <%}%>
       </tbody>
     </table>
     <div class="invoice-total">
