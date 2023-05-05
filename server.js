@@ -885,7 +885,7 @@ app.get('/send-invoice/:transaction_id', async (req, res, next) => {
           check_in_date:details.check_in_date,
           check_out_date:details.check_out_date,
           member_type:details.member_type,
-          membership_number:details.membership_number,
+          membership_number:details.user_membership_number,
           conference_type:details.conference_type,
           workshop_titles:JSON.parse(details.workshop_titles),
           amount_paid_without_gst : formatINR(parseInt(parseInt(details.amount) * 100/118)),
