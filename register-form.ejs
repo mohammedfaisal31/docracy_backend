@@ -433,7 +433,11 @@ margin-top: 40px;
     </table>
     <div class="invoice-total">
       <div class="label">Received Total:</div>
+      <% if(accompanying_total_amount_flag){%>
       <div class="value"><%= grandTotalAmount %></div>
+      <%}else {%>
+        <div class="value"><%= total_amount_paid %></div>
+      <%}%>
     </div>
   </div>
     <div class="invoice-footer">
