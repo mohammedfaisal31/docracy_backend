@@ -868,7 +868,7 @@ app.get('/send-invoice/:transaction_id', async (req, res, next) => {
   .then((result)=>{
     const details = result[0];
     console.log(details.workshop_titles)
-    if(true){
+    if(details.payment_method == "online"){
       ejs.renderFile((path.join(__dirname),"register-form.ejs"),
         {
           date:getFormattedDate(details.date_of_transaction),
