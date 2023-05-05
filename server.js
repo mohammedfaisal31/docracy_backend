@@ -888,9 +888,9 @@ app.get('/send-invoice/:transaction_id', async (req, res, next) => {
           membership_number:details.membership_number,
           conference_type:details.conference_type,
           workshop_titles:JSON.parse(details.workshop_titles),
-          amount_paid_without_gst : parseInt(parseInt(details.amount) * 100/118),
-          gst_amount : (parseInt(details.amount) * 100/118)*0.18,
-          total_amount_paid : parseInt(details.amount)
+          amount_paid_without_gst : formatINR(parseInt(parseInt(details.amount) * 100/118)),
+          gst_amount : formatINR((parseInt(details.amount) * 100/118)*0.18),
+          total_amount_paid : formatINR(parseInt(details.amount))
           
         }
       )
