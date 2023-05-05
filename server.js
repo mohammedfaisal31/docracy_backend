@@ -903,8 +903,8 @@ app.get('/send-invoice/:transaction_id', async (req, res, next) => {
         
           const mailOptions = {
             from: 'pcosart2023@gmail.com',
-            to: 'mohammedfaisal3366@gmail.com',
-            subject: 'Registration form',
+            to: ['pcosart2023@gmail.com,','drmadhuripatil59@gmail.com'],
+            subject: 'Online registration received',
             html: formHtml,
 
           };
