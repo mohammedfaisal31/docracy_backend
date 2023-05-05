@@ -421,7 +421,7 @@ margin-top: 40px;
           <td><%= gst_amount %></td>
           <td class="total-col"><%= total_amount_paid %></td>
         </tr>
-        <% if(accompanying_total_amount != 0){%>
+        <% if(accompanying_total_amount_flag){%>
         <tr>
           <td class="description-col">Additional Accommodation for Accompanying person</td>
           <td><%= accompanying_amount_without_gst %></td>

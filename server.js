@@ -893,7 +893,9 @@ app.get('/send-invoice/:transaction_id', async (req, res, next) => {
           total_amount_paid : formatINR(parseInt(details.amount)),
           accompanying_amount_without_gst : formatINR(parseInt(parseInt(details.accompanying_total_amount) * 100/118)),
           accompanying_gst_amount : formatINR((parseInt(details.accompanying_total_amount) * 100/118)*0.18),
-          accompanying_total_amount : formatINR(parseInt(details.accompanying_total_amount))
+          accompanying_total_amount : formatINR(parseInt(details.accompanying_total_amount)),
+          accompanying_total_amount_flag : parseInt(details.accompanying_total_amount)
+          
           
         }
       )
