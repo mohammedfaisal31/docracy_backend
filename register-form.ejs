@@ -269,7 +269,12 @@ margin-top: 40px;
         <td>Sex</td>
         <td><%= sex %></td>
       </tr>
-      
+      <% if(mc_number){%>
+      <tr>
+        <td>Medical Council Number</td>
+        <td><%= mc_number %></td>
+      </tr>
+      <%}%>
       
     </table>
 
