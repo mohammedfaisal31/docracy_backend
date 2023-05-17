@@ -566,6 +566,7 @@ const non_residential_rate_card =  {
 	else if (date > date_point_3) date_range = "date_range_4"
 	else date_range = ""
 	console.log(pack);
+  console.log(date_range);
   const accompanying_person_type_1 =  {
     accompanying_title : "11000 + 18% GST",
     accompanying_amount_without_gst: 11000,
