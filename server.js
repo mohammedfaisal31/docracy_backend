@@ -596,6 +596,7 @@ const non_residential_rate_card =  {
       
     }
     else if (pack.accompanying_person_enabled === "not_needed"){
+      console.log(residential_rate_card[pack.package_type][pack.member_type][pack.conference_type][date_range][pack.accomodation_type]);
       res.send(residential_rate_card[pack.package_type][pack.member_type][pack.conference_type][date_range][pack.accomodation_type])
     }
     else res.send("BAD")
