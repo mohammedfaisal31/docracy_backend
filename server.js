@@ -559,6 +559,8 @@ const non_residential_rate_card =  {
 	const date_point_2 = new Date("05/15/2023");
 	const date_point_3 = new Date("06/07/2023");
 	
+  
+
 	let date_range = "";
 	if(date <= date_point_1) date_range = "date_range_1"
 	else if (date > date_point_1 && date <= date_point_2) date_range = "date_range_2"
@@ -602,7 +604,16 @@ const non_residential_rate_card =  {
     else res.send("BAD")
   }
 	else{
-    res.send(non_residential_rate_card[pack.package_type][pack.member_type][pack.conference_type][date_range])
+    if(pack.package_type == "non_residential" && pack.conference_type == "conference_type_4"){
+      res.send({
+        "title": "9000 + 18% GST",
+        "amount_without_gst": 9000,
+        "gst_amount": 1620,
+        "total_amount": 10620,
+        "purpose":"Opted for Workshops only"
+      })
+    }
+    else res.send(non_residential_rate_card[pack.package_type][pack.member_type][pack.conference_type][date_range])
   } 
     
     
