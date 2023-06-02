@@ -606,10 +606,10 @@ const non_residential_rate_card =  {
 	else{
     if(pack.package_type == "non_residential" && pack.conference_type == "conference_type_4"){
       res.send({
-        "title": "9000 + 18% GST",
-        "amount_without_gst": 9000,
-        "gst_amount": 1620,
-        "total_amount": 10620,
+        "title": "7627 + 18% GST",
+        "amount_without_gst": 7627,
+        "gst_amount": 1372.86,
+        "total_amount": 8999.86,
         "purpose":"Opted for Workshops only"
       })
     }
