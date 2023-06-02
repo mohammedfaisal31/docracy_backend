@@ -659,15 +659,15 @@ app.post('/api/createPayment', (req, res) => {
     data.webhook_url = "/webhook";
   
   
-  
-    InstaMojo.createPayment(data, function(error, response) {
-      if (error) {
-      res.send("BAD")
-      } else {
-      res.send(response);
-      console.log(response);
-      }
-   });
+  console.log("Total amount =" +  grandTotalAmount)
+  //   InstaMojo.createPayment(data, function(error, response) {
+  //     if (error) {
+  //     res.send("BAD")
+  //     } else {
+  //     res.send(response);
+  //     console.log(response);
+  //     }
+  //  });
   
     })
    .catch((err)=>{console.log(err)})
