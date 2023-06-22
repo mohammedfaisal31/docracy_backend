@@ -67,6 +67,16 @@ const transporter = nodemailer.createTransport({
 app.get("/api/randomNumber",(req,res)=>{
     res.json({number:getRandomInt(20, 100)})
 })
+app.get('/.well-known/acme-challenge/:fileName', (req, res) => {
+	res.setHeader('content-type', 'text/plain');
+	// Use fs.readFile() method to read the file
+	res.send(fs.readFile(__dirname + '/.well-known/acme-challenge/' + req.params.fileName, 'utf8', function(err, data){
+      
+		// Display the file content
+		return data;
+	}));
+	
+});
 // Starting both http & https servers
 const httpServer = http.createServer(app);
 const httpsServer = https.createServer(credentials, app);
