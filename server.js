@@ -12,7 +12,6 @@ const fs = require('fs');
 const privateKey = fs.readFileSync('/etc/letsencrypt/live/kisargo.ml/privkey.pem', 'utf8');
 const certificate = fs.readFileSync('/etc/letsencrypt/live/kisargo.ml/cert.pem', 'utf8');
 const ca = fs.readFileSync('/etc/letsencrypt/live/kisargo.ml/fullchain.pem', 'utf8');
-const PdfPrinter = require('pdfmake/src/printer');
 const credentials = {
 	key: privateKey,
 	cert: certificate,
@@ -20,12 +19,12 @@ const credentials = {
 };
 
 
-const con = mysql.createConnection({
+const connectionConfig  = {
   host: "localhost",
   user: "root",
   password: "65109105@mysql",
   database: "docracy"
-});
+};
 
 con.connect((err)=> {
 		if(err) console.log(err)
@@ -38,8 +37,16 @@ app.use(bodyParser.json());
 app.use(cors());
 
 
-app.get("/api/randomNumber",(req,res)=>{
-    res.json({number:getRandomInt(20, 100)})
+app.post("/api/login", async (req,res)=>{
+    const email = req.body.email;
+	const password = req.body.password;
+	try {
+		const stored_password = await executeQuery(`SELECT password from voter_credentials WHERE voter_id = (SELECT voter_id from voters WHERE email = ${email})`);
+		console.log(stored_password);
+	  } catch (error) {
+		console.log(error);
+	  }
+	
 })
 app.get('/.well-known/acme-challenge/:fileName', (req, res) => {
 	res.setHeader('content-type', 'text/plain');
@@ -65,3 +72,14 @@ httpsServer.listen(443, () => {
 
 
 
+// Async function for executing the SELECT query
+async function executeQuery(sql) {
+	try {
+	  const connection = await mysql.createConnection(connectionConfig);
+	  const [rows, fields] = await connection.execute(sql);
+	  return rows;
+	} catch (error) {
+	  console.error('Error executing query:', error);
+	  throw error;
+	}
+  }
