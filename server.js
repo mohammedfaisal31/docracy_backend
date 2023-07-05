@@ -6,6 +6,7 @@ const mysql = require("mysql2/promise");
 const PORT = 80;
 const http = require("http");
 const https = require("https");
+const bcrypt = require('bcrypt');
 
 const fs = require("fs");
 // Certificate
