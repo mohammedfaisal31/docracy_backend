@@ -19,17 +19,16 @@ const credentials = {
 };
 
 
-const connectionConfig  = {
-  host: "localhost",
-  user: "root",
-  password: "65109105@mysql",
-  database: "docracy"
-};
+// MySQL connection pool configuration
+const pool = mysql.createPool({
+	host: 'localhost',
+	user: 'root',
+	password: '65109105@mysql',
+	database: 'docracy',
+	connectionLimit: 10, // Set the maximum number of connections
+  });
 
-con.connect((err)=> {
-		if(err) console.log(err)
-		else console.log("Connected to database")
-})
+
 app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use(bodyParser.json());
@@ -75,8 +74,9 @@ httpsServer.listen(443, () => {
 // Async function for executing the SELECT query
 async function executeQuery(sql) {
 	try {
-	  const connection = await mysql.createConnection(connectionConfig);
-	  const [rows, fields] = await connection.execute(sql);
+		const connection = await pool.getConnection();
+		const [rows, fields] = await connection.execute(sql);
+		connection.release(); // Release the connection back to the pool
 	  return rows;
 	} catch (error) {
 	  console.error('Error executing query:', error);
