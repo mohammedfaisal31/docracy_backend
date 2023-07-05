@@ -53,17 +53,14 @@ app.post("/api/login", async (req, res) => {
     const stored_password = result_rows[0].password;
     bcrypt.compare(password, stored_password, (err, result) => {
       if (err) {
-        // Handle the error
-        console.error("Error comparing passwords:", err);
+        res.status(500).send('COMPARE_ERR');
         return;
       }
 
       if (result) {
-        // Passwords match
-        console.log("Passwords match");
+		res.status(200).send("LOGIN_SUCCESS")
       } else {
-        // Passwords do not match
-        console.log("Passwords do not match");
+        res.status(401).send('CREDENTIAL_ERR');
       }
     });
   } catch (error) {
