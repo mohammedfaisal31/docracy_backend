@@ -40,7 +40,7 @@ app.post("/api/login", async (req,res)=>{
     const email = req.body.email;
 	const password = req.body.password;
 	try {
-		const stored_password = await executeQuery(`SELECT password from voter_credentials WHERE voter_id = (SELECT voter_id from voters WHERE email = ${email})`);
+		const stored_password = await executeQuery(`SELECT password from voter_credentials WHERE voter_id = (SELECT voter_id from voters WHERE email = '${email})'`);
 		console.log(stored_password);
 	  } catch (error) {
 		console.log(error);
