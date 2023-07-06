@@ -97,7 +97,7 @@ app.get('/api/user-data', authenticateToken, async (req, res) => {
   // You can access the authenticated user's information from the request object
   const { email } = req.email;
   try {
-    let result_rows = await executeQuery(
+    var result_rows = await executeQuery(
       `SELECT first_name,last_name from voters WHERE = '${email}'`
     );
     console.log(result_rows);
