@@ -93,20 +93,20 @@ app.get('/api/verify-token', (req, res) => {
 });
 
 // Protected route
-app.get('/api/protected-data', authenticateToken, (req, res) => {
+app.get('/api/user-data', authenticateToken, async (req, res) => {
   // You can access the authenticated user's information from the request object
   const { email } = req.email;
-  console.log(email);
+  try {
+    const result_rows = await executeQuery(
+      `SELECT first_name,last_name from voters WHERE = '${email}'`
+    );
+    console.log(result_rows);
+  }
+   catch(err){
+    console.log(err)
+  }
   
-  // Query the database or perform any other necessary operations to fetch the data
-  const data = [
-    { id: 1, name: 'Example 1' },
-    { id: 2, name: 'Example 2' },
-    // ...
-  ];
-  
-  // Send the fetched data to the client
-  res.json(data);
+  res.json({result_rows});
 });
 app.get("/.well-known/acme-challenge/:fileName", (req, res) => {
   res.setHeader("content-type", "text/plain");
