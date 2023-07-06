@@ -6,8 +6,8 @@ const mysql = require("mysql2/promise");
 const PORT = 80;
 const http = require("http");
 const https = require("https");
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 
 const fs = require("fs");
 // Certificate
@@ -45,7 +45,7 @@ app.use(bodyParser.json());
 app.use(cors());
 
 // Secret key used to sign and verify JWT tokens
-const secretKey = 'docracy';
+const secretKey = "docracy";
 
 app.post("/api/login", async (req, res) => {
   const email = req.body.email;
@@ -57,15 +57,15 @@ app.post("/api/login", async (req, res) => {
     const stored_password = result_rows[0].password;
     bcrypt.compare(password, stored_password, (err, result) => {
       if (err) {
-        res.status(500).send('COMPARE_ERR');
+        res.status(500).json({ err: "COMPARE_ERR" });
         return;
       }
 
       if (result) {
-        const token = jwt.sign({ email }, secretKey, { expiresIn: '1h' });
+        const token = jwt.sign({ email }, secretKey, { expiresIn: "1h" });
         res.status(200).json({ token });
       } else {
-        res.status(401).send('CREDENTIAL_ERR');
+        res.status(401).json({ err: "CREDENTIAL_ERR" });
       }
     });
   } catch (error) {
