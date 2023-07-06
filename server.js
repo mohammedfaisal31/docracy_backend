@@ -98,7 +98,7 @@ app.get('/api/user-data', authenticateToken, async (req, res) => {
   const { email } = req.email;
   try {
     var result_rows = await executeQuery(
-      `SELECT first_name,last_name from voters WHERE = '${email}'`
+      `SELECT first_name,last_name from voters WHERE email = '${email}'`
     );
     console.log(result_rows);
   }
