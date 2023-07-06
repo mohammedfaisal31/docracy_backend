@@ -62,7 +62,7 @@ app.post("/api/login", async (req, res) => {
       }
 
       if (result) {
-        const token = jwt.sign({ username }, secretKey, { expiresIn: '1h' });
+        const token = jwt.sign({ email }, secretKey, { expiresIn: '1h' });
         res.status(200).json({ token });
       } else {
         res.status(401).send('CREDENTIAL_ERR');
