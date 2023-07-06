@@ -72,6 +72,24 @@ app.post("/api/login", async (req, res) => {
     console.log(error);
   }
 });
+
+app.get('/verify-token', (req, res) => {
+  const token = req.headers.authorization?.split(' ')[1];
+
+  if (!token) {
+    return res.sendStatus(401);
+  }
+
+  try {
+    // Verify the token
+    const decoded = jwt.verify(token, secretKey);
+    console.log(decoded);
+    res.sendStatus(200);
+  } catch (error) {
+    console.error('Token verification failed:', error);
+    res.sendStatus(401);
+  }
+});
 app.get("/.well-known/acme-challenge/:fileName", (req, res) => {
   res.setHeader("content-type", "text/plain");
   // Use fs.readFile() method to read the file
