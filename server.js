@@ -97,16 +97,16 @@ app.get('/api/user-data', authenticateToken, async (req, res) => {
   // You can access the authenticated user's information from the request object
   const { email } = req.email;
   try {
-    var result_rows = await executeQuery(
+    let result_rows = await executeQuery(
       `SELECT first_name,last_name from voters WHERE email = '${email}'`
     );
-    console.log(result_rows);
+    var userData = result_rows[0]; 
   }
    catch(err){
     console.log(err)
   }
   
-  res.json({result_rows});
+  res.json(userData);
 });
 app.get("/.well-known/acme-challenge/:fileName", (req, res) => {
   res.setHeader("content-type", "text/plain");
