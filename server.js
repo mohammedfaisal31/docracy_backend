@@ -91,6 +91,23 @@ app.get('/api/verify-token', (req, res) => {
     res.sendStatus(401);
   }
 });
+
+// Protected route
+app.get('/api/protected-data', authenticateToken, (req, res) => {
+  // You can access the authenticated user's information from the request object
+  const { email } = req.email;
+  console.log(email);
+  
+  // Query the database or perform any other necessary operations to fetch the data
+  const data = [
+    { id: 1, name: 'Example 1' },
+    { id: 2, name: 'Example 2' },
+    // ...
+  ];
+  
+  // Send the fetched data to the client
+  res.json(data);
+});
 app.get("/.well-known/acme-challenge/:fileName", (req, res) => {
   res.setHeader("content-type", "text/plain");
   // Use fs.readFile() method to read the file
@@ -116,6 +133,27 @@ httpServer.listen(PORT, () => {
 httpsServer.listen(443, () => {
   console.log("HTTPS Server running on port 443");
 });
+
+
+// Middleware to authenticate the JWT token
+function authenticateToken(req, res, next) {
+  const token = req.headers.authorization?.split(' ')[1];
+
+  if (!token) {
+    return res.sendStatus(401);
+  }
+
+  try {
+    // Verify the token
+    const decoded = jwt.verify(token, secretKey);
+    // Attach the user information to the request object for later use
+    req.email = decoded;
+    next();
+  } catch (error) {
+    console.error('Token verification failed:', error);
+    res.sendStatus(401);
+  }
+}
 
 // Async function for executing the SELECT query
 async function executeQuery(sql) {
