@@ -19,6 +19,7 @@
     "html-pdf": "^3.0.1",
     "html-to-pdf": "^0.1.11",
     "instamojo-nodejs": "^0.0.5",
+    "jsonwebtoken": "^9.0.1",
     "jsreport-chrome-pdf": "^1.10.0",
     "libphonenumber-js": "^1.10.24",
     "moment-timezone": "^0.5.41",

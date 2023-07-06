@@ -7,6 +7,7 @@ const PORT = 80;
 const http = require("http");
 const https = require("https");
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 
 const fs = require("fs");
 // Certificate
@@ -43,6 +44,9 @@ app.use(bodyParser.json());
 
 app.use(cors());
 
+// Secret key used to sign and verify JWT tokens
+const secretKey = 'docracy';
+
 app.post("/api/login", async (req, res) => {
   const email = req.body.email;
   const password = req.body.password;
@@ -58,7 +62,8 @@ app.post("/api/login", async (req, res) => {
       }
 
       if (result) {
-		res.status(200).send("LOGIN_SUCCESS")
+        const token = jwt.sign({ username }, secretKey, { expiresIn: '1h' });
+        res.status(200).json({ token });
       } else {
         res.status(401).send('CREDENTIAL_ERR');
       }
