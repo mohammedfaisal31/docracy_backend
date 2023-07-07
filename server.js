@@ -108,6 +108,25 @@ app.get('/api/user-data', authenticateToken, async (req, res) => {
   
   res.json(userData);
 });
+
+app.get('/api/getElectionStatus', authenticateToken, async (req, res) => {
+  const currentDate = new Date();
+  const options = { timeZone: 'Asia/Kolkata' };
+  const currentDateInIndia = new Date(currentDate.toLocaleString('en-US', options));
+  const live = isDateInRange(currentDateInIndia)
+  res.json({isLive:live});
+});
+
+function isDateInRange(date) {
+  const startDate = new Date('2023-07-08T00:00:00+05:30'); // Start date: July 8th, 2023, 00:00 IST
+  const endDate = new Date('2023-07-10T23:59:59+05:30'); // End date: July 10th, 2023, 23:59 IST
+
+  // Convert the input date to India timezone
+  const inputDate = new Date(date.toLocaleString('en-US', { timeZone: 'Asia/Kolkata' }));
+
+  return inputDate >= startDate && inputDate <= endDate;
+}
+
 app.get("/.well-known/acme-challenge/:fileName", (req, res) => {
   res.setHeader("content-type", "text/plain");
   // Use fs.readFile() method to read the file
