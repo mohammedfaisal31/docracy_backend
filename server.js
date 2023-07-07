@@ -105,7 +105,7 @@ app.get('/api/user-data', authenticateToken, async (req, res) => {
    catch(err){
     console.log(err)
   }
-  
+  console.log(userData)
   res.json(userData);
 });
 
