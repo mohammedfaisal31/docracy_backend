@@ -114,7 +114,7 @@ app.get('/api/checkIfUserVoted', authenticateToken, async (req, res) => {
   const { email } = req.email;
   try {
     let result_rows = await executeQuery(
-      `SELECT 1 FROM your_table WHERE id = 1 = '${email}'`
+      `SELECT 1 AS result from votes WHERE voter_id = (SELECT voter_id FROM voters WHERE email = '${email}')`
     );
     var userData = result_rows[0]; 
   }
