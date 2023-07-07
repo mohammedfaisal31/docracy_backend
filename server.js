@@ -114,6 +114,7 @@ app.get('/api/getElectionStatus', authenticateToken, async (req, res) => {
   const options = { timeZone: 'Asia/Kolkata' };
   const currentDateInIndia = new Date(currentDate.toLocaleString('en-US', options));
   const live = isDateInRange(currentDateInIndia)
+  console.log({isLive:live});
   res.json({isLive:live});
 });
 
