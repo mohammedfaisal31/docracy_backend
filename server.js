@@ -109,6 +109,21 @@ app.get('/api/user-data', authenticateToken, async (req, res) => {
   res.json(userData);
 });
 
+app.get('/api/checkIfUserVoted', authenticateToken, async (req, res) => {
+  // You can access the authenticated user's information from the request object
+  const { email } = req.email;
+  try {
+    let result_rows = await executeQuery(
+      `SELECT 1 FROM your_table WHERE id = 1 = '${email}'`
+    );
+    var userData = result_rows[0]; 
+  }
+   catch(err){
+    console.log(err)
+  }
+  console.log(userData)
+  res.json(userData);
+});
 app.get('/api/getElectionStatus', authenticateToken, async (req, res) => {
   const currentDate = new Date();
   const options = { timeZone: 'Asia/Kolkata' };
