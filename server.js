@@ -124,6 +124,23 @@ app.get('/api/checkIfUserVoted', authenticateToken, async (req, res) => {
   console.log(userData)
   res.json(userData);
 });
+
+app.get('/api/submitVotes', authenticateToken, async (req, res) => {
+  // You can access the authenticated user's information from the request object
+  const { email } = req.email;
+  const voteData = JSON.parse(req.body);
+  console.log(voteData);
+  // try {
+  //   let result_rows = await executeQuery(
+  //     `INSERT INTO votes VALUES((SELECT voter_id FROM voters WHERE email = '${email}'), )`
+  //   );
+  //   var userData = result_rows[0]; 
+  // }
+  //  catch(err){
+  //   console.log(err)
+  // }
+});
+
 app.get('/api/getElectionStatus', authenticateToken, async (req, res) => {
   const currentDate = new Date();
   const options = { timeZone: 'Asia/Kolkata' };
