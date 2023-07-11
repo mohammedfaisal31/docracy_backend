@@ -234,7 +234,31 @@ app.get("/api/getTotalVotes/:post_id", async (req, res) => {
   console.log(no_of_votes);
   res.json(no_of_votes);
 });
-
+app.get("/api/getAllVotes", async (req, res) => {
+  try {
+    let result_rows = await executeQuery(
+      `SELECT
+      CONCAT(vs.first_name, ' ', vs.last_name) AS voter_name,
+      p.post_name,
+      CONCAT(c.first_name, ' ', c.last_name) AS candidate_name,
+    v.created_at
+  FROM
+      votes v
+  JOIN
+      voters vs ON v.voter_id = vs.voter_id
+  JOIN
+      posts p ON v.post_id = p.post_id
+  JOIN
+      voters c ON v.candidate_id = c.voter_id;
+  `
+    );
+    var result = result_rows;
+  } catch (err) {
+    console.log(err);
+  }
+  console.log(result);
+  res.json(result);
+});
 app.get("/api/getPercentageChangeFromYday/:post_id", async (req, res) => {
   const post_id = req.params.post_id;
   try {
