@@ -219,7 +219,6 @@ app.get('/api/getPercentageChangeFromYday/:post_id', async (req, res) => {
    catch(err){
     console.log(err)
   }
-  console.log(no_of_votes)
   res.json({percentage_change:100});  
 });
 
