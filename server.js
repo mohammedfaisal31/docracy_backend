@@ -214,7 +214,7 @@ app.get("/api/getTotalVotesListPastSevenDays", async (req, res) => {
       voting_date ASC;
   `
     );
-    var results = result_rows[0];
+    var results = result_rows;
   } catch (err) {
     console.log(err);
   }
