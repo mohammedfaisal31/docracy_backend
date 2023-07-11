@@ -140,8 +140,10 @@ app.get('/api/checkIfUserVoted', authenticateToken, async (req, res) => {
 
 app.post('/api/submitVotes', async (req, res) => {
   // You can access the authenticated user's information from the request object
+  const { email } = req.email;
   const voteData = req.body;
-  console.log(voteData);  
+  console.log(voteData);
+  console.log(email);  
   // try {
   //   let result_rows = await executeQuery(
   //     `INSERT INTO votes VALUES((SELECT voter_id FROM voters WHERE email = '${email}'), )`
