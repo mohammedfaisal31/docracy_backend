@@ -152,7 +152,7 @@ app.get('/api/getVotesByPost/:post_id', async (req, res) => {
     console.log(err)
   }
   console.log(no_of_votes)
-  res.json({no_of_votes : no_of_votes});
+  res.json(no_of_votes);
 });
 
 
