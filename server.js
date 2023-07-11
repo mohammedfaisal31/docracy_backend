@@ -192,7 +192,7 @@ app.get('/api/getPast5HoursVotes', async (req, res) => {
     const result_rows = await Promise.all(hour_list.map(async (hour) => {
       const query = `
         SELECT COUNT(*) AS row_count
-        FROM my_table
+        FROM votes
         WHERE created_at > ${hour}
       `;
       const result_row = await executeQuery(query);
