@@ -142,17 +142,22 @@ app.post('/api/submitVotes', authenticateToken, async (req, res) => {
   // You can access the authenticated user's information from the request object
   const { email } = req.email;
   const voteData = JSON.parse(Object.keys(req.body)[0]);
-  console.log(email);  
-   try {
-     let result_rows = await executeQuery(
-       `INSERT INTO votes VALUES((SELECT voter_id FROM voters WHERE email = '${email}'), ${voteData[0].post_id}, ${voteData[0].candidate_id})`
-     );
-     res.json({result:result_rows});
-   }
-    catch(err){
-     console.log(err)
-   }
+  console.log(email);
+
+  try {
+    for (let i = 0; i < voteData.length; i++) {
+      const { post_id, candidate_id } = voteData[i];
+      await executeQuery(
+        `INSERT INTO votes VALUES((SELECT voter_id FROM voters WHERE email = '${email}'), ${post_id}, ${candidate_id})`
+      );
+    }
+    res.json({ success: true });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ error: 'An error occurred while submitting votes' });
+  }
 });
+
 
 app.get('/api/getElectionStatus', authenticateToken, async (req, res) => {
   const currentDate = new Date();
