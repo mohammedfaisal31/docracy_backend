@@ -183,9 +183,9 @@ app.get('/api/getAllNamesByCandidateIdList/', async (req, res) => {
   console.log(candidate_id_list)
   try {
     var result_rows = [];
-    candidate_id_list.map( async (candidate)=>{
+    candidate_id_list.map( async (candidate_id)=>{
       result_rows.push(await executeQuery(
-        `SELECT first_name,last_name FROM candidates WHERE candidate_id = ${candidate.candidate_id}`
+        `SELECT first_name,last_name FROM candidates WHERE candidate_id = ${candidate_id}`
       ))
     })
 
