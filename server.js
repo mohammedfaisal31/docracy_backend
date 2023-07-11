@@ -178,7 +178,7 @@ app.get('/api/getVotesByCandidateId/:post_id/:candidate_id', async (req, res) =>
 
 app.get('/api/getAllNamesByCandidateIdList/', async (req, res) => {
   // You can access the authenticated user's information from the request object
-  const  candidate_id_list  = req.body;
+  const  candidate_id_list  = req.body.candidate_id_list;
   
   console.log(candidate_id_list)
   try {
