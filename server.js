@@ -191,6 +191,21 @@ app.get('/api/getTotalVotes', async (req, res) => {
   console.log(no_of_votes)
   res.json(no_of_votes);
 });
+app.get('/api/getTotalVotes/:post_id', async (req, res) => {
+  const post_id = req.params.post_id;
+  try {
+    let result_rows = await executeQuery(
+      `SELECT COUNT(*) AS no_of_votes FROM votes WHERE post_id = ${post_id}`
+    );
+    var no_of_votes = result_rows[0]; 
+
+  }
+   catch(err){
+    console.log(err)
+  }
+  console.log(no_of_votes)
+  res.json(no_of_votes);
+});
 
 
 app.post('/api/getAllNamesByCandidateIdList/', async (req, res) => {
