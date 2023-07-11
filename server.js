@@ -198,18 +198,37 @@ app.get("/api/getTotalVotes/:post_id", async (req, res) => {
   res.json(no_of_votes);
 });
 
+
 app.get("/api/getPercentageChangeFromYday/:post_id", async (req, res) => {
   const post_id = req.params.post_id;
   try {
-    //let result_rows = await executeQuery(
-    //`SELECT COUNT(*) AS no_of_votes FROM votes WHERE post_id = ${post_id}`
-    //);
-    //var no_of_votes = result_rows[0];
+    let result_rows = await executeQuery(
+      `SELECT 
+      (today_votes.total_votes - yesterday_votes.total_votes) / yesterday_votes.total_votes * 100 AS percentage_difference
+  FROM
+      (SELECT 
+           COUNT(*) AS total_votes
+       FROM 
+           votes
+       WHERE 
+           DATE(created_at) = CURDATE() AND post_id = ${post_id}) AS today_votes,
+      (SELECT 
+           COUNT(*) AS total_votes
+       FROM 
+           votes
+       WHERE 
+           DATE(created_at) = CURDATE() - INTERVAL 1 DAY AND post_id = <value>) AS yesterday_votes;
+  
+  
+  `
+    );
+    var percentage_change = result_rows[0];
   } catch (err) {
     console.log(err);
   }
-  res.json({ percentage_change: 100 });
+  console.log({ percentage_change: percentage_change });
 });
+
 app.get("/api/totalVotesPercentageFromYday", async (req, res) => {
   try {
     let result_rows = await executeQuery(
