@@ -176,36 +176,22 @@ app.get('/api/getVotesByCandidateId/:post_id/:candidate_id', async (req, res) =>
   res.json(no_of_votes);
 });
 
-app.get('/api/getPast5HoursVotes', async (req, res) => {
-  const now = new Date();
-  const fiveHoursAgo = new Date(now.getTime() - (5 * 60 * 60 * 1000));
-
-  const hour_list = [];
-  for (let i = 0; i < 5; i++) {
-    const hour = fiveHoursAgo.getTime() + (i * 60 * 60 * 1000);
-    hour_list.push(hour);
-  }
-
-  console.log(hour_list);
-
+app.get('/api/getTotalVotes', async (req, res) => {
+  
   try {
-    const result_rows = await Promise.all(hour_list.map(async (hour) => {
-      const query = `
-        SELECT COUNT(*) AS row_count
-        FROM votes
-        WHERE created_at > ${hour}
-      `;
-      const result_row = await executeQuery(query);
-      return result_row[0];
-    }));
+    let result_rows = await executeQuery(
+      `SELECT COUNT(*) AS no_of_votes FROM votes`
+    );
+    var no_of_votes = result_rows[0]; 
 
-    console.log(result_rows);
-    res.json(result_rows);
-  } catch (err) {
-    console.log(err);
-    res.status(500).json({ error: 'An error occurred' });
   }
+   catch(err){
+    console.log(err)
+  }
+  console.log(no_of_votes)
+  res.json(no_of_votes);
 });
+
 
 app.post('/api/getAllNamesByCandidateIdList/', async (req, res) => {
   const candidate_id_list = req.body.candidate_id_list;
