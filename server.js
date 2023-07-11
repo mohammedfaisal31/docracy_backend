@@ -226,7 +226,7 @@ app.get("/api/getPercentageChangeFromYday/:post_id", async (req, res) => {
   } catch (err) {
     console.log(err);
   }
-  console.log({ percentage_change: percentage_change });
+  console.log(percentage_change );
 });
 
 app.get("/api/totalVotesPercentageFromYday", async (req, res) => {
