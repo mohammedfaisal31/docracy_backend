@@ -220,7 +220,7 @@ app.get('/api/getPercentageChangeFromYday/:post_id', async (req, res) => {
     console.log(err)
   }
   console.log(no_of_votes)
-  res.json({percentage_change:100});
+  res.json({percentage_change:100});  
 });
 
 app.post('/api/getAllNamesByCandidateIdList/', async (req, res) => {
