@@ -141,18 +141,17 @@ app.get('/api/checkIfUserVoted', authenticateToken, async (req, res) => {
 app.post('/api/submitVotes', authenticateToken, async (req, res) => {
   // You can access the authenticated user's information from the request object
   const { email } = req.email;
-  const voteData = req.body;
-  console.log(Object.keys(voteData)[0]);
+  const voteData = JSON.parse(Object.keys(req.body)[0]);
   console.log(email);  
-  // try {
-  //   let result_rows = await executeQuery(
-  //     `INSERT INTO votes VALUES((SELECT voter_id FROM voters WHERE email = '${email}'), )`
-  //   );
-  //   var userData = result_rows[0]; 
-  // }
-  //  catch(err){
-  //   console.log(err)
-  // }
+   try {
+     let result_rows = await executeQuery(
+       `INSERT INTO votes VALUES((SELECT voter_id FROM voters WHERE email = '${email}'), ${voteData[0].post_id}, ${voteData[0].candidate_id})`
+     );
+     res.json({result:result_rows});
+   }
+    catch(err){
+     console.log(err)
+   }
 });
 
 app.get('/api/getElectionStatus', authenticateToken, async (req, res) => {
