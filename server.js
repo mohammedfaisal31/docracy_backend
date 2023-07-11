@@ -74,8 +74,8 @@ app.post("/api/login", async (req, res) => {
   }
 });
 
-app.get('/api/verify-token', (req, res) => {
-  const token = req.headers.authorization?.split(' ')[1];
+app.get("/api/verify-token", (req, res) => {
+  const token = req.headers.authorization?.split(" ")[1];
 
   if (!token) {
     return res.sendStatus(401);
@@ -87,164 +87,180 @@ app.get('/api/verify-token', (req, res) => {
     console.log(decoded);
     res.sendStatus(200);
   } catch (error) {
-    console.error('Token verification failed:', error);
+    console.error("Token verification failed:", error);
     res.sendStatus(401);
   }
 });
 
 // Protected route
-app.get('/api/user-data', authenticateToken, async (req, res) => {
+app.get("/api/user-data", authenticateToken, async (req, res) => {
   // You can access the authenticated user's information from the request object
   const { email } = req.email;
   try {
     let result_rows = await executeQuery(
       `SELECT first_name,last_name from voters WHERE email = '${email}'`
     );
-    var userData = result_rows[0]; 
+    var userData = result_rows[0];
+  } catch (err) {
+    console.log(err);
   }
-   catch(err){
-    console.log(err)
-  }
-  console.log(userData)
+  console.log(userData);
   res.json(userData);
 });
-app.get('/api/getCandidates', authenticateToken, async (req, res) => {
+app.get("/api/getCandidates", authenticateToken, async (req, res) => {
   try {
-    let result_rows = await executeQuery(
-      `SELECT * from candidates`
-    );
-    var candidates = result_rows; 
+    let result_rows = await executeQuery(`SELECT * from candidates`);
+    var candidates = result_rows;
+  } catch (err) {
+    res.status(500).json("ERROR");
   }
-   catch(err){
-    res.status(500).json("ERROR")
-  }
-  console.log(candidates)
+  console.log(candidates);
   res.json(candidates);
 });
 
-app.get('/api/checkIfUserVoted', authenticateToken, async (req, res) => {
+app.get("/api/checkIfUserVoted", authenticateToken, async (req, res) => {
   // You can access the authenticated user's information from the request object
   const { email } = req.email;
   try {
     let result_rows = await executeQuery(
       `SELECT 1 AS result from votes WHERE voter_id = (SELECT voter_id FROM voters WHERE email = '${email}')`
     );
-    var userData = result_rows[0]; 
+    var userData = result_rows[0];
+  } catch (err) {
+    console.log(err);
   }
-   catch(err){
-    console.log(err)
-  }
-  console.log(userData)
+  console.log(userData);
   res.json(userData);
 });
 
-app.get('/api/getVotesByPost/:post_id', async (req, res) => {
+app.get("/api/getVotesByPost/:post_id", async (req, res) => {
   const post_id = req.params.post_id;
   try {
     let result_rows = await executeQuery(
       `SELECT candidate_id, COUNT(*) AS no_of_votes FROM votes WHERE post_id = ${post_id} GROUP BY candidate_id`
     );
-    const voteCounts = result_rows.map(row => ({
+    const voteCounts = result_rows.map((row) => ({
       candidate_id: row.candidate_id,
-      no_of_votes: row.no_of_votes
+      no_of_votes: row.no_of_votes,
     }));
 
     console.log(voteCounts);
     res.json(voteCounts);
-  } catch(err) {
+  } catch (err) {
     console.log(err);
-    res.status(500).json({ error: 'An error occurred' });
+    res.status(500).json({ error: "An error occurred" });
   }
 });
 
-app.get('/api/getVotesByCandidateId/:post_id/:candidate_id', async (req, res) => {
-  // You can access the authenticated user's information from the request object
-  const  candidate_id  = req.params.candidate_id;
-  const  post_id  = req.params.post_id;
-  
-  try {
-    let result_rows = await executeQuery(
-      `SELECT COUNT(*) AS no_of_votes FROM votes WHERE candidate_id = ${candidate_id} AND post_id = ${post_id}`
-    );
-    var no_of_votes = result_rows[0]; 
+app.get(
+  "/api/getVotesByCandidateId/:post_id/:candidate_id",
+  async (req, res) => {
+    // You can access the authenticated user's information from the request object
+    const candidate_id = req.params.candidate_id;
+    const post_id = req.params.post_id;
 
+    try {
+      let result_rows = await executeQuery(
+        `SELECT COUNT(*) AS no_of_votes FROM votes WHERE candidate_id = ${candidate_id} AND post_id = ${post_id}`
+      );
+      var no_of_votes = result_rows[0];
+    } catch (err) {
+      console.log(err);
+    }
+    console.log(no_of_votes);
+    res.json(no_of_votes);
   }
-   catch(err){
-    console.log(err)
-  }
-  console.log(no_of_votes)
-  res.json(no_of_votes);
-});
+);
 
-app.get('/api/getTotalVotes', async (req, res) => {
-  
+app.get("/api/getTotalVotes", async (req, res) => {
   try {
     let result_rows = await executeQuery(
       `SELECT COUNT(*) AS no_of_votes FROM votes`
     );
-    var no_of_votes = result_rows[0]; 
-
+    var no_of_votes = result_rows[0];
+  } catch (err) {
+    console.log(err);
   }
-   catch(err){
-    console.log(err)
-  }
-  console.log(no_of_votes)
+  console.log(no_of_votes);
   res.json(no_of_votes);
 });
-app.get('/api/getTotalVotes/:post_id', async (req, res) => {
+app.get("/api/getTotalVotes/:post_id", async (req, res) => {
   const post_id = req.params.post_id;
   try {
     let result_rows = await executeQuery(
       `SELECT COUNT(*) AS no_of_votes FROM votes WHERE post_id = ${post_id}`
     );
-    var no_of_votes = result_rows[0]; 
-
+    var no_of_votes = result_rows[0];
+  } catch (err) {
+    console.log(err);
   }
-   catch(err){
-    console.log(err)
-  }
-  console.log(no_of_votes)
+  console.log(no_of_votes);
   res.json(no_of_votes);
 });
 
-app.get('/api/getPercentageChangeFromYday/:post_id', async (req, res) => {
+app.get("/api/getPercentageChangeFromYday/:post_id", async (req, res) => {
   const post_id = req.params.post_id;
   try {
     //let result_rows = await executeQuery(
-      //`SELECT COUNT(*) AS no_of_votes FROM votes WHERE post_id = ${post_id}`
+    //`SELECT COUNT(*) AS no_of_votes FROM votes WHERE post_id = ${post_id}`
     //);
-    //var no_of_votes = result_rows[0]; 
-
+    //var no_of_votes = result_rows[0];
+  } catch (err) {
+    console.log(err);
   }
-   catch(err){
-    console.log(err)
+  res.json({ percentage_change: 100 });
+});
+app.get("/api/totalVotesPercentageFromYday", async (req, res) => {
+  try {
+    let result_rows = await executeQuery(
+      `SELECT 
+      (today_votes.total_votes - yesterday_votes.total_votes) / yesterday_votes.total_votes * 100 AS percentage_difference
+  FROM
+      (SELECT 
+           COUNT(*) AS total_votes
+       FROM 
+           votes
+       WHERE 
+           DATE(created_at) = CURDATE()) AS today_votes,
+      (SELECT 
+           COUNT(*) AS total_votes
+       FROM 
+           votes
+       WHERE 
+           DATE(created_at) = CURDATE() - INTERVAL 1 DAY) AS yesterday_votes;
+  
+  `
+    );
+    var percentage_change = result_rows[0];
+  } catch (err) {
+    console.log(err);
   }
-  res.json({percentage_change:100});  
+  res.json({ percentage_change: percentage_change });
 });
 
-app.post('/api/getAllNamesByCandidateIdList/', async (req, res) => {
+app.post("/api/getAllNamesByCandidateIdList/", async (req, res) => {
   const candidate_id_list = req.body.candidate_id_list;
-  
+
   console.log(candidate_id_list);
   try {
-    const result_rows = await Promise.all(candidate_id_list.map(async (candidate_id) => {
-      const result_row =  await executeQuery(
-        `SELECT first_name, last_name FROM candidates WHERE candidate_id = ${candidate_id}`
-      );
-      return result_row[0];
-    }));
+    const result_rows = await Promise.all(
+      candidate_id_list.map(async (candidate_id) => {
+        const result_row = await executeQuery(
+          `SELECT first_name, last_name FROM candidates WHERE candidate_id = ${candidate_id}`
+        );
+        return result_row[0];
+      })
+    );
 
     console.log(result_rows);
     res.json(result_rows);
-  } catch(err) {
+  } catch (err) {
     console.log(err);
-    res.status(500).json({ error: 'An error occurred' });
+    res.status(500).json({ error: "An error occurred" });
   }
 });
 
-
-
-app.post('/api/submitVotes', authenticateToken, async (req, res) => {
+app.post("/api/submitVotes", authenticateToken, async (req, res) => {
   // You can access the authenticated user's information from the request object
   const { email } = req.email;
   const voteData = JSON.parse(Object.keys(req.body)[0]);
@@ -254,32 +270,35 @@ app.post('/api/submitVotes', authenticateToken, async (req, res) => {
     for (let i = 0; i < voteData.length; i++) {
       const { post_id, candidate_id } = voteData[i];
       await executeQuery(
-        `INSERT INTO votes VALUES((SELECT voter_id FROM voters WHERE email = '${email}'), ${post_id}, ${candidate_id})`
+        `INSERT INTO votes(voter_id, post_id, candidate_id) VALUES((SELECT voter_id FROM voters WHERE email = '${email}'), ${post_id}, ${candidate_id})`
       );
     }
     res.json({ success: true });
   } catch (err) {
     console.log(err);
-    res.status(500).json({ error: 'An error occurred while submitting votes' });
+    res.status(500).json({ error: "An error occurred while submitting votes" });
   }
 });
 
-
-app.get('/api/getElectionStatus', authenticateToken, async (req, res) => {
+app.get("/api/getElectionStatus", authenticateToken, async (req, res) => {
   const currentDate = new Date();
-  const options = { timeZone: 'Asia/Kolkata' };
-  const currentDateInIndia = new Date(currentDate.toLocaleString('en-US', options));
-  const live = isDateInRange(currentDateInIndia)
-  console.log({isLive:live});
-  res.json({isLive:live});
+  const options = { timeZone: "Asia/Kolkata" };
+  const currentDateInIndia = new Date(
+    currentDate.toLocaleString("en-US", options)
+  );
+  const live = isDateInRange(currentDateInIndia);
+  console.log({ isLive: live });
+  res.json({ isLive: live });
 });
 
 function isDateInRange(date) {
-  const startDate = new Date('2023-07-11T00:00:00+05:30'); // Start date: July 8th, 2023, 00:00 IST
-  const endDate = new Date('2023-07-12T23:59:59+05:30'); // End date: July 10th, 2023, 23:59 IST
+  const startDate = new Date("2023-07-11T00:00:00+05:30"); // Start date: July 8th, 2023, 00:00 IST
+  const endDate = new Date("2023-07-12T23:59:59+05:30"); // End date: July 10th, 2023, 23:59 IST
 
   // Convert the input date to India timezone
-  const inputDate = new Date(date.toLocaleString('en-US', { timeZone: 'Asia/Kolkata' }));
+  const inputDate = new Date(
+    date.toLocaleString("en-US", { timeZone: "Asia/Kolkata" })
+  );
 
   return inputDate >= startDate && inputDate <= endDate;
 }
@@ -310,11 +329,10 @@ httpsServer.listen(443, () => {
   console.log("HTTPS Server running on port 443");
 });
 
-
 // Middleware to authenticate the JWT token
 function authenticateToken(req, res, next) {
-  const token = req.headers.authorization?.split(' ')[1];
-  console.log(req.body)
+  const token = req.headers.authorization?.split(" ")[1];
+  console.log(req.body);
   if (!token) {
     return res.sendStatus(401);
   }
@@ -327,7 +345,7 @@ function authenticateToken(req, res, next) {
     req.body = req.body;
     next();
   } catch (error) {
-    console.error('Token verification failed:', error);
+    console.error("Token verification failed:", error);
     res.sendStatus(401);
   }
 }
