@@ -155,12 +155,14 @@ app.get('/api/getVotesByPost/:post_id', async (req, res) => {
   res.json(no_of_votes);
 });
 
-app.get('/api/getVotesByCandidateId/:candidate_id', async (req, res) => {
+app.get('/api/getVotesByCandidateId/:post_id/:candidate_id', async (req, res) => {
   // You can access the authenticated user's information from the request object
   const  candidate_id  = req.params.candidate_id;
+  const  post_id  = req.params.post_id;
+  
   try {
     let result_rows = await executeQuery(
-      `SELECT COUNT(*) AS no_of_votes FROM votes WHERE candidate_id = ${candidate_id}`
+      `SELECT COUNT(*) AS no_of_votes FROM votes WHERE candidate_id = ${candidate_id} AND post_id = ${post_id}`
     );
     var no_of_votes = result_rows[0]; 
 
