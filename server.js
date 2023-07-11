@@ -238,27 +238,33 @@ app.get("/api/getAllVotes", async (req, res) => {
   try {
     let result_rows = await executeQuery(
       `SELECT
-      CONCAT(vs.first_name, ' ', vs.last_name) AS voter_name,
-      p.post_name,
-      CONCAT(c.first_name, ' ', c.last_name) AS candidate_name,
-    v.created_at
-  FROM
-      votes v
-  JOIN
-      voters vs ON v.voter_id = vs.voter_id
-  JOIN
-      posts p ON v.post_id = p.post_id
-  JOIN
-      voters c ON v.candidate_id = c.voter_id;
-  `
+        CONCAT(vs.first_name, ' ', vs.last_name) AS voter_name,
+        p.post_name,
+        CONCAT(c.first_name, ' ', c.last_name) AS candidate_name,
+        UNIX_TIMESTAMP(v.created_at) * 1000 AS created_at_timestamp
+      FROM
+        votes v
+      JOIN
+        voters vs ON v.voter_id = vs.voter_id
+      JOIN
+        posts p ON v.post_id = p.post_id
+      JOIN
+        voters c ON v.candidate_id = c.voter_id;
+    `
     );
-    var result = result_rows;
+    var result = result_rows.map(row => ({
+      ...row,
+      created_at: new Date(row.created_at_timestamp),
+    }));
   } catch (err) {
     console.log(err);
+    res.status(500).json({ error: "An error occurred" });
+    return;
   }
   console.log(result);
   res.json(result);
 });
+
 app.get("/api/getPercentageChangeFromYday/:post_id", async (req, res) => {
   const post_id = req.params.post_id;
   try {
