@@ -138,9 +138,8 @@ app.get('/api/checkIfUserVoted', authenticateToken, async (req, res) => {
   res.json(userData);
 });
 
-app.post('/api/submitVotes', authenticateToken, async (req, res) => {
+app.post('/api/submitVotes', async (req, res) => {
   // You can access the authenticated user's information from the request object
-  const { email } = req.email;
   const voteData = req.body;
   console.log(voteData);  
   // try {
