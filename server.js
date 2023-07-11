@@ -142,7 +142,7 @@ app.post('/api/submitVotes', authenticateToken, async (req, res) => {
   // You can access the authenticated user's information from the request object
   const { email } = req.email;
   const voteData = req.body;
-  console.log(voteData);
+  console.log(voteData);  
   // try {
   //   let result_rows = await executeQuery(
   //     `INSERT INTO votes VALUES((SELECT voter_id FROM voters WHERE email = '${email}'), )`
@@ -213,6 +213,7 @@ function authenticateToken(req, res, next) {
     const decoded = jwt.verify(token, secretKey);
     // Attach the user information to the request object for later use
     req.email = decoded;
+    req.body = req.body;
     next();
   } catch (error) {
     console.error('Token verification failed:', error);
