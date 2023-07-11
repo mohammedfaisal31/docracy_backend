@@ -198,6 +198,41 @@ app.get("/api/getTotalVotes/:post_id", async (req, res) => {
   res.json(no_of_votes);
 });
 
+app.get("/api/getTotalVotesListPastSevenDays", async (req, res) => {
+  try {
+    let result_rows = await executeQuery(
+      `SELECT
+      DATE(created_at) AS voting_date,
+      COUNT(*) AS total_votes
+  FROM
+      votes
+  WHERE
+      DATE(created_at) >= CURDATE() - INTERVAL 6 DAY
+  GROUP BY
+      voting_date
+  ORDER BY
+      voting_date ASC;
+  `
+    );
+    var results = result_rows[0];
+  } catch (err) {
+    console.log(err);
+  }
+  res.json(results);
+});
+app.get("/api/getTotalVotes/:post_id", async (req, res) => {
+  const post_id = req.params.post_id;
+  try {
+    let result_rows = await executeQuery(
+      `SELECT COUNT(*) AS no_of_votes FROM votes WHERE post_id = ${post_id}`
+    );
+    var no_of_votes = result_rows[0];
+  } catch (err) {
+    console.log(err);
+  }
+  console.log(no_of_votes);
+  res.json(no_of_votes);
+});
 
 app.get("/api/getPercentageChangeFromYday/:post_id", async (req, res) => {
   const post_id = req.params.post_id;
@@ -226,7 +261,7 @@ app.get("/api/getPercentageChangeFromYday/:post_id", async (req, res) => {
   } catch (err) {
     console.log(err);
   }
-  res.json(percentage_change );
+  res.json(percentage_change);
 });
 
 app.get("/api/totalVotesPercentageFromYday", async (req, res) => {
