@@ -169,8 +169,8 @@ app.get('/api/getElectionStatus', authenticateToken, async (req, res) => {
 });
 
 function isDateInRange(date) {
-  const startDate = new Date('2023-07-08T00:00:00+05:30'); // Start date: July 8th, 2023, 00:00 IST
-  const endDate = new Date('2023-07-10T23:59:59+05:30'); // End date: July 10th, 2023, 23:59 IST
+  const startDate = new Date('2023-07-11T00:00:00+05:30'); // Start date: July 8th, 2023, 00:00 IST
+  const endDate = new Date('2023-07-12T23:59:59+05:30'); // End date: July 10th, 2023, 23:59 IST
 
   // Convert the input date to India timezone
   const inputDate = new Date(date.toLocaleString('en-US', { timeZone: 'Asia/Kolkata' }));
