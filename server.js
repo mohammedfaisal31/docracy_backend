@@ -143,7 +143,7 @@ app.get('/api/getVotesByPost/:post_id', async (req, res) => {
   const  post_id  = req.params.post_id;
   try {
     let result_rows = await executeQuery(
-      `SELECT COUNT(*) AS no_of_votes FROM votes  WHERE post_id = ${post_id}`
+      `SELECT * FROM votes  WHERE post_id = ${post_id}`
     );
     var no_of_votes = result_rows[0]; 
 
