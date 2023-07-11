@@ -195,7 +195,7 @@ app.get('/api/getPast5HoursVotes', async (req, res) => {
         FROM my_table
         WHERE created_at > ${hour}
       `;
-      const result_row = await connection.query(query);
+      const result_row = await executeQuery(query);
       return result_row[0];
     }));
 
