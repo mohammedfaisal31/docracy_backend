@@ -176,6 +176,37 @@ app.get('/api/getVotesByCandidateId/:post_id/:candidate_id', async (req, res) =>
   res.json(no_of_votes);
 });
 
+app.get('/api/getPast5HoursVotes', async (req, res) => {
+  const now = new Date();
+  const fiveHoursAgo = new Date(now.getTime() - (5 * 60 * 60 * 1000));
+
+  const hour_list = [];
+  for (let i = 0; i < 5; i++) {
+    const hour = fiveHoursAgo.getTime() + (i * 60 * 60 * 1000);
+    hour_list.push(hour);
+  }
+
+  console.log(hour_list);
+
+  try {
+    const result_rows = await Promise.all(hour_list.map(async (hour) => {
+      const query = `
+        SELECT COUNT(*) AS row_count
+        FROM my_table
+        WHERE created_at > ${hour}
+      `;
+      const result_row = await connection.query(query);
+      return result_row[0];
+    }));
+
+    console.log(result_rows);
+    res.json(result_rows);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ error: 'An error occurred' });
+  }
+});
+
 app.post('/api/getAllNamesByCandidateIdList/', async (req, res) => {
   const candidate_id_list = req.body.candidate_id_list;
   
