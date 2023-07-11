@@ -113,7 +113,7 @@ app.get('/api/getCandidates', authenticateToken, async (req, res) => {
     let result_rows = await executeQuery(
       `SELECT * from candidates`
     );
-    var candidates = result_rows[0]; 
+    var candidates = result_rows; 
   }
    catch(err){
     res.status(500).json("ERROR")
