@@ -108,6 +108,19 @@ app.get('/api/user-data', authenticateToken, async (req, res) => {
   console.log(userData)
   res.json(userData);
 });
+app.get('/api/getCandidates', authenticateToken, async (req, res) => {
+  try {
+    let result_rows = await executeQuery(
+      `SELECT * from candidates`
+    );
+    var candidates = result_rows[0]; 
+  }
+   catch(err){
+    res.status(500).json("ERROR")
+  }
+  console.log(candidates)
+  res.json(candidates);
+});
 
 app.get('/api/checkIfUserVoted', authenticateToken, async (req, res) => {
   // You can access the authenticated user's information from the request object
