@@ -176,6 +176,27 @@ app.get('/api/getVotesByCandidateId/:post_id/:candidate_id', async (req, res) =>
   res.json(no_of_votes);
 });
 
+app.get('/api/getAllNamesByCandidateIdList/', async (req, res) => {
+  // You can access the authenticated user's information from the request object
+  const  candidate_id_list  = req.body;
+  
+  
+  try {
+    var result_rows = [];
+    candidate_id_list.map( async (candidate)=>{
+      result_rows.push(await executeQuery(
+        `SELECT first_name,last_name FROM candidated WHERE candidate_id = ${candidate.candidate_id}`
+      ))
+    })
+
+  }
+   catch(err){
+    console.log(err)
+  }
+  console.log(result_rows)
+  res.json(result_rows);
+});
+
 
 app.post('/api/submitVotes', authenticateToken, async (req, res) => {
   // You can access the authenticated user's information from the request object
