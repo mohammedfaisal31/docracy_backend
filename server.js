@@ -180,7 +180,7 @@ app.get('/api/getAllNamesByCandidateIdList/', async (req, res) => {
   // You can access the authenticated user's information from the request object
   const  candidate_id_list  = req.body;
   
-  
+  console.log(candidate_id_list)
   try {
     var result_rows = [];
     candidate_id_list.map( async (candidate)=>{
