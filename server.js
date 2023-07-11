@@ -217,7 +217,7 @@ app.get("/api/getPercentageChangeFromYday/:post_id", async (req, res) => {
        FROM 
            votes
        WHERE 
-           DATE(created_at) = CURDATE() - INTERVAL 1 DAY AND post_id = <value>) AS yesterday_votes;
+           DATE(created_at) = CURDATE() - INTERVAL 1 DAY AND post_id = ${post_id} ) AS yesterday_votes;
   
   
   `
