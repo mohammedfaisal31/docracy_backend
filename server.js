@@ -202,16 +202,17 @@ app.get("/api/getTotalVotesListPastSevenDays", async (req, res) => {
   try {
     let result_rows = await executeQuery(
       `SELECT
-      DATE(created_at) AS voting_date,
+      DAYNAME(created_at) AS voting_day,
       COUNT(*) AS total_votes
   FROM
       votes
   WHERE
       DATE(created_at) >= CURDATE() - INTERVAL 6 DAY
   GROUP BY
-      voting_date
+      voting_day
   ORDER BY
-      voting_date ASC;
+      MIN(created_at) ASC;
+  
   `
     );
     var results = result_rows;
