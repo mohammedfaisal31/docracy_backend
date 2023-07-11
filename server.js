@@ -177,25 +177,24 @@ app.get('/api/getVotesByCandidateId/:post_id/:candidate_id', async (req, res) =>
 });
 
 app.get('/api/getAllNamesByCandidateIdList/', async (req, res) => {
-  // You can access the authenticated user's information from the request object
-  const  candidate_id_list  = req.body.candidate_id_list;
+  const candidate_id_list = req.body.candidate_id_list;
   
-  console.log(candidate_id_list)
+  console.log(candidate_id_list);
   try {
-    var result_rows = [];
-    candidate_id_list.map( async (candidate_id)=>{
-      result_rows.push(await executeQuery(
-        `SELECT first_name,last_name FROM candidates WHERE candidate_id = ${candidate_id}`
-      ))
-    })
+    const result_rows = await Promise.all(candidate_id_list.map(async (candidate_id) => {
+      return await executeQuery(
+        `SELECT first_name, last_name FROM candidates WHERE candidate_id = ${candidate_id}`
+      );
+    }));
 
+    console.log(result_rows);
+    res.json(result_rows);
+  } catch(err) {
+    console.log(err);
+    res.status(500).json({ error: 'An error occurred' });
   }
-   catch(err){
-    console.log(err)
-  }
-  console.log(result_rows)
-  res.json(result_rows);
 });
+
 
 
 app.post('/api/submitVotes', authenticateToken, async (req, res) => {
