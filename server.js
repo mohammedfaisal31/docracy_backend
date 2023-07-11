@@ -139,20 +139,22 @@ app.get('/api/checkIfUserVoted', authenticateToken, async (req, res) => {
 });
 
 app.get('/api/getVotesByPost/:post_id', async (req, res) => {
-  // You can access the authenticated user's information from the request object
-  const  post_id  = req.params.post_id;
+  const post_id = req.params.post_id;
   try {
     let result_rows = await executeQuery(
-      `SELECT * FROM votes  WHERE post_id = ${post_id}`
+      `SELECT candidate_id, COUNT(*) AS no_of_votes FROM votes WHERE post_id = ${post_id} GROUP BY candidate_id`
     );
-    var no_of_votes = result_rows[0]; 
+    const voteCounts = result_rows.map(row => ({
+      candidate_id: row.candidate_id,
+      no_of_votes: row.no_of_votes
+    }));
 
+    console.log(voteCounts);
+    res.json(voteCounts);
+  } catch(err) {
+    console.log(err);
+    res.status(500).json({ error: 'An error occurred' });
   }
-   catch(err){
-    console.log(err)
-  }
-  console.log(no_of_votes)
-  res.json(no_of_votes);
 });
 
 app.get('/api/getVotesByCandidateId/:post_id/:candidate_id', async (req, res) => {
