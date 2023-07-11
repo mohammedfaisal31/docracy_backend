@@ -176,7 +176,7 @@ app.get('/api/getVotesByCandidateId/:post_id/:candidate_id', async (req, res) =>
   res.json(no_of_votes);
 });
 
-app.get('/api/getAllNamesByCandidateIdList/', async (req, res) => {
+app.post('/api/getAllNamesByCandidateIdList/', async (req, res) => {
   const candidate_id_list = req.body.candidate_id_list;
   
   console.log(candidate_id_list);
