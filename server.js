@@ -184,7 +184,7 @@ app.get('/api/getAllNamesByCandidateIdList/', async (req, res) => {
     const result_rows = await Promise.all(candidate_id_list.map(async (candidate_id) => {
       return await executeQuery(
         `SELECT first_name, last_name FROM candidates WHERE candidate_id = ${candidate_id}`
-      );
+      )[0];
     }));
 
     console.log(result_rows);
