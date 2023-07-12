@@ -269,7 +269,7 @@ app.get(
   async (req, res) => {
     const post_id = req.params.post_id;
     try {
-      let result_rows = await executeQuery(
+      var result_rows = await executeQuery(
         `SELECT
       c.candidate_id,
       CONCAT(c.first_name, ' ', c.last_name) AS candidate_fullname,
