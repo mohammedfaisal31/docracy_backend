@@ -448,7 +448,7 @@ app.get("/api/sendPhoneOTP/:email", async (req, res) => {
         const result = await executeQuery(
           `INSERT INTO otp VALUES('${message.sid}', (SELECT voter_id from voters WHERE email = '${email}'),'${otp}')`
         );
-        res.json(result);
+        if(result) res.status(200).json({ok:"ok"})
       })
   
   
