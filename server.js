@@ -555,6 +555,7 @@ function authenticateToken(req, res, next) {
   try {
     // Verify the token
     const decoded = jwt.verify(token, secretKey);
+    console.log("decoding token", decoded);
     // Attach the user information to the request object for later use
     req.email = decoded;
     req.body = req.body;
