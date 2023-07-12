@@ -252,7 +252,7 @@ app.get("/api/getAllVotes", async (req, res) => {
         voters c ON v.candidate_id = c.voter_id;
     `
     );
-    var result = result_rows.map(row => ({
+    var result = result_rows.map((row) => ({
       ...row,
       created_at: new Date(row.created_at_timestamp),
     }));
@@ -264,6 +264,43 @@ app.get("/api/getAllVotes", async (req, res) => {
   console.log(result);
   res.json(result);
 });
+app.get(
+  "/api/getAllCandidatesVoteDistributionByPostId/:post_id",
+  async (req, res) => {
+    const post_id = req.params.post_id;
+    try {
+      let result_rows = await executeQuery(
+        `SELECT
+      c.candidate_id,
+      CONCAT(c.first_name, ' ', c.last_name) AS candidate_fullname,
+      c.email AS candidate_email,
+      p.post_name,
+      COUNT(*) AS total_votes,
+      DENSE_RANK() OVER (PARTITION BY c.post_id ORDER BY COUNT(*) DESC) AS candidate_rank
+  FROM
+      votes v
+  JOIN
+      candidates c ON v.candidate_id = c.candidate_id
+  JOIN
+      posts p ON c.post_id = p.post_id
+  WHERE
+      c.post_id = ${post_id}
+  GROUP BY
+      v.candidate_id, c.candidate_id, p.post_name, c.post_id
+  ORDER BY
+      candidate_rank ASC;
+  
+    `
+      );
+    } catch (err) {
+      console.log(err);
+      res.status(500).json({ error: "An error occurred" });
+      return;
+    }
+    console.log(result_rows);
+    res.json(result_rows);
+  }
+);
 
 app.get("/api/getPercentageChangeFromYday/:post_id", async (req, res) => {
   const post_id = req.params.post_id;
