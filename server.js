@@ -58,27 +58,39 @@ app.use(cors());
 // Secret key used to sign and verify JWT tokens
 const secretKey = "docracy";
 
-app.post("/api/login", async (req, res) => {
-  const email = req.body.email;
-  const password = req.body.password;
+app.post("/api/checkIfUserExists", async (req, res) => {
+  const identifier = req.body.identifier;
   try {
-    const result_rows = await executeQuery(
-      `SELECT password from voter_credentials WHERE voter_id = (SELECT voter_id from voters WHERE email = '${email}')`
+    const result = await executeQuery(
+      `SELECT *
+      FROM voters
+      WHERE phone = '${identifier}' OR email = '${identifier}';
+      `
     );
-    const stored_password = result_rows[0].password;
-    bcrypt.compare(password, stored_password, (err, result) => {
-      if (err) {
-        res.status(500).json({ err: "COMPARE_ERR" });
-        return;
-      }
+    if (result) {
+        if(identifyIdentifierType(identifier) == "email"){
+          const token = jwt.sign({ email }, secretKey, { expiresIn: "3h" });
+          res.status(200).json({ token });
+        }
+        else if(identifyIdentifierType(identifier) == "phone"){
+          const [email] = await executeQuery(
+            `SELECT email
+            FROM voters
+            WHERE phone = '${identifier}';
+            `
+          );
+          console.log(email);
+          const token = jwt.sign({ email }, secretKey, { expiresIn: "3h" });
+          res.status(200).json({ token });
 
-      if (result) {
-        const token = jwt.sign({ email }, secretKey, { expiresIn: "3h" });
-        res.status(200).json({ token });
+        }
+        else{
+          res.status(500).json({ err: "UNKOWN_ERR" });
+        }
       } else {
         res.status(401).json({ err: "CREDENTIAL_ERR" });
       }
-    });
+  
   } catch (error) {
     res.status(500).json({ err: "UNKOWN_ERR" });
   }
@@ -585,4 +597,23 @@ function generateFourDigitOTP() {
   }
 
   return otp;
+}
+
+function identifyIdentifierType(identifier) {
+  // Regular expression patterns for email and phone number
+  const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  const phoneNumberPattern = /^\d{10}$/;
+
+  // Check if the identifier matches the email pattern
+  if (emailPattern.test(identifier)) {
+    return 'email';
+  }
+
+  // Check if the identifier matches the phone number pattern
+  if (phoneNumberPattern.test(identifier)) {
+    return 'phone';
+  }
+
+  // If the identifier matches neither pattern, return null
+  return null;
 }
