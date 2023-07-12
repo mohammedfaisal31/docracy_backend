@@ -70,7 +70,7 @@ app.post("/api/checkIfUserExists", async (req, res) => {
     if (result) {
         if(identifyIdentifierType(identifier) == "email"){
           const token = jwt.sign({ identifier }, secretKey, { expiresIn: "3h" });
-          res.status(200).json({ token });
+          res.status(200).json({token: token , identifier_type : "email" });
         }
         else if(identifyIdentifierType(identifier) == "phone"){
           const [email] = await executeQuery(
@@ -81,7 +81,7 @@ app.post("/api/checkIfUserExists", async (req, res) => {
           );
           console.log(email);
           const token = jwt.sign({ email }, secretKey, { expiresIn: "3h" });
-          res.status(200).json({ token });
+          res.status(200).json({token: token , identifier_type : "phone" });
 
         }
         else{
