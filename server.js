@@ -433,7 +433,7 @@ app.get("/api/sendOTP", async (req, res) => {
   
   client.messages
       .create({
-        to: '+919353676794',
+        to: '+919901184938',
         from : "+19033077423",
         body : `Hi Faisal, Your OTP is ${1234}`
       })
