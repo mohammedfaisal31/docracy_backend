@@ -433,7 +433,7 @@ app.get("/api/getElectionStatus", authenticateToken, async (req, res) => {
 app.get("/api/sendOTP/:number", async (req, res) => {
   const ph_number = req.params.number;
   sendOTP(ph_number, 1432)
-  .then((response)=>res.json(response))
+  
 });
 
 
@@ -496,13 +496,25 @@ async function executeQuery(sql) {
   }
 }
 
-function sendOTP(to, otp){
-  return client.messages
-  .create({
-    body: `Your OTP is ${otp}`,
-    to: `${to}`, // Text your number
-    from: '+19033077423', // From a valid Twilio number
+async function sendOTP(to, otp){
+  return client.messages.create({
+    to: `${to}`,
+    from: '+19033077423',
+    body: `Ahoy! Your OTP is ${otp}`,
   })
+  .then(() => {
+    // Access details about the last request
+    console.log(client.lastRequest.method);
+    console.log(client.lastRequest.url);
+    console.log(client.lastRequest.auth);
+    console.log(client.lastRequest.params);
+    console.log(client.lastRequest.headers);
+    console.log(client.lastRequest.data);
+
+    // Access details about the last response
+    console.log(client.httpClient.lastResponse.statusCode);
+    console.log(client.httpClient.lastResponse.body);
+  });
   
 }
 
