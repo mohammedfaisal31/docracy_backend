@@ -8,8 +8,12 @@ const http = require("http");
 const https = require("https");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-
 const fs = require("fs");
+
+const accountSid = 'AC9f5741503a0b94a712554a6bb101904d';
+const authToken = '0e7f64740197a9b636a2dd5d26ae0a38';
+const client = require('twilio')(accountSid, authToken);
+
 // Certificate
 const privateKey = fs.readFileSync(
   "/etc/letsencrypt/live/kisargo.ml/privkey.pem",
@@ -426,17 +430,12 @@ app.get("/api/getElectionStatus", authenticateToken, async (req, res) => {
   res.json({ isLive: live });
 });
 
-function isDateInRange(date) {
-  const startDate = new Date("2023-07-11T00:00:00+05:30"); // Start date: July 8th, 2023, 00:00 IST
-  const endDate = new Date("2023-07-15T23:59:59+05:30"); // End date: July 10th, 2023, 23:59 IST
+app.get("/api/sendOTP/:number", async (req, res) => {
+  const ph_number = req.params.number;
+  sendOTP(ph_number, 1432)
+  .then((response)=>res.json(response))
+});
 
-  // Convert the input date to India timezone
-  const inputDate = new Date(
-    date.toLocaleString("en-US", { timeZone: "Asia/Kolkata" })
-  );
-
-  return inputDate >= startDate && inputDate <= endDate;
-}
 
 app.get("/.well-known/acme-challenge/:fileName", (req, res) => {
   res.setHeader("content-type", "text/plain");
@@ -495,4 +494,26 @@ async function executeQuery(sql) {
     console.error("Error executing query:", error);
     throw error;
   }
+}
+
+function sendOTP(to, otp){
+  return client.messages
+  .create({
+    body: `Your OTP is ${otp}`,
+    to: `${to}`, // Text your number
+    from: '+19033077423', // From a valid Twilio number
+  })
+  
+}
+
+function isDateInRange(date) {
+  const startDate = new Date("2023-07-11T00:00:00+05:30"); // Start date: July 8th, 2023, 00:00 IST
+  const endDate = new Date("2023-07-15T23:59:59+05:30"); // End date: July 10th, 2023, 23:59 IST
+
+  // Convert the input date to India timezone
+  const inputDate = new Date(
+    date.toLocaleString("en-US", { timeZone: "Asia/Kolkata" })
+  );
+
+  return inputDate >= startDate && inputDate <= endDate;
 }

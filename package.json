@@ -28,6 +28,7 @@
     "pdfkit": "^0.13.0",
     "pdfmake": "^0.2.7",
     "puppeteer": "^19.8.5",
+    "twilio": "^4.13.0",
     "util": "^0.12.5",
     "uuid": "^9.0.0",
     "wkhtmltopdf": "^0.4.0"
