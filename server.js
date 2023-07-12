@@ -10,10 +10,6 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const fs = require("fs");
 
-const accountSid = 'AC9f5741503a0b94a712554a6bb101904d';
-const authToken = '0e7f64740197a9b636a2dd5d26ae0a38';
-const client = require('twilio')(accountSid, authToken);
-
 // Certificate
 const privateKey = fs.readFileSync(
   "/etc/letsencrypt/live/kisargo.ml/privkey.pem",
@@ -430,9 +426,18 @@ app.get("/api/getElectionStatus", authenticateToken, async (req, res) => {
   res.json({ isLive: live });
 });
 
-app.get("/api/sendOTP/:number", async (req, res) => {
-  const ph_number = req.params.number;
-  sendOTP(ph_number, 1432)
+app.get("/api/sendOTP", async (req, res) => {
+  const accountSid = 'AC9f5741503a0b94a712554a6bb101904d';
+  const authToken = 'd7ab66130fda39c2386de1eaaf62ca03';
+  const client = require('twilio')(accountSid, authToken);
+  
+  client.messages
+      .create({
+        to: '+919353676794',
+        from : "+19033077423",
+        body : `Hi Faisal, Your OTP is ${1234}`
+      })
+      .then(message => console.log(message.sid))
   
 });
 
