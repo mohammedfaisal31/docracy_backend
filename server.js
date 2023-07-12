@@ -467,7 +467,7 @@ app.post("/api/sendPhoneOTP", authenticateToken , async (req, res) => {
   const accountSid = "AC9f5741503a0b94a712554a6bb101904d";
   const authToken = "d7ab66130fda39c2386de1eaaf62ca03";
   const client = require("twilio")(accountSid, authToken);
-  const {email} = req.email;
+  const {email} = req.email.email;
   console.log(email);
   const [phoneNumber] = await executeQuery(
     `SELECT phone FROM voters WHERE email = '${email}'`
@@ -490,7 +490,7 @@ app.post("/api/sendPhoneOTP", authenticateToken , async (req, res) => {
 });
 
 app.post("/api/sendEmailOTP/", authenticateToken, async (req, res) => {
-  const {email} = req.email;
+  const {email} = req.email.email;
   console.log(email);
   const [phoneNumber] = await executeQuery(
     `SELECT phone FROM voters WHERE email = '${email}'`
