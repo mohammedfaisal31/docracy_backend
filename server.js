@@ -9,6 +9,17 @@ const https = require("https");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const fs = require("fs");
+const nodemailer = require("nodemailer");
+
+//NodeMailer
+const transporter = nodemailer.createTransport({
+  service: "Gmail",
+  auth: {
+    user: "pcosart2023@gmail.com",
+    pass: "tabzmuksfwnlpndo",
+  },
+  pool: true,
+});
 
 // Certificate
 const privateKey = fs.readFileSync(
@@ -287,13 +298,11 @@ app.get(
     res.json(result_rows);
   }
 );
-app.get(
-  "/api/getVotersDataByPostId/:post_id",
-  async (req, res) => {
-    const post_id = req.params.post_id;
-    try {
-      var result_rows = await executeQuery(
-        `SELECT
+app.get("/api/getVotersDataByPostId/:post_id", async (req, res) => {
+  const post_id = req.params.post_id;
+  try {
+    var result_rows = await executeQuery(
+      `SELECT
         CONCAT(v.first_name, ' ', v.last_name) AS voter_fullName,
         v.email AS voter_email,
         v.phone AS voter_phone,
@@ -311,15 +320,14 @@ app.get(
         v.voter_id;
   
     `
-      );
-    } catch (err) {
-      console.log(err);
-      res.status(500).json({ error: "An error occurred" });
-      return;
-    }
-    res.json(result_rows);
+    );
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ error: "An error occurred" });
+    return;
   }
-);
+  res.json(result_rows);
+});
 
 app.get("/api/getPercentageChangeFromYday/:post_id", async (req, res) => {
   const post_id = req.params.post_id;
@@ -427,33 +435,59 @@ app.get("/api/getElectionStatus", authenticateToken, async (req, res) => {
 });
 
 app.get("/api/sendPhoneOTP/:email", async (req, res) => {
-  const accountSid = 'AC9f5741503a0b94a712554a6bb101904d';
-  const authToken = 'd7ab66130fda39c2386de1eaaf62ca03';
-  const client = require('twilio')(accountSid, authToken);
-  const email = req.params.email; 
-  
+  const accountSid = "AC9f5741503a0b94a712554a6bb101904d";
+  const authToken = "d7ab66130fda39c2386de1eaaf62ca03";
+  const client = require("twilio")(accountSid, authToken);
+  const email = req.params.email;
+
   const [phoneNumber] = await executeQuery(
     `SELECT phone FROM voters WHERE email = '${email}'`
   );
   console.log(phoneNumber);
-  const otp = generateFourDigitOTP()
-  
+  const otp = generateFourDigitOTP();
+
   client.messages
-      .create({
-        to: '+919353676794',
-        from : "+19033077423",
-        body : `Your OTP is ${otp} for verification of E-Voting App- Docracy By KISAR. Kindly do not share this with anyone :)`
-      })
-      .then(async message => {
-        const result = await executeQuery(
-          `INSERT INTO otp VALUES('${message.sid}', (SELECT voter_id from voters WHERE email = '${email}'),'${otp}')`
-        );
-        if(result) res.status(200).json({ok:"ok"})
-      })
-  
-  
+    .create({
+      to: "+919353676794",
+      from: "+19033077423",
+      body: `Your OTP is ${otp} for verification of E-Voting App- Docracy By KISAR. Kindly do not share this with anyone :)`,
+    })
+    .then(async (message) => {
+      const result = await executeQuery(
+        `INSERT INTO otp VALUES('${message.sid}', (SELECT voter_id from voters WHERE email = '${email}'),'${otp}')`
+      );
+      if (result) res.status(200).json({ ok: "ok" });
+    });
 });
 
+app.get("/api/sendEmailOTP/:email", async (req, res) => {
+  const email = req.params.email;
+  const [phoneNumber] = await executeQuery(
+    `SELECT phone FROM voters WHERE email = '${email}'`
+  );
+  console.log(phoneNumber);
+  const otp = generateFourDigitOTP();
+  transporter.sendMail(
+    {
+      from: "verify.kisarpay@gmail.com",
+      to: "mohammedfaisal3366@gmail.com",
+      subject: "OTP Verification",
+      text: `Your OTP for E-Voting App - Docracy is ${otp}. Kindly Do not share this OTP with anyone`,
+    },
+    async (error, info) => {
+      if (error) {
+        console.error(error);
+        res.status(500).send("Error sending email");
+      } else {
+        const result = await executeQuery(
+          `INSERT INTO otp VALUES(NULL, (SELECT voter_id from voters WHERE email = '${email}'),'${otp}')`
+        );
+        if (result) res.status(200).json({ ok: "ok" });
+        else res.status(500).send("UNKNOWN_ERR");
+      }
+    }
+  );
+});
 
 app.get("/.well-known/acme-challenge/:fileName", (req, res) => {
   res.setHeader("content-type", "text/plain");
@@ -514,18 +548,18 @@ async function executeQuery(sql) {
   }
 }
 
-async function sendOTP(to, otp){
-  return client.messages.create({
-    to: `${to}`,
-    from: '+19033077423',
-    body: `Ahoy! Your OTP is ${otp}`,
-  })
-  .then((message) => console.log(message))
-  .catch((error) => {
-    // You can implement your fallback code here
-    console.log(error);
-  });
-  
+async function sendOTP(to, otp) {
+  return client.messages
+    .create({
+      to: `${to}`,
+      from: "+19033077423",
+      body: `Ahoy! Your OTP is ${otp}`,
+    })
+    .then((message) => console.log(message))
+    .catch((error) => {
+      // You can implement your fallback code here
+      console.log(error);
+    });
 }
 
 function isDateInRange(date) {
@@ -545,7 +579,7 @@ function generateFourDigitOTP() {
   const otpLength = 4;
 
   // Generate random digits
-  let otp = '';
+  let otp = "";
   for (let i = 0; i < otpLength; i++) {
     otp += Math.floor(Math.random() * 10);
   }
