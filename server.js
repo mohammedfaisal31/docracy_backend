@@ -463,7 +463,7 @@ app.get("/api/getElectionStatus", authenticateToken, async (req, res) => {
   res.json({ isLive: live });
 });
 
-app.get("/api/sendPhoneOTP", authenticateToken , async (req, res) => {
+app.post("/api/sendPhoneOTP", authenticateToken , async (req, res) => {
   const accountSid = "AC9f5741503a0b94a712554a6bb101904d";
   const authToken = "d7ab66130fda39c2386de1eaaf62ca03";
   const client = require("twilio")(accountSid, authToken);
@@ -489,7 +489,7 @@ app.get("/api/sendPhoneOTP", authenticateToken , async (req, res) => {
     });
 });
 
-app.get("/api/sendEmailOTP/", authenticateToken, async (req, res) => {
+app.post("/api/sendEmailOTP/", authenticateToken, async (req, res) => {
   const {email} = req.email;
   console.log(email);
   const [phoneNumber] = await executeQuery(
