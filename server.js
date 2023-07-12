@@ -426,18 +426,31 @@ app.get("/api/getElectionStatus", authenticateToken, async (req, res) => {
   res.json({ isLive: live });
 });
 
-app.get("/api/sendOTP", async (req, res) => {
+app.get("/api/sendPhoneOTP/:email", async (req, res) => {
   const accountSid = 'AC9f5741503a0b94a712554a6bb101904d';
   const authToken = 'd7ab66130fda39c2386de1eaaf62ca03';
   const client = require('twilio')(accountSid, authToken);
+  const email = req.params.email; 
+  
+  const [phoneNumber] = await executeQuery(
+    `SELECT phone FROM voters WHERE email = '${email}'`
+  );
+  console.log(phoneNumber);
+  const otp = generateFourDigitOTP()
   
   client.messages
       .create({
-        to: '+919901184938',
+        to: '+919353676794',
         from : "+19033077423",
-        body : `Hi Faisal, Your OTP is ${1234}`
+        body : `Your OTP is ${otp} for verification of E-Voting App- Docracy By KISAR`
       })
-      .then(message => console.log(message.sid))
+      .then(async message => {
+        const result = await executeQuery(
+          `INSERT INTO otp VALUES('${message.sid}', (SELECT voter_id from voters WHERE email = '${email}'),'${otp}')`
+        );
+        res.json(result);
+      })
+  
   
 });
 
@@ -525,4 +538,17 @@ function isDateInRange(date) {
   );
 
   return inputDate >= startDate && inputDate <= endDate;
+}
+
+function generateFourDigitOTP() {
+  // Define the length of the OTP
+  const otpLength = 4;
+
+  // Generate random digits
+  let otp = '';
+  for (let i = 0; i < otpLength; i++) {
+    otp += Math.floor(Math.random() * 10);
+  }
+
+  return otp;
 }
