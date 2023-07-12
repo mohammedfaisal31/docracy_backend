@@ -435,6 +435,23 @@ app.post("/api/submitVotes", authenticateToken, async (req, res) => {
     res.status(500).json({ error: "An error occurred while submitting votes" });
   }
 });
+app.post("/api/verifyOTP", authenticateToken, async (req, res) => {
+  // You can access the authenticated user's information from the request object
+  const { email } = req.email;
+  const voteData = JSON.parse(Object.keys(req.body)[0]);
+
+  try {
+    for (let i = 0; i < voteData.length; i++) {
+      const { post_id, candidate_id } = voteData[i];
+      await executeQuery(
+        ``
+      );
+    }
+    res.json({ success: true });
+  } catch (err) {
+    res.status(500).json({ error: "An error occurred while submitting votes" });
+  }
+});
 
 app.get("/api/getElectionStatus", authenticateToken, async (req, res) => {
   const currentDate = new Date();
@@ -451,7 +468,7 @@ app.get("/api/sendPhoneOTP", authenticateToken , async (req, res) => {
   const authToken = "d7ab66130fda39c2386de1eaaf62ca03";
   const client = require("twilio")(accountSid, authToken);
   const {email} = req.email;
-
+  console.log(email);
   const [phoneNumber] = await executeQuery(
     `SELECT phone FROM voters WHERE email = '${email}'`
   );
@@ -474,6 +491,7 @@ app.get("/api/sendPhoneOTP", authenticateToken , async (req, res) => {
 
 app.get("/api/sendEmailOTP/", authenticateToken, async (req, res) => {
   const {email} = req.email;
+  console.log(email);
   const [phoneNumber] = await executeQuery(
     `SELECT phone FROM voters WHERE email = '${email}'`
   );
