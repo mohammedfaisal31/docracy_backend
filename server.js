@@ -472,7 +472,7 @@ app.get("/api/sendEmailOTP/:email", async (req, res) => {
       from: "verify.kisarpay@gmail.com",
       to: "mohammedfaisal3366@gmail.com",
       subject: "OTP Verification",
-      text: `Your OTP for E-Voting App - Docracy is ${otp}. Kindly Do not share this OTP with anyone`,
+      html: `<p>Your OTP for E-Voting App - Docracy is <a>${otp}</a>. Kindly Do not share this OTP with anyone<p>`,
     },
     async (error, info) => {
       if (error) {
