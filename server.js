@@ -502,18 +502,10 @@ async function sendOTP(to, otp){
     from: '+19033077423',
     body: `Ahoy! Your OTP is ${otp}`,
   })
-  .then(() => {
-    // Access details about the last request
-    console.log(client.lastRequest.method);
-    console.log(client.lastRequest.url);
-    console.log(client.lastRequest.auth);
-    console.log(client.lastRequest.params);
-    console.log(client.lastRequest.headers);
-    console.log(client.lastRequest.data);
-
-    // Access details about the last response
-    console.log(client.httpClient.lastResponse.statusCode);
-    console.log(client.httpClient.lastResponse.body);
+  .then((message) => console.log(message))
+  .catch((error) => {
+    // You can implement your fallback code here
+    console.log(error);
   });
   
 }
