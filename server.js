@@ -69,7 +69,6 @@ app.post("/api/login", async (req, res) => {
       }
     });
   } catch (error) {
-    console.log(error);
     res.status(500).json({ err: "UNKOWN_ERR" });
   }
 });
@@ -84,10 +83,8 @@ app.get("/api/verify-token", (req, res) => {
   try {
     // Verify the token
     const decoded = jwt.verify(token, secretKey);
-    console.log(decoded);
     res.sendStatus(200);
   } catch (error) {
-    console.error("Token verification failed:", error);
     res.sendStatus(401);
   }
 });
@@ -104,7 +101,6 @@ app.get("/api/user-data", authenticateToken, async (req, res) => {
   } catch (err) {
     console.log(err);
   }
-  console.log(userData);
   res.json(userData);
 });
 app.get("/api/getCandidates", authenticateToken, async (req, res) => {
@@ -114,7 +110,6 @@ app.get("/api/getCandidates", authenticateToken, async (req, res) => {
   } catch (err) {
     res.status(500).json("ERROR");
   }
-  console.log(candidates);
   res.json(candidates);
 });
 
@@ -129,7 +124,6 @@ app.get("/api/checkIfUserVoted", authenticateToken, async (req, res) => {
   } catch (err) {
     console.log(err);
   }
-  console.log(userData);
   res.json(userData);
 });
 
@@ -144,10 +138,8 @@ app.get("/api/getVotesByPost/:post_id", async (req, res) => {
       no_of_votes: row.no_of_votes,
     }));
 
-    console.log(voteCounts);
     res.json(voteCounts);
   } catch (err) {
-    console.log(err);
     res.status(500).json({ error: "An error occurred" });
   }
 });
@@ -167,7 +159,6 @@ app.get(
     } catch (err) {
       console.log(err);
     }
-    console.log(no_of_votes);
     res.json(no_of_votes);
   }
 );
@@ -181,7 +172,6 @@ app.get("/api/getTotalVotes", async (req, res) => {
   } catch (err) {
     console.log(err);
   }
-  console.log(no_of_votes);
   res.json(no_of_votes);
 });
 app.get("/api/getTotalVotes/:post_id", async (req, res) => {
@@ -194,7 +184,6 @@ app.get("/api/getTotalVotes/:post_id", async (req, res) => {
   } catch (err) {
     console.log(err);
   }
-  console.log(no_of_votes);
   res.json(no_of_votes);
 });
 
@@ -231,7 +220,6 @@ app.get("/api/getTotalVotes/:post_id", async (req, res) => {
   } catch (err) {
     console.log(err);
   }
-  console.log(no_of_votes);
   res.json(no_of_votes);
 });
 app.get("/api/getAllVotes", async (req, res) => {
@@ -261,7 +249,6 @@ app.get("/api/getAllVotes", async (req, res) => {
     res.status(500).json({ error: "An error occurred" });
     return;
   }
-  console.log(result);
   res.json(result);
 });
 app.get(
@@ -297,7 +284,6 @@ app.get(
       res.status(500).json({ error: "An error occurred" });
       return;
     }
-    console.log(result_rows);
     res.json(result_rows);
   }
 );
@@ -331,7 +317,6 @@ app.get(
       res.status(500).json({ error: "An error occurred" });
       return;
     }
-    console.log(result_rows);
     res.json(result_rows);
   }
 );
@@ -397,7 +382,6 @@ app.get("/api/totalVotesPercentageFromYday", async (req, res) => {
 app.post("/api/getAllNamesByCandidateIdList/", async (req, res) => {
   const candidate_id_list = req.body.candidate_id_list;
 
-  console.log(candidate_id_list);
   try {
     const result_rows = await Promise.all(
       candidate_id_list.map(async (candidate_id) => {
@@ -408,10 +392,8 @@ app.post("/api/getAllNamesByCandidateIdList/", async (req, res) => {
       })
     );
 
-    console.log(result_rows);
     res.json(result_rows);
   } catch (err) {
-    console.log(err);
     res.status(500).json({ error: "An error occurred" });
   }
 });
@@ -420,7 +402,6 @@ app.post("/api/submitVotes", authenticateToken, async (req, res) => {
   // You can access the authenticated user's information from the request object
   const { email } = req.email;
   const voteData = JSON.parse(Object.keys(req.body)[0]);
-  console.log(email);
 
   try {
     for (let i = 0; i < voteData.length; i++) {
@@ -431,7 +412,6 @@ app.post("/api/submitVotes", authenticateToken, async (req, res) => {
     }
     res.json({ success: true });
   } catch (err) {
-    console.log(err);
     res.status(500).json({ error: "An error occurred while submitting votes" });
   }
 });
@@ -443,7 +423,6 @@ app.get("/api/getElectionStatus", authenticateToken, async (req, res) => {
     currentDate.toLocaleString("en-US", options)
   );
   const live = isDateInRange(currentDateInIndia);
-  console.log({ isLive: live });
   res.json({ isLive: live });
 });
 
@@ -488,7 +467,6 @@ httpsServer.listen(443, () => {
 // Middleware to authenticate the JWT token
 function authenticateToken(req, res, next) {
   const token = req.headers.authorization?.split(" ")[1];
-  console.log(req.body);
   if (!token) {
     return res.sendStatus(401);
   }
