@@ -442,7 +442,7 @@ app.get("/api/sendPhoneOTP/:email", async (req, res) => {
       .create({
         to: '+919353676794',
         from : "+19033077423",
-        body : `Your OTP is ${otp} for verification of E-Voting App- Docracy By KISAR`
+        body : `Your OTP is ${otp} for verification of E-Voting App- Docracy By KISAR. Kindly do not share this with anyone :)`
       })
       .then(async message => {
         const result = await executeQuery(
