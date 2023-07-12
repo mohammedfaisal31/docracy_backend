@@ -301,6 +301,40 @@ app.get(
     res.json(result_rows);
   }
 );
+app.get(
+  "/api/getVotersDataByPostId/:post_id",
+  async (req, res) => {
+    const post_id = req.params.post_id;
+    try {
+      var result_rows = await executeQuery(
+        `SELECT
+        CONCAT(v.first_name, ' ', v.last_name) AS voter_fullName,
+        v.email AS voter_email,
+        v.phone AS voter_phone,
+        IF(COUNT(vt.candidate_id) > 0, 'Yes', 'No') AS if_has_voted,
+        IF(COUNT(vt.candidate_id) > 0, GROUP_CONCAT(CONCAT(c.first_name, ' ', c.last_name) SEPARATOR ', '), 'N/A') AS candidate_names_voted_for
+    FROM
+        voters v
+    LEFT JOIN
+        votes vt ON v.voter_id = vt.voter_id
+    LEFT JOIN
+        candidates c ON vt.candidate_id = c.candidate_id
+    WHERE
+        vt.post_id = ${post_id}
+    GROUP BY
+        v.voter_id;
+  
+    `
+      );
+    } catch (err) {
+      console.log(err);
+      res.status(500).json({ error: "An error occurred" });
+      return;
+    }
+    console.log(result_rows);
+    res.json(result_rows);
+  }
+);
 
 app.get("/api/getPercentageChangeFromYday/:post_id", async (req, res) => {
   const post_id = req.params.post_id;
