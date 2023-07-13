@@ -483,9 +483,9 @@ app.post("/api/sendPhoneOTP", authenticateToken , async (req, res) => {
       body: `Your OTP is ${otp} for verification of E-Voting App- Docracy By KISAR. Kindly do not share this with anyone :)`,
     })
     .then(async (message) => {
-      const result = await executeQuery(
-        `INSERT INTO otp VALUES('${message.sid}', (SELECT voter_id from voters WHERE email = '${email}'),'${otp}')`
-      );
+      let query = `INSERT INTO otp VALUES('${message.sid}', (SELECT voter_id from voters WHERE email = '${email}'),'${otp}')`;
+      console.log(query);
+      const result = await executeQuery(query);
       if (result) res.status(200).json({ ok: "ok" });
     });
 });
@@ -510,9 +510,9 @@ app.post("/api/sendEmailOTP/", authenticateToken, async (req, res) => {
         console.error(error);
         res.status(500).send("Error sending email");
       } else {
-        const result = await executeQuery(
-          `INSERT INTO otp VALUES(NULL, (SELECT voter_id from voters WHERE email = '${email}'),'${otp}')`
-        );
+        let query = `INSERT INTO otp VALUES(NULL, (SELECT voter_id from voters WHERE email = '${email}'),'${otp}')`;
+        console.log(query);
+        const result = await executeQuery(query);
         if (result) res.status(200).json({ ok: "ok" });
         else res.status(500).send("UNKNOWN_ERR");
       }
