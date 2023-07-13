@@ -107,7 +107,7 @@ app.get("/api/verify-token", (req, res) => {
   try {
     // Verify the token
     const decoded = jwt.verify(token, secretKey);
-    res.sendStatus(200);
+    res.status(200).json({decoded});
   } catch (error) {
     res.sendStatus(401);
   }
