@@ -60,7 +60,7 @@ const secretKey = "docracy";
 
 app.post("/api/checkIfUserExists", async (req, res) => {
   const identifier = req.body.identifier;
-  console.log("Identifier",identifier);
+  console.log("Identifier", identifier);
   try {
     const result = await executeQuery(
       `SELECT *
@@ -69,29 +69,29 @@ app.post("/api/checkIfUserExists", async (req, res) => {
       `
     );
     if (result.length > 0) {
-        if(identifyIdentifierType(identifier) == "email"){
-          const token = jwt.sign( {email : identifier} , secretKey, { expiresIn: "3h" });
-          res.status(200).json({token , identifier_type : "email" });
-        }
-        else if(identifyIdentifierType(identifier) == "phone"){
-          const [result] = await executeQuery(
-            `SELECT email
+      if (identifyIdentifierType(identifier) == "email") {
+        const token = jwt.sign({ email: identifier }, secretKey, {
+          expiresIn: "3h",
+        });
+        res.status(200).json({ token, identifier_type: "email" });
+      } else if (identifyIdentifierType(identifier) == "phone") {
+        const [result] = await executeQuery(
+          `SELECT email
             FROM voters
             WHERE phone = '${identifier}';
             `
-          );
-          console.log(typeof result.email);
-          const token = jwt.sign({email : result.email}, secretKey, { expiresIn: "3h" });
-          res.status(200).json({token: token , identifier_type : "phone" });
-
-        }
-        else{
-          res.status(500).json({ err: "UNKOWN_ERR" });
-        }
+        );
+        console.log(typeof result.email);
+        const token = jwt.sign({ email: result.email }, secretKey, {
+          expiresIn: "3h",
+        });
+        res.status(200).json({ token: token, identifier_type: "phone" });
       } else {
-        res.status(401).json({ err: "CREDENTIAL_ERR" });
+        res.status(500).json({ err: "UNKOWN_ERR" });
       }
-  
+    } else {
+      res.status(401).json({ err: "CREDENTIAL_ERR" });
+    }
   } catch (error) {
     res.status(500).json({ err: "UNKOWN_ERR" });
   }
@@ -107,7 +107,7 @@ app.get("/api/verify-token", (req, res) => {
   try {
     // Verify the token
     const decoded = jwt.verify(token, secretKey);
-    res.status(200).json({decoded});
+    res.status(200).json({ decoded });
   } catch (error) {
     res.sendStatus(401);
   }
@@ -439,16 +439,14 @@ app.post("/api/submitVotes", authenticateToken, async (req, res) => {
 app.post("/api/verifyOTP", authenticateToken, async (req, res) => {
   // You can access the authenticated user's information from the request object
   const { email } = req.email;
-  const voteData = JSON.parse(Object.keys(req.body)[0]);
+  const otp_code = req.body.otp_code;
 
   try {
-    for (let i = 0; i < voteData.length; i++) {
-      const { post_id, candidate_id } = voteData[i];
-      await executeQuery(
-        ``
-      );
-    }
-    res.json({ success: true });
+    const query = `SELECT 1 AS compare FROM otp WHERE otp_code = '${otp_code}' AND voter_id = (SELECT voter_id from voters WHERE email = '${email}')`;
+    const [compare] = await executeQuery(query);
+    console.log("compare",compare);
+    if (compare) res.status(200).json({ success: true });
+    else res.status(401).json({ success: false });
   } catch (err) {
     res.status(500).json({ error: "An error occurred while submitting votes" });
   }
@@ -464,11 +462,11 @@ app.get("/api/getElectionStatus", authenticateToken, async (req, res) => {
   res.json({ isLive: live });
 });
 
-app.post("/api/sendPhoneOTP", authenticateToken , async (req, res) => {
+app.post("/api/sendPhoneOTP", authenticateToken, async (req, res) => {
   const accountSid = "AC9f5741503a0b94a712554a6bb101904d";
   const authToken = "d7ab66130fda39c2386de1eaaf62ca03";
   const client = require("twilio")(accountSid, authToken);
-  const {email} = req.email;
+  const { email } = req.email;
   console.log(email);
   const [phoneNumber] = await executeQuery(
     `SELECT phone FROM voters WHERE email = '${email}'`
@@ -491,8 +489,8 @@ app.post("/api/sendPhoneOTP", authenticateToken , async (req, res) => {
 });
 
 app.post("/api/sendEmailOTP/", authenticateToken, async (req, res) => {
-  const {email} = req.email;
-  console.log("Getting Token",email);
+  const { email } = req.email;
+  console.log("Getting Token", email);
   const [phoneNumber] = await executeQuery(
     `SELECT phone FROM voters WHERE email = '${email}'`
   );
@@ -626,12 +624,12 @@ function identifyIdentifierType(identifier) {
 
   // Check if the identifier matches the email pattern
   if (emailPattern.test(identifier)) {
-    return 'email';
+    return "email";
   }
 
   // Check if the identifier matches the phone number pattern
   if (phoneNumberPattern.test(identifier)) {
-    return 'phone';
+    return "phone";
   }
 
   // If the identifier matches neither pattern, return null
