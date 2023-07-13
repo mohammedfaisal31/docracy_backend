@@ -60,6 +60,7 @@ const secretKey = "docracy";
 
 app.post("/api/checkIfUserExists", async (req, res) => {
   const identifier = req.body.identifier;
+  console.log("Identifier",identifier);
   try {
     const result = await executeQuery(
       `SELECT *
@@ -70,7 +71,7 @@ app.post("/api/checkIfUserExists", async (req, res) => {
     if (result.length > 0) {
         if(identifyIdentifierType(identifier) == "email"){
           const token = jwt.sign({ identifier }, secretKey, { expiresIn: "3h" });
-          res.status(200).json({token: token , identifier_type : "email" });
+          res.status(200).json({token , identifier_type : "email" });
         }
         else if(identifyIdentifierType(identifier) == "phone"){
           const [result] = await executeQuery(
@@ -80,7 +81,7 @@ app.post("/api/checkIfUserExists", async (req, res) => {
             `
           );
           console.log(result.email);
-          const token = jwt.sign({ email }, secretKey, { expiresIn: "3h" });
+          const token = jwt.sign({ email : result.email }, secretKey, { expiresIn: "3h" });
           res.status(200).json({token: token , identifier_type : "phone" });
 
         }
