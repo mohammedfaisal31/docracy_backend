@@ -491,7 +491,7 @@ app.post("/api/sendPhoneOTP", authenticateToken, async (req, res) => {
 
   client.messages
     .create({
-      to: "+919901184938",
+      to: "+919353676794",
       from: "+19033077423",
       body: `Your OTP is ${otp} for verification of E-Voting App- Docracy By KISAR. Kindly do not share this with anyone :)`,
     })
