@@ -492,7 +492,7 @@ app.post("/api/sendPhoneOTP", authenticateToken , async (req, res) => {
 
 app.post("/api/sendEmailOTP/", authenticateToken, async (req, res) => {
   const {email} = req.email;
-  console.log(email);
+  console.log("Getting Token",email);
   const [phoneNumber] = await executeQuery(
     `SELECT phone FROM voters WHERE email = '${email}'`
   );
@@ -558,7 +558,7 @@ function authenticateToken(req, res, next) {
     const decoded = jwt.verify(token, secretKey);
     console.log("decoding token", decoded.email);
     // Attach the user information to the request object for later use
-    req.email = decoded.email;
+    req.email = decoded;
     req.body = req.body;
     next();
   } catch (error) {
