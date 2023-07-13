@@ -80,8 +80,8 @@ app.post("/api/checkIfUserExists", async (req, res) => {
             WHERE phone = '${identifier}';
             `
           );
-          const email = result.email;
-          const token = jwt.sign({email}, secretKey, { expiresIn: "3h" });
+          console.log(typeof result.email);
+          const token = jwt.sign({email : result.email}, secretKey, { expiresIn: "3h" });
           res.status(200).json({token: token , identifier_type : "phone" });
 
         }
