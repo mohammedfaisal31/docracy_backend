@@ -448,7 +448,22 @@ app.post("/api/verifyOTP", authenticateToken, async (req, res) => {
     if (compare) res.status(200).json({ success: true });
     else res.status(401).json({ success: false });
   } catch (err) {
-    res.status(500).json({ error: "An error occurred while submitting votes" });
+    res.status(500).json({ error: "An error occurred while comparing" });
+  }
+});
+app.delete("/api/deleteOTP", authenticateToken, async (req, res) => {
+  // You can access the authenticated user's information from the request object
+  const { email } = req.email;
+  const otp_code = req.body.otp_code;
+
+  try {
+    const query = `DELETE FROM otp WHERE voter_id = (SELECT voter_id FROM voters WHERE email = '${email}')`;
+    const result = await executeQuery(query);
+    
+    if (result) res.status(200).json({ success: true });
+    else res.status(401).json({ success: false });
+  } catch (err) {
+    res.status(500).json({ error: "An error occurred while deleting otp" });
   }
 });
 
