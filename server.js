@@ -491,7 +491,7 @@ app.post("/api/sendPhoneOTP", authenticateToken, async (req, res) => {
 
   client.messages
     .create({
-      to: "+919353676794",
+      to: "+919901184938",
       from: "+19033077423",
       body: `Your OTP is ${otp} for verification of E-Voting App- Docracy By KISAR. Kindly do not share this with anyone :)`,
     })
@@ -514,7 +514,7 @@ app.post("/api/sendEmailOTP/", authenticateToken, async (req, res) => {
   transporter.sendMail(
     {
       from: "verify.kisarpay@gmail.com",
-      to: "mohammedfaisal3366@gmail.com",
+      to: email,
       subject: "OTP Verification",
       html: `<p>Your OTP for E-Voting App - Docracy is <b>${otp}</b>. Kindly Do not share this OTP with anyone<p>`,
     },
