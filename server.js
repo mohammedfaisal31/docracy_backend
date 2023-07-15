@@ -479,7 +479,7 @@ app.get("/api/getElectionStatus", authenticateToken, async (req, res) => {
 
 app.post("/api/sendPhoneOTP", authenticateToken, async (req, res) => {
   const accountSid = "AC9f5741503a0b94a712554a6bb101904d";
-  const authToken = "79f31b012d613558885658f9973d74e6";
+  const authToken = "b8e68e0b5d27b9067c104990cdb57d70";
   const client = require("twilio")(accountSid, authToken);
   const { email } = req.email;
   console.log(email);
