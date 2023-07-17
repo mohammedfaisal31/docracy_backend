@@ -508,7 +508,7 @@ app.post("/api/sendPhoneOTP", authenticateToken, async (req, res) => {
   const body = {
     route: "otp",
     variables_values: `${otp}`,
-    numbers: "",
+    numbers: "9353676794",
   };
 
   axios
