@@ -502,7 +502,7 @@ app.post("/api/sendPhoneOTP", authenticateToken, async (req, res) => {
     .post(url, body, { headers })
     .then(async (response) => {
       if (response.data.return) {
-        let query = `INSERT INTO otp VALUES('${message.sid}', (SELECT voter_id from voters WHERE email = '${email}'),'${otp}')`;
+        let query = `INSERT INTO otp VALUES('id', (SELECT voter_id from voters WHERE email = '${email}'),'${otp}')`;
         console.log(query);
         const result = await executeQuery(query);
         if (result) res.status(200).json({ ok: "ok" });
