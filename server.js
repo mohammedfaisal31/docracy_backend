@@ -10,7 +10,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const fs = require("fs");
 const nodemailer = require("nodemailer");
-const axios = require('axios');
+const axios = require("axios");
 
 //NodeMailer
 const transporter = nodemailer.createTransport({
@@ -486,19 +486,6 @@ app.post("/api/sendPhoneOTP", authenticateToken, async (req, res) => {
   );
   console.log(phoneNumber);
   const otp = generateFourDigitOTP();
-
-  // client.messages
-  //   .create({
-  //     to: "+919353676794",
-  //     from: "+19033077423",
-  //     body: `Your OTP is ${otp} for verification of E-Voting App- Docracy By KISAR. Kindly do not share this with anyone :)`,
-  //   })
-  //   .then(async (message) => {
-  //     let query = `INSERT INTO otp VALUES('${message.sid}', (SELECT voter_id from voters WHERE email = '${email}'),'${otp}')`;
-  //     console.log(query);
-  //     const result = await executeQuery(query);
-  //     if (result) res.status(200).json({ ok: "ok" });
-  //   });
   const url = " https://www.fast2sms.com/dev/bulkV2";
   const headers = {
     authorization:
@@ -508,16 +495,21 @@ app.post("/api/sendPhoneOTP", authenticateToken, async (req, res) => {
   const body = {
     route: "otp",
     variables_values: `${otp}`,
-    numbers: "9353676794",
+    numbers: `${phoneNumber}`,
   };
 
   axios
     .post(url, body, { headers })
-    .then((response) => {
-      console.log("Response:", response.data);
+    .then(async (response) => {
+      if (response.data.return) {
+        let query = `INSERT INTO otp VALUES('${message.sid}', (SELECT voter_id from voters WHERE email = '${email}'),'${otp}')`;
+        console.log(query);
+        const result = await executeQuery(query);
+        if (result) res.status(200).json({ ok: "ok" });
+      }
     })
     .catch((error) => {
-      console.error("Error:", error);
+      res.status(200).json({ err: "UNKOWN_ERR" });
     });
 });
 
