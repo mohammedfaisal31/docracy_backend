@@ -501,6 +501,7 @@ app.post("/api/sendPhoneOTP", authenticateToken, async (req, res) => {
   axios
     .post(url, body, { headers })
     .then(async (response) => {
+      console.log(response.data);
       if (response.data.return) {
         let query = `INSERT INTO otp VALUES('id', (SELECT voter_id from voters WHERE email = '${email}'),'${otp}')`;
         console.log(query);
