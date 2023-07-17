@@ -10,6 +10,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const fs = require("fs");
 const nodemailer = require("nodemailer");
+const axios = require('axios');
 
 //NodeMailer
 const transporter = nodemailer.createTransport({
