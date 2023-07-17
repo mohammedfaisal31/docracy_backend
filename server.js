@@ -484,7 +484,7 @@ app.post("/api/sendPhoneOTP", authenticateToken, async (req, res) => {
   const [phoneNumber] = await executeQuery(
     `SELECT phone FROM voters WHERE email = '${email}'`
   );
-  console.log(phoneNumber);
+  console.log(phoneNumber.phone);
   const otp = generateFourDigitOTP();
   const url = " https://www.fast2sms.com/dev/bulkV2";
   const headers = {
