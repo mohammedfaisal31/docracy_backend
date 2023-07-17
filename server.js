@@ -444,7 +444,7 @@ app.post("/api/verifyOTP", authenticateToken, async (req, res) => {
   try {
     const query = `SELECT 1 AS compare FROM otp WHERE otp_code = '${otp_code}' AND voter_id = (SELECT voter_id from voters WHERE email = '${email}')`;
     const [compare] = await executeQuery(query);
-    console.log("compare",compare);
+    console.log("compare", compare);
     if (compare) res.status(200).json({ success: true });
     else res.status(401).json({ success: false });
   } catch (err) {
@@ -459,7 +459,7 @@ app.delete("/api/deleteOTP", authenticateToken, async (req, res) => {
   try {
     const query = `DELETE FROM otp WHERE voter_id = (SELECT voter_id FROM voters WHERE email = '${email}')`;
     const result = await executeQuery(query);
-    
+
     if (result) res.status(200).json({ success: true });
     else res.status(401).json({ success: false });
   } catch (err) {
@@ -478,9 +478,6 @@ app.get("/api/getElectionStatus", authenticateToken, async (req, res) => {
 });
 
 app.post("/api/sendPhoneOTP", authenticateToken, async (req, res) => {
-  const accountSid = "AC9f5741503a0b94a712554a6bb101904d";
-  const authToken = "b8e68e0b5d27b9067c104990cdb57d70";
-  const client = require("twilio")(accountSid, authToken);
   const { email } = req.email;
   console.log(email);
   const [phoneNumber] = await executeQuery(
@@ -489,17 +486,37 @@ app.post("/api/sendPhoneOTP", authenticateToken, async (req, res) => {
   console.log(phoneNumber);
   const otp = generateFourDigitOTP();
 
-  client.messages
-    .create({
-      to: "+919353676794",
-      from: "+19033077423",
-      body: `Your OTP is ${otp} for verification of E-Voting App- Docracy By KISAR. Kindly do not share this with anyone :)`,
+  // client.messages
+  //   .create({
+  //     to: "+919353676794",
+  //     from: "+19033077423",
+  //     body: `Your OTP is ${otp} for verification of E-Voting App- Docracy By KISAR. Kindly do not share this with anyone :)`,
+  //   })
+  //   .then(async (message) => {
+  //     let query = `INSERT INTO otp VALUES('${message.sid}', (SELECT voter_id from voters WHERE email = '${email}'),'${otp}')`;
+  //     console.log(query);
+  //     const result = await executeQuery(query);
+  //     if (result) res.status(200).json({ ok: "ok" });
+  //   });
+  const url = " https://www.fast2sms.com/dev/bulkV2";
+  const headers = {
+    authorization:
+      "dXly23iHMNk87nv1QS4pueKDoZqtAE5WTzcPURBxfbhgj9CmLONAgGq5l9bc2dkru0WzeKBOMofYXw1I",
+    "Content-Type": "application/json",
+  };
+  const body = {
+    route: "otp",
+    variables_values: `${otp}`,
+    numbers: "",
+  };
+
+  axios
+    .post(url, body, { headers })
+    .then((response) => {
+      console.log("Response:", response.data);
     })
-    .then(async (message) => {
-      let query = `INSERT INTO otp VALUES('${message.sid}', (SELECT voter_id from voters WHERE email = '${email}'),'${otp}')`;
-      console.log(query);
-      const result = await executeQuery(query);
-      if (result) res.status(200).json({ ok: "ok" });
+    .catch((error) => {
+      console.error("Error:", error);
     });
 });
 
