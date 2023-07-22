@@ -24,15 +24,15 @@ const transporter = nodemailer.createTransport({
 
 // Certificate
 const privateKey = fs.readFileSync(
-  "/etc/letsencrypt/live/kisargo.ml/privkey.pem",
+  "/etc/letsencrypt/live/lyxnlabsapi.online/privkey.pem",
   "utf8"
 );
 const certificate = fs.readFileSync(
-  "/etc/letsencrypt/live/kisargo.ml/cert.pem",
+  "/etc/letsencrypt/live/lyxnlabsapi.online/cert.pem",
   "utf8"
 );
 const ca = fs.readFileSync(
-  "/etc/letsencrypt/live/kisargo.ml/fullchain.pem",
+  "/etc/letsencrypt/live/lyxnlabsapi.online/fullchain.pem",
   "utf8"
 );
 const credentials = {
