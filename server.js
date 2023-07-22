@@ -544,20 +544,27 @@ app.post("/api/sendEmailOTP/", authenticateToken, async (req, res) => {
   );
 });
 
-app.get("/.well-known/acme-challenge/:fileName", (req, res) => {
-  res.setHeader("content-type", "text/plain");
-  // Use fs.readFile() method to read the file
-  res.send(
-    fs.readFile(
-      __dirname + "/.well-known/acme-challenge/" + req.params.fileName,
-      "utf8",
-      function (err, data) {
-        // Display the file content
-        return data;
-      }
-    )
-  );
+
+app.get("/.well-known/acme-challenge/:fileName", async (req, res) => {
+  const fsp = require("fs").promises; // Import fs with promise interface
+
+  try {
+    const filePath = __dirname + "/.well-known/acme-challenge/" + req.params.fileName;
+    
+    res.setHeader("content-type", "text/plain");
+    
+    // Use fs.readFile() method to read the file using fs.promises
+    const data = await fsp.readFile(filePath, "utf8");
+
+    // Send the file content as a response
+    res.send(data);
+  } catch (err) {
+    // If an error occurs, handle it gracefully
+    console.error("Error reading file:", err);
+    res.status(500).send("Error reading file");
+  }
 });
+
 // Starting both http & https servers
 const httpServer = http.createServer(app);
 const httpsServer = https.createServer(credentials, app);
