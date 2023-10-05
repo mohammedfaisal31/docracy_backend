@@ -45,7 +45,7 @@ const transporter = nodemailer.createTransport({
 const pool = mysql.createPool({
   host: "localhost",
   user: "root",
-  password: "65109105@mysql",
+  password: "65109@mysql",
   database: "docracy",
   connectionLimit: 10, // Set the maximum number of connections
 });
