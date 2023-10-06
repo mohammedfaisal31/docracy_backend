@@ -544,6 +544,29 @@ app.post("/api/sendEmailOTP/", authenticateToken, async (req, res) => {
   );
 });
 
+app.post("/api/add/voters",async (req,res)=>{
+  voters_data = req.body;
+  voters_data.map(async (voter)=>{
+    let query = `INSERT INTO voters(first_name, last_name, phone, email) VALUES('${voter.first_name}', '${voter.last_name}','${voter.phone}','${voter.email}')`;
+    console.log(query);
+    const result = await executeQuery(query);
+    if (result) res.status(200).json({ ok: "ok" });
+    else res.status(500).send("UNKNOWN_ERR");
+  
+  })
+})
+
+app.post("/api/add/candidates",async (req,res)=>{
+  candidates_data = req.body;
+  candidates_data.map(async (candidate)=>{
+    let query = `INSERT INTO candidates (first_name, last_name, phone, email) VALUES('${candidate.first_name}', '${candidate.last_name}','${candidate.phone}','${candidate.email}')`;
+    console.log(query);
+    const result = await executeQuery(query);
+    if (result) res.status(200).json({ ok: "ok" });
+    else res.status(500).send("UNKNOWN_ERR");
+  
+  })
+})
 
 app.get("/.well-known/acme-challenge/:fileName", async (req, res) => {
   const fsp = require("fs").promises; // Import fs with promise interface
