@@ -559,7 +559,7 @@ app.post("/api/add/voters",async (req,res)=>{
 app.post("/api/add/candidates",async (req,res)=>{
   candidates_data = req.body;
   candidates_data.map(async (candidate)=>{
-    let query = `INSERT INTO candidates (first_name, last_name, phone, email) VALUES('${candidate.first_name}', '${candidate.last_name}','${candidate.phone}','${candidate.email}')`;
+    let query = `INSERT INTO candidates (first_name, last_name, phone, email, post_id) VALUES('${candidate.first_name}', '${candidate.last_name}','${candidate.phone}','${candidate.email}',${candidate.post_id})`;
     console.log(query);
     const result = await executeQuery(query);
     if (result) res.status(200).json({ ok: "ok" });
