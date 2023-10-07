@@ -503,7 +503,7 @@ app.post("/api/sendPhoneOTP", authenticateToken, async (req, res) => {
     .then(async (response) => {
       console.log(response.data);
       if (response.data.return) {
-        let query = `INSERT INTO otp VALUES('id', (SELECT voter_id from voters WHERE email = '${email}'),'${otp}')`;
+        let query = `INSERT INTO otp(voter_id, otp_code) VALUES((SELECT voter_id from voters WHERE email = '${email}'),'${otp}')`;
         console.log(query);
         const result = await executeQuery(query);
         if (result) res.status(200).json({ ok: "ok" });
@@ -534,7 +534,7 @@ app.post("/api/sendEmailOTP/", authenticateToken, async (req, res) => {
         console.error(error);
         res.status(500).send("Error sending email");
       } else {
-        let query = `INSERT INTO otp VALUES(NULL, (SELECT voter_id from voters WHERE email = '${email}'),'${otp}')`;
+        let query = `INSERT INTO otp(voter_id, otp_code) VALUES((SELECT voter_id from voters WHERE email = '${email}'),'${otp}')`;
         console.log(query);
         const result = await executeQuery(query);
         if (result) res.status(200).json({ ok: "ok" });
