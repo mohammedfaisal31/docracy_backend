@@ -655,8 +655,8 @@ async function sendOTP(to, otp) {
 }
 
 function isDateInRange(date) {
-  const startDate = new Date("2023-07-11T00:00:00+05:30"); // Start date: July 8th, 2023, 00:00 IST
-  const endDate = new Date("2023-07-20T23:59:59+05:30"); // End date: July 10th, 2023, 23:59 IST
+  const startDate = new Date("2023-10-10T00:00:00+05:30"); // Start date: July 8th, 2023, 00:00 IST
+  const endDate = new Date("2023-10-15T23:59:59+05:30"); // End date: July 10th, 2023, 23:59 IST
 
   // Convert the input date to India timezone
   const inputDate = new Date(
