@@ -199,6 +199,17 @@ app.get("/api/getTotalVotes", async (req, res) => {
   }
   res.json(no_of_votes);
 });
+app.get("/api/getNumberOfPeopleVoted", async (req, res) => {
+  try {
+    let result_rows = await executeQuery(
+      `SELECT COUNT(DISTINCT voter_id) AS no_of_people_voted FROM votes`
+    );
+    var no_of_votes = result_rows[0];
+  } catch (err) {
+    console.log(err);
+  }
+  res.json(no_of_votes);
+});
 app.get("/api/getTotalVotes/:post_id", async (req, res) => {
   const post_id = req.params.post_id;
   try {
