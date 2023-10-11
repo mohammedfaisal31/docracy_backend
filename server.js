@@ -43,8 +43,8 @@ const credentials = {
 
 // MySQL connection pool configuration
 const pool = mysql.createPool({
-  host: "34.100.199.31",
-  user: "sammy",
+  host: "localhost",
+  user: "root",
   password: "65109@mysql",
   database: "docracy",
   connectionLimit: 10, // Set the maximum number of connections
