@@ -223,6 +223,31 @@ app.get("/api/getTotalVotes/:post_id", async (req, res) => {
   res.json(no_of_votes);
 });
 
+app.get("/api/getVotersData", async (req, res) => {
+  try {
+    let result_rows = await executeQuery(
+      `SELECT
+      v.voter_id,
+      v.first_name,
+      v.last_name,
+      v.email,
+      c.first_name AS candidate_first_name,
+      c.last_name AS candidate_last_name,
+      p.post_name
+      FROM voters v
+      LEFT JOIN votes vo ON v.voter_id = vo.voter_id
+      LEFT JOIN candidate c ON vo.candidate_id = c.candidate_id
+      LEFT JOIN posts p ON vo.post_id = p.post_id;`
+    );
+    var voters_data = result_rows[0];
+  } catch (err) {
+    console.log(err);
+  }
+  res.json(voters_data);
+});
+
+
+
 app.get("/api/getTotalVotesListPastSevenDays", async (req, res) => {
   try {
     let result_rows = await executeQuery(
