@@ -236,7 +236,7 @@ app.get("/api/getVotersData", async (req, res) => {
       p.post_name
       FROM voters v
       LEFT JOIN votes vo ON v.voter_id = vo.voter_id
-      LEFT JOIN candidate c ON vo.candidate_id = c.candidate_id
+      LEFT JOIN candidates c ON vo.candidate_id = c.candidate_id
       LEFT JOIN posts p ON vo.post_id = p.post_id;`
     );
     var voters_data = result_rows[0];
