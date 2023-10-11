@@ -43,7 +43,7 @@ const credentials = {
 
 // MySQL connection pool configuration
 const pool = mysql.createPool({
-  host: "localhost",
+  host: "34.100.199.31",
   user: "root",
   password: "65109@mysql",
   database: "docracy",
