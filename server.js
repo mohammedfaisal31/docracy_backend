@@ -230,6 +230,7 @@ app.get("/api/getVotersData", async (req, res) => {
       v.voter_id,
       v.first_name,
       v.last_name,
+      v.phone,
       v.email,
       c.first_name AS candidate_first_name,
       c.last_name AS candidate_last_name,
@@ -239,7 +240,7 @@ app.get("/api/getVotersData", async (req, res) => {
       LEFT JOIN candidates c ON vo.candidate_id = c.candidate_id
       LEFT JOIN posts p ON vo.post_id = p.post_id;`
     );
-    var voters_data = result_rows[0];
+    var voters_data = result_rows;
   } catch (err) {
     console.log(err);
   }
