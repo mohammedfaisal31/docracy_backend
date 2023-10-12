@@ -247,7 +247,16 @@ app.get("/api/getVotersData", async (req, res) => {
   res.json(voters_data);
 });
 
-
+app.post('/update-voter', async (req, res) => {
+  const voterData = req.body;
+  for (const voter of voterData) {
+    const { voter_id, email, phone } = voter;
+    const sql = `UPDATE voters SET email = '${email}', phone = '${phone}'  WHERE voter_id = ${voter_id}`;
+    let result = await executeQuery(sql)
+    console.log(`updated${voter_id}`)
+  }
+  res.send('Voter data updated successfully');
+});
 
 app.get("/api/getTotalVotesListPastSevenDays", async (req, res) => {
   try {
